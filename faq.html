@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Questions fréquentes — FormationElite.fr</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:1px;color:var(--gold-light);text-decoration:none}
+  .logo span{color:var(--text-muted)}
+  .nav-links{display:flex;gap:32px;align-items:center}
+  .nav-links a{color:#888;text-decoration:none;font-size:13px;letter-spacing:.5px;transition:color .2s;font-weight:500}
+  .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
+  .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
+  .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+  /* BUTTONS */
+  .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
+  .btn-secondary{background:transparent;color:var(--text);padding:16px 36px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+  .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+
+  /* CARDS */
+  .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
+  .formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
+  .card-badge.new{background:#2ecc71}
+  .card-badge.free{background:#3498db}
+  .card-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
+  .card-body{padding:20px}
+  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.3;margin-bottom:8px;color:var(--text)}
+  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+  .card-desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:18px}
+  .card-stars{display:flex;align-items:center;gap:4px;margin-bottom:16px}
+  .star{color:var(--gold);font-size:12px}
+  .rating-count{font-size:11px;color:var(--text-muted);margin-left:4px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
+  .card-price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold-light)}
+  .card-price-old{font-size:13px;color:var(--text-muted);text-decoration:line-through;margin-left:6px}
+  .card-price-free{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#2ecc71}
+  .btn-card{background:var(--gold);color:var(--bg);border:none;padding:10px 20px;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+  .btn-card:hover{background:var(--gold-light)}
+  .btn-card.free-btn{background:transparent;border:1px solid #2ecc71;color:#2ecc71}
+  .btn-card.free-btn:hover{background:#2ecc71;color:var(--bg)}
+  .formations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+
+  /* SECTIONS */
+  .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
+  .section-title em{font-style:italic;color:var(--gold-light)}
+  .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
+
+  /* PAGE HERO (inner pages) */
+  .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
+
+  /* BREADCRUMB */
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:20px}
+  .breadcrumb a{color:#555;text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--gold-light)}
+  .breadcrumb span{color:#333}
+
+  /* FOOTER */
+  footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
+  .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
+  .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+  .footer-links{list-style:none}
+  .footer-links li{margin-bottom:10px}
+  .footer-links a{font-size:13px;color:#555;text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--gold-light)}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
+  .payment-icon{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 10px;font-size:11px;color:#666}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
+
+  /* CAT PILLS */
+  .cat-pill{padding:10px 20px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;transition:all .2s;background:none;font-family:inherit}
+  .cat-pill:hover,.cat-pill.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+
+  /* PAYMENT MODAL */
+  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    nav{padding:16px 20px}
+    .nav-links{display:none}
+    .nav-mobile-btn{display:block}
+    .page-hero{padding:120px 24px 60px}
+    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  }
+  @media(max-width:600px){
+    footer .footer-grid{grid-template-columns:1fr}
+    .formations-grid{grid-template-columns:1fr}
+  }
+
+  .faq-item{border-bottom:1px solid var(--border)}
+  .faq-q{width:100%;background:none;border:none;color:var(--text);font-family:inherit;font-size:15px;font-weight:500;text-align:left;padding:22px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;transition:color .2s}
+  .faq-q:hover{color:var(--gold-light)}
+  .faq-icon{color:var(--gold);font-size:22px;flex-shrink:0;transition:transform .3s}
+  .faq-item.open .faq-icon{transform:rotate(45deg)}
+  .faq-a{display:none;font-size:14px;color:#666;line-height:1.8;padding-bottom:20px}
+  .faq-item.open .faq-a{display:block}
+  .cat-tab{padding:10px 22px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;background:none;font-family:inherit;transition:all .2s;white-space:nowrap}
+  .cat-tab:hover,.cat-tab.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+  .search-faq{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px 20px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;margin-bottom:32px}
+  .search-faq:focus{border-color:var(--gold)}
+  .search-faq::placeholder{color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="text-align:center">
+  <div class="breadcrumb" style="justify-content:center;margin-bottom:20px">
+    <a href="index.html">Accueil</a><span>›</span><span style="color:var(--text-muted)">FAQ</span>
+  </div>
+  <div class="section-label" style="justify-content:center">Questions fréquentes</div>
+  <h1 class="section-title" style="text-align:center;margin-bottom:16px">Toutes vos <em>questions</em></h1>
+  <p style="color:#666;font-size:15px;max-width:480px;margin:0 auto">Retrouvez les réponses aux questions les plus fréquentes. Vous ne trouvez pas votre réponse ? Contactez-nous sur Telegram.</p>
+</div>
+
+<!-- FAQ CONTENT -->
+<section style="padding:60px;background:var(--bg)">
+  <div style="max-width:860px;margin:0 auto">
+
+    <!-- Search -->
+    <input type="text" id="faqSearch" class="search-faq" placeholder="🔍 Rechercher une question..." oninput="handleSearch()">
+
+    <!-- Category tabs -->
+    <div id="faqTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px"></div>
+
+    <!-- FAQ items -->
+    <div id="faqContainer"></div>
+
+  </div>
+</section>
+
+<!-- CTA CONTACT -->
+<section style="padding:60px;background:var(--bg2);border-top:1px solid var(--border);text-align:center">
+  <div style="max-width:560px;margin:0 auto">
+    <div style="font-size:40px;margin-bottom:16px">💬</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:12px">Vous avez une autre <em style="color:var(--gold-light)">question ?</em></h2>
+    <p style="color:#666;font-size:15px;line-height:1.7;margin-bottom:28px">Notre équipe est disponible 7j/7 sur Telegram. Nous répondons généralement dans l'heure.</p>
+    <a href="https://t.me/CreativeagencyFr" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;padding:15px 34px;border-radius:6px;font-weight:700;font-size:14px;transition:all .3s;margin-right:12px" onmouseover="this.style.background='#1a8fc0'" onmouseout="this.style.background='#229ED9'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.834.95l-.536-.861z"/></svg>
+      Contacter le support
+    </a>
+    <a href="elite-pass.html" class="btn-secondary" style="font-size:13px;padding:13px 28px;display:inline-flex;align-items:center">
+      Voir l'Élite Pass →
+    </a>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script>
+
+const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
+
+const CAT_EMOJIS = {
+  'Ecommerce/Dropshipping':'📦','Trading':'📈','IA':'🤖','Immobilier':'🏠',
+  'Marketing/Réseaux Sociaux':'📣','Vente/Closing/Affiliation':'💰',
+  'Business/SMMA':'💼','Entreprise/Fiscalité':'🏛️','Informatique/Tech':'💻',
+  'Développement Personnel':'🧠','Séduction/Relations':'❤️',
+  'Sport/Santé':'💪','No Limits':'⚡','OFM':'💎'
+};
+
+async function sbGet(path) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+  });
+  return res.json();
+}
+
+function cardHtml(f) {
+  const isFree = f.prix?.toLowerCase() === 'gratuit';
+  const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
+  const imgHtml = f.image_principale
+    ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    : `<div class="card-img-placeholder">${emoji}</div>`;
+  const desc = f.description || '';
+  const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
+  return `
+  <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
+    ${f.badge ? `<div class="card-badge ${f.badge==='Gratuit'?'free':f.badge==='Nouveau'?'new':''}">${f.badge}</div>` : ''}
+    ${imgHtml}
+    <div class="card-body">
+      <div class="card-category">${f.categorie||''}</div>
+      <div class="card-title">${f.titre}</div>
+      <div class="card-author">Par ${f.auteur||''}</div>
+      <div class="card-desc">${shortDesc}</div>
+      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
+      <div class="card-footer">
+        <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
+        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function handleBuy(id, formations) {
+  const f = formations.find(x => x.id === id);
+  if (!f) return;
+  showPaymentModal(f);
+}
+
+function showPaymentModal(f) {
+  const hasStripe = !!f.stripe_link;
+  const hasPaypal = !!f.paypal_link;
+  const hasBinance = !!f.binance_id;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
+  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"><span style="font-size:28px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — via Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span></a>` : '';
+  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'"><span style="font-size:28px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div><span style="margin-left:auto;color:#0070f0;font-size:18px">→</span></a>` : '';
+  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)" onmouseover="this.style.borderColor='rgba(240,176,0,0.5)'" onmouseout="this.style.borderColor='rgba(240,176,0,0.2)'"><span style="font-size:28px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en crypto — Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:12px;background:rgba(240,176,0,0.1);padding:4px 10px;border-radius:20px">Copier</span></div>` : '';
+  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'"><span style="font-size:28px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span></a>`;
+  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease"><div style="text-align:center;margin-bottom:28px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#e8c97a;margin-top:10px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button></div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+}
+
+function copyBinance(id, el) {
+  navigator.clipboard.writeText(id).then(() => {
+    const span = el.querySelector('span:last-child');
+    const orig = span.textContent;
+    span.textContent = '✅ Copié!';
+    setTimeout(() => { span.textContent = orig; }, 2000);
+  });
+}
+
+function navHtml(activePage) {
+  const pages = [
+    ['index.html','Accueil'],
+    ['formations.html','Formations'],
+    ['elite-pass.html',"L'Élite Pass"],
+    ['preuves.html','Preuves'],
+    ['faq.html','FAQ'],
+  ];
+  return `<nav>
+    <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
+    <div class="nav-links">
+      ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
+      <a href="#" class="nav-cta">Mon Compte</a>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </nav>
+  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
+    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
+  </div>`;
+}
+
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+}
+
+function footerHtml() {
+  return `<footer>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo">FormationElite.fr</a>
+        <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
+        <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Catégories</div>
+        <ul class="footer-links">
+          <li><a href="formations.html?cat=Trading">Trading</a></li>
+          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
+          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
+          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
+          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="formations.html">Formations</a></li>
+          <li><a href="elite-pass.html">L'Élite Pass</a></li>
+          <li><a href="preuves.html">Preuves</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Légal</div>
+        <ul class="footer-links">
+          <li><a href="politique-remboursement.html">Politique de remboursement</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="preuves.html">Preuves clients</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
+      <div style="display:flex;gap:10px">
+        <span class="payment-icon">VISA</span>
+        <span class="payment-icon">MC</span>
+        <span class="payment-icon">PayPal</span>
+        <span class="payment-icon">Crypto</span>
+      </div>
+    </div>
+  </footer>`;
+}
+
+function trustBarHtml() {
+  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
+  </div>`;
+}
+
+document.getElementById('nav-placeholder').innerHTML = navHtml('faq.html');
+document.getElementById('footer-placeholder').innerHTML = footerHtml();
+
+const FAQS = [
+  {
+    cat: "Remboursement",
+    items: [
+      ["Puis-je être remboursé après mon achat ?", "Non. En raison de la nature numérique de nos formations, toute vente est définitive une fois l'accès livré. Conformément à l'article L.221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux contenus numériques dont l'exécution a commencé. Nous nous engageons à livrer un accès complet et fonctionnel à la formation convenue dans les 24h suivant votre paiement."],
+      ["Que se passe-t-il si mon lien d'accès ne fonctionne pas ?", "Si vous rencontrez un problème technique (lien non fonctionnel, accès refusé, contenu incomplet), contactez-nous immédiatement sur Telegram @CreativeagencyFr avec votre preuve de paiement. Nous intervenons dans l'heure pour résoudre le problème gratuitement."],
+      ["Pourquoi aucun remboursement n'est-il possible ?", "Une fois l'accès à la formation transmis, le contenu intégral est mis à votre disposition immédiatement et de façon permanente. Contrairement à un produit physique, un produit numérique ne peut pas être retourné. C'est pourquoi nous ne pouvons malheureusement pas offrir de remboursement monétaire."],
+      ["Que faire si j'ai un problème avec ma formation ?", "Pour tout problème lié à votre accès ou au contenu reçu, contactez notre support sur Telegram @CreativeagencyFr (7j/7). Nous nous engageons à vous fournir l'accès complet à la formation que vous avez achetée. Vous pouvez consulter notre politique de remboursement complète ici : <a href='politique-remboursement.html' style='color:var(--gold)'>Politique de remboursement →</a>"],
+    ]
+  },
+  {
+    cat: "Commandes & Livraison",
+    items: [
+      ["Comment se passe la livraison ?", "Après votre paiement confirmé, vous recevez votre accès par email et/ou Telegram dans un délai maximum de 24h. La plupart des livraisons sont instantanées ou dans les 2 heures suivant la commande."],
+      ["Comment puis-je passer commande ?", "Cliquez sur le bouton 'Acheter' ou 'Commander' sur la formation souhaitée. Choisissez votre moyen de paiement (carte, PayPal, Binance ou Telegram) et suivez les instructions. Votre accès est envoyé automatiquement après confirmation."],
+      ["Sous quelle forme reçois-je la formation ?", "Vous recevez un lien d'accès direct à la formation. Selon la formation, il peut s'agir d'un lien de connexion à une plateforme de formation, d'un lien de téléchargement ou d'un accès à une communauté privée."],
+      ["Puis-je commander depuis n'importe quel pays ?", "Oui, nous livrons dans le monde entier. Nos formations sont accessibles depuis n'importe quel pays avec une connexion internet."],
+      ["Que faire si je ne reçois pas mon accès ?", "Contactez-nous immédiatement sur Telegram @CreativeagencyFr avec votre preuve de paiement. Nous vous répondons dans l'heure et résolvons le problème rapidement."],
+    ]
+  },
+  {
+    cat: "Paiements",
+    items: [
+      ["Quels moyens de paiement acceptez-vous ?", "Nous acceptons les paiements par carte bancaire (Visa, Mastercard) via Stripe, PayPal, Binance Pay (crypto) et les commandes directes via Telegram. Tous les paiements sont sécurisés."],
+      ["Est-ce que mes données de paiement sont sécurisées ?", "Absolument. Nous utilisons Stripe et PayPal, deux des plateformes de paiement les plus sécurisées au monde. Nous ne stockons jamais vos données bancaires."],
+      ["Puis-je payer en cryptomonnaie ?", "Oui, nous acceptons les paiements via Binance Pay. Lors du checkout, sélectionnez l'option Binance Pay et suivez les instructions pour compléter votre paiement."],
+      ["Y a-t-il des frais cachés ?", "Non, le prix affiché est le prix final. Pas d'abonnement, pas de frais supplémentaires, pas de surprise. Vous payez une fois et accédez à la formation pour toujours."],
+    ]
+  },
+  {
+    cat: "Formations & Contenu",
+    items: [
+      ["Les formations sont-elles officielles ?", "Oui, nous achetons les accès officiellement auprès des formateurs. Vous recevez exactement le même contenu que si vous achetiez directement chez le créateur, à un prix bien plus avantageux."],
+      ["Les formations sont-elles à jour ?", "Oui, nous nous assurons que toutes les formations proposées sont les versions les plus récentes disponibles. Si une mise à jour majeure sort, nous la mettons à disposition."],
+      ["Puis-je accéder aux formations sur mobile ?", "Oui, toutes les formations sont accessibles depuis n'importe quel appareil — ordinateur, tablette ou smartphone — avec une connexion internet."],
+      ["Combien de temps ai-je accès à la formation ?", "L'accès est à vie. Une fois votre achat effectué, vous pouvez accéder à la formation quand vous voulez, autant de fois que vous voulez, sans limite de temps."],
+      ["Les formations sont-elles en français ?", "La majorité de nos formations sont en français. Certaines formations de créateurs internationaux peuvent être en anglais ou sous-titrées. Cela est précisé dans la description de chaque formation."],
+    ]
+  },
+  {
+    cat: "Remboursement & SAV",
+    items: [
+      ["Puis-je être remboursé si je ne suis pas satisfait ?", "Oui, nous offrons une garantie satisfait ou remboursé de 7 jours. Si vous n'êtes pas satisfait de votre achat, contactez-nous sur Telegram dans les 7 jours et nous procéderons au remboursement intégral sans question."],
+      ["Comment contacter le support ?", "Notre support est disponible 7j/7 via Telegram @CreativeagencyFr. Nous répondons généralement dans l'heure. Vous pouvez aussi nous rejoindre sur notre canal Telegram @formation05."],
+      ["Que faire en cas de problème d'accès ?", "Contactez-nous sur Telegram avec votre nom, la formation concernée et votre preuve d'achat. Nous résolvons 99% des problèmes en moins de 2 heures."],
+    ]
+  },
+  {
+    cat: "L'Élite Pass",
+    items: [
+      ["Qu'est-ce que l'Élite Pass ?", "L'Élite Pass est notre offre d'accès illimité. Pour un paiement unique de 199€, vous accédez à toutes nos formations présentes ET futures, à vie. C'est l'offre la plus avantageuse si vous souhaitez vous former dans plusieurs domaines."],
+      ["L'Élite Pass inclut-il les nouvelles formations ?", "Oui ! Toutes les formations ajoutées après votre achat sont automatiquement incluses sans frais supplémentaires. Nous ajoutons de nouvelles formations chaque semaine."],
+      ["Combien vaut l'Élite Pass comparé aux achats individuels ?", "Avec plus de 1000 formations disponibles entre 20€ et 45€ chacune, l'Élite Pass à 199€ représente une économie considérable. Deux ou trois formations achetées individuellement peuvent déjà approcher ce prix."],
+      ["L'Élite Pass est-il remboursable ?", "Oui, la garantie 7 jours s'applique aussi à l'Élite Pass. Si vous n'êtes pas satisfait dans les 7 premiers jours, nous vous remboursons intégralement."],
+    ]
+  }
+];
+
+let currentCat = 'Tous';
+let searchQuery = '';
+
+function renderFAQ() {
+  const container = document.getElementById('faqContainer');
+  let filtered = FAQS.map(section => ({
+    ...section,
+    items: section.items.filter(([q, a]) =>
+      !searchQuery ||
+      q.toLowerCase().includes(searchQuery) ||
+      a.toLowerCase().includes(searchQuery)
+    )
+  })).filter(s => (currentCat === 'Tous' || s.cat === currentCat) && s.items.length > 0);
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:60px;color:#555"><div style="font-size:36px;margin-bottom:12px">🔍</div><div>Aucune question trouvée</div></div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(section => `
+    <div style="margin-bottom:48px">
+      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px">
+        ${section.cat}
+        <span style="flex:1;max-width:40px;height:1px;background:var(--gold-dark);display:inline-block"></span>
+      </div>
+      ${section.items.map(([q, a], i) => `
+        <div class="faq-item" id="faq_${section.cat}_${i}">
+          <button class="faq-q" onclick="toggleFaq('faq_${section.cat}_${i}')">
+            ${q} <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">${a}</div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function toggleFaq(id) {
+  const item = document.getElementById(id);
+  item.classList.toggle('open');
+}
+
+function setCategory(btn, cat) {
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = cat;
+  renderFAQ();
+}
+
+function handleSearch() {
+  searchQuery = document.getElementById('faqSearch').value.toLowerCase();
+  renderFAQ();
+}
+
+// Build category tabs
+const cats = ['Tous', ...FAQS.map(f => f.cat)];
+document.getElementById('faqTabs').innerHTML = cats.map((cat, i) =>
+  `<button class="cat-tab ${i===0?'active':''}" onclick="setCategory(this,'${cat}')">${cat}</button>`
+).join('');
+
+renderFAQ();
+
+</script>
+</body>
+</html>

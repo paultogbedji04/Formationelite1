@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accueil — FormationElite.fr</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:1px;color:var(--gold-light);text-decoration:none}
+  .logo span{color:var(--text-muted)}
+  .nav-links{display:flex;gap:32px;align-items:center}
+  .nav-links a{color:#888;text-decoration:none;font-size:13px;letter-spacing:.5px;transition:color .2s;font-weight:500}
+  .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
+  .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
+  .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+  /* BUTTONS */
+  .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
+  .btn-secondary{background:transparent;color:var(--text);padding:16px 36px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+  .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+
+  /* CARDS */
+  .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
+  .formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
+  .card-badge.new{background:#2ecc71}
+  .card-badge.free{background:#3498db}
+  .card-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
+  .card-body{padding:20px}
+  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.3;margin-bottom:8px;color:var(--text)}
+  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+  .card-desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:18px}
+  .card-stars{display:flex;align-items:center;gap:4px;margin-bottom:16px}
+  .star{color:var(--gold);font-size:12px}
+  .rating-count{font-size:11px;color:var(--text-muted);margin-left:4px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
+  .card-price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold-light)}
+  .card-price-old{font-size:13px;color:var(--text-muted);text-decoration:line-through;margin-left:6px}
+  .card-price-free{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#2ecc71}
+  .btn-card{background:var(--gold);color:var(--bg);border:none;padding:10px 20px;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+  .btn-card:hover{background:var(--gold-light)}
+  .btn-card.free-btn{background:transparent;border:1px solid #2ecc71;color:#2ecc71}
+  .btn-card.free-btn:hover{background:#2ecc71;color:var(--bg)}
+  .formations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+
+  /* SECTIONS */
+  .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
+  .section-title em{font-style:italic;color:var(--gold-light)}
+  .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
+
+  /* PAGE HERO (inner pages) */
+  .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
+
+  /* BREADCRUMB */
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:20px}
+  .breadcrumb a{color:#555;text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--gold-light)}
+  .breadcrumb span{color:#333}
+
+  /* FOOTER */
+  footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
+  .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
+  .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+  .footer-links{list-style:none}
+  .footer-links li{margin-bottom:10px}
+  .footer-links a{font-size:13px;color:#555;text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--gold-light)}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
+  .payment-icon{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 10px;font-size:11px;color:#666}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
+
+  /* CAT PILLS */
+  .cat-pill{padding:10px 20px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;transition:all .2s;background:none;font-family:inherit}
+  .cat-pill:hover,.cat-pill.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+
+  /* PAYMENT MODAL */
+  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    nav{padding:16px 20px}
+    .nav-links{display:none}
+    .nav-mobile-btn{display:block}
+    .page-hero{padding:120px 24px 60px}
+    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  }
+  @media(max-width:600px){
+    footer .footer-grid{grid-template-columns:1fr}
+    .formations-grid{grid-template-columns:1fr}
+  }
+
+  .hero{min-height:100vh;display:flex;align-items:center;padding:100px 60px 60px;position:relative;overflow:hidden;gap:60px}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 60% 50%,rgba(201,168,76,0.06) 0%,transparent 70%)}
+  .hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px}
+  .hero-left{flex:1;position:relative;z-index:1;max-width:560px}
+  .hero-right{flex:1;position:relative;z-index:1;display:flex;justify-content:center}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:8px 20px;border-radius:100px;font-size:12px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .8s ease both}
+  .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2s infinite}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:fadeUp .8s .1s ease both}
+  .hero p{font-size:16px;color:#888;line-height:1.7;font-weight:300;margin-bottom:36px;animation:fadeUp .8s .2s ease both}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+  .cat-accordion{border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden}
+  .cat-accordion-header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;cursor:pointer;background:var(--bg3);transition:background .2s;gap:14px}
+  .cat-accordion-header:hover{background:#1a1a1a}
+  .cat-accordion.open .cat-accordion-arrow{transform:rotate(180deg)}
+  .cat-accordion-arrow{color:var(--gold);font-size:18px;transition:transform .3s;flex-shrink:0}
+  .cat-accordion-body{display:none;padding:20px 24px;background:var(--bg2);border-top:1px solid var(--border)}
+  .cat-accordion.open .cat-accordion-body{display:block}
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-left">
+    <div class="hero-badge">⚡ +1000 formations disponibles</div>
+    <h1>Apprenez plus,<br><em>dépensez moins.</em></h1>
+    <p>Accédez aux meilleures formations business à prix imbattables. Trading, SEO, Dropshipping, IA — développez vos compétences dès aujourd'hui.</p>
+    <div class="hero-btns">
+      <a href="formations.html" class="btn-primary">Voir les formations</a>
+      <a href="elite-pass.html" class="btn-secondary">L'Élite Pass →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div style="position:relative;width:100%;max-width:520px">
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:380px;height:380px;background:radial-gradient(circle,rgba(201,168,76,0.09) 0%,transparent 70%);border-radius:50%;pointer-events:none"></div>
+      <svg width="100%" viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 20px 60px rgba(0,0,0,0.5))">
+        <rect x="80" y="30" width="360" height="240" rx="12" fill="#141414" stroke="#c9a84c" stroke-width="1.2"/>
+        <rect x="92" y="42" width="336" height="216" rx="6" fill="#0a0a0a"/>
+        <rect x="92" y="42" width="336" height="22" rx="6" fill="#111"/>
+        <circle cx="108" cy="53" r="3.5" fill="#ff5f57"/><circle cx="120" cy="53" r="3.5" fill="#febc2e"/><circle cx="132" cy="53" r="3.5" fill="#28c840"/>
+        <rect x="180" y="49" width="100" height="8" rx="4" fill="#1a1a1a"/>
+        <rect x="92" y="64" width="50" height="194" fill="#0f0f0f"/>
+        <rect x="100" y="78" width="34" height="6" rx="3" fill="#c9a84c" opacity=".7"/>
+        <rect x="100" y="92" width="26" height="5" rx="2" fill="#333"/>
+        <rect x="100" y="104" width="30" height="5" rx="2" fill="#333"/>
+        <rect x="100" y="116" width="22" height="5" rx="2" fill="#c9a84c" opacity=".3"/>
+        <rect x="152" y="72" width="56" height="32" rx="4" fill="#141414" stroke="#c9a84c" stroke-width=".5" stroke-opacity=".5"/>
+        <rect x="216" y="72" width="56" height="32" rx="4" fill="#141414" stroke="#1a2a1a" stroke-width=".5"/>
+        <rect x="280" y="72" width="56" height="32" rx="4" fill="#141414" stroke="#1a2a1a" stroke-width=".5"/>
+        <rect x="344" y="72" width="56" height="32" rx="4" fill="#141414" stroke="#1a2a1a" stroke-width=".5"/>
+        <text x="180" y="84" text-anchor="middle" font-family="monospace" font-size="9" fill="#c9a84c" font-weight="700">1000+</text>
+        <text x="180" y="95" text-anchor="middle" font-family="monospace" font-size="6" fill="#555">FORMATIONS</text>
+        <text x="244" y="84" text-anchor="middle" font-family="monospace" font-size="9" fill="#2ecc71" font-weight="700">98%</text>
+        <text x="244" y="95" text-anchor="middle" font-family="monospace" font-size="6" fill="#555">SATISFAITS</text>
+        <text x="308" y="84" text-anchor="middle" font-family="monospace" font-size="8" fill="#e8c97a" font-weight="700">2400+</text>
+        <text x="308" y="95" text-anchor="middle" font-family="monospace" font-size="6" fill="#555">CLIENTS</text>
+        <text x="372" y="84" text-anchor="middle" font-family="monospace" font-size="9" fill="#3498db" font-weight="700">24h</text>
+        <text x="372" y="95" text-anchor="middle" font-family="monospace" font-size="6" fill="#555">LIVRAISON</text>
+        <rect x="152" y="114" width="140" height="80" rx="4" fill="#0f0f0f"/>
+        <text x="160" y="126" font-family="monospace" font-size="6" fill="#444">VENTES DU MOIS</text>
+        <rect x="160" y="168" width="10" height="16" rx="1" fill="#c9a84c" opacity=".35"/>
+        <rect x="175" y="158" width="10" height="26" rx="1" fill="#c9a84c" opacity=".5"/>
+        <rect x="190" y="148" width="10" height="36" rx="1" fill="#c9a84c" opacity=".65"/>
+        <rect x="205" y="138" width="10" height="46" rx="1" fill="#c9a84c" opacity=".8"/>
+        <rect x="220" y="130" width="10" height="54" rx="1" fill="#c9a84c" opacity=".9"/>
+        <rect x="235" y="126" width="10" height="58" rx="1" fill="#c9a84c"/>
+        <rect x="250" y="130" width="10" height="54" rx="1" fill="#c9a84c" opacity=".9"/>
+        <rect x="265" y="124" width="10" height="60" rx="1" fill="#c9a84c"/>
+        <rect x="300" y="114" width="90" height="80" rx="4" fill="#0f0f0f"/>
+        <text x="308" y="126" font-family="monospace" font-size="6" fill="#444">REVENUS</text>
+        <polyline points="308,178 322,166 336,170 350,154 364,142 378,132" fill="none" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="378" cy="132" r="3" fill="#2ecc71"/>
+        <text x="378" y="128" font-family="monospace" font-size="6" fill="#2ecc71" text-anchor="middle">+47%</text>
+        <rect x="152" y="204" width="240" height="10" rx="2" fill="#111"/>
+        <rect x="152" y="204" width="46" height="10" rx="2" fill="#c9a84c" opacity=".18"/>
+        <rect x="206" y="207" width="60" height="4" rx="2" fill="#1e1e1e"/>
+        <rect x="370" y="207" width="22" height="4" rx="2" fill="#2ecc71" opacity=".3"/>
+        <rect x="152" y="220" width="240" height="10" rx="2" fill="#111"/>
+        <rect x="152" y="220" width="38" height="10" rx="2" fill="#3498db" opacity=".18"/>
+        <rect x="198" y="223" width="50" height="4" rx="2" fill="#1e1e1e"/>
+        <rect x="370" y="223" width="18" height="4" rx="2" fill="#e8c97a" opacity=".3"/>
+        <rect x="152" y="236" width="240" height="10" rx="2" fill="#111"/>
+        <rect x="152" y="236" width="42" height="10" rx="2" fill="#9b59b6" opacity=".18"/>
+        <rect x="202" y="239" width="65" height="4" rx="2" fill="#1e1e1e"/>
+        <rect x="68" y="270" width="384" height="24" rx="4" fill="#111" stroke="#1e1e1e" stroke-width="1"/>
+        <rect x="80" y="275" width="200" height="6" rx="2" fill="#0f0f0f"/>
+        <rect x="68" y="294" width="384" height="10" rx="3" fill="#0f0f0f" stroke="#1a1a1a" stroke-width="1"/>
+        <rect x="18" y="66" width="70" height="24" rx="12" fill="#1a1508" stroke="#c9a84c" stroke-width=".8"/>
+        <text x="53" y="83" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#c9a84c" font-weight="600">📈 TRADING</text>
+        <rect x="432" y="96" width="78" height="24" rx="12" fill="#0a1a0a" stroke="#2ecc71" stroke-width=".8"/>
+        <text x="471" y="113" text-anchor="middle" font-family="monospace" font-size="7" fill="#2ecc71" font-weight="600">📦 DROPSHIP</text>
+        <rect x="18" y="172" width="64" height="24" rx="12" fill="#0a0a1a" stroke="#3498db" stroke-width=".8"/>
+        <text x="50" y="189" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#3498db" font-weight="600">🤖 IA</text>
+        <rect x="436" y="192" width="66" height="24" rx="12" fill="#120a1a" stroke="#9b59b6" stroke-width=".8"/>
+        <text x="469" y="209" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#9b59b6" font-weight="600">🔍 SEO</text>
+        <rect x="148" y="318" width="224" height="42" rx="8" fill="#111" stroke="#c9a84c" stroke-width=".8"/>
+        <circle cx="166" cy="339" r="10" fill="#1a1508"/>
+        <text x="166" y="344" text-anchor="middle" font-size="12">💰</text>
+        <text x="184" y="333" font-family="monospace" font-size="7" fill="#666">Nouvelle commande</text>
+        <text x="184" y="347" font-family="monospace" font-size="8" fill="#e8c97a" font-weight="600">Formation Trading — 23.99€</text>
+        <circle cx="354" cy="339" r="5" fill="#2ecc71"/>
+        <text x="354" y="343" text-anchor="middle" font-size="7" fill="#0a0a0a" font-weight="700">✓</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- TELEGRAM BANNER -->
+<div style="background:#000;border-top:1px solid #111;border-bottom:1px solid #111;padding:56px 40px;text-align:center">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5vw,52px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:20px">
+    Le N°1 Dans La Revente<br>De <span style="color:#c9a84c">Formations</span> !
+  </div>
+  <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:16px">Notre Canal Telegram</div>
+  <a href="https://t.me/formation05" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;padding:15px 34px;border-radius:6px;font-weight:700;font-size:15px;transition:all .3s" onmouseover="this.style.background='#1a8fc0'" onmouseout="this.style.background='#229ED9'">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.834.95l-.536-.861z"/></svg>
+    Rejoins Notre Telegram ici
+  </a>
+</div>
+
+<!-- ANIMATED STATS -->
+<div style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div style="display:flex;justify-content:center;align-items:stretch;flex-wrap:wrap;width:100%">
+    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statClients">0</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Clients satisfaits</div>
+    </div>
+    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statFormations">0</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Formations dispo</div>
+    </div>
+    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statSatisfaction">0</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Taux de satisfaction</div>
+    </div>
+    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statLivraison">0h</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Livraison garantie</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div id="trust-bar-placeholder"></div>
+
+<!-- SEARCH -->
+<section style="padding:60px 60px 20px;background:var(--bg)">
+  <div style="max-width:600px;margin:0 auto">
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher une formation..." oninput="handleSearch()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:16px 22px;color:var(--text);font-family:inherit;font-size:15px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+  </div>
+  <div id="searchResults" style="display:none;margin-top:40px;max-width:1100px;margin-left:auto;margin-right:auto">
+    <div style="font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:20px;text-transform:uppercase">Résultats</div>
+    <div class="formations-grid" id="searchGrid"></div>
+  </div>
+</section>
+
+<!-- RECENT -->
+<section style="padding:40px 60px 20px;background:var(--bg)">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+    <div>
+      <div class="section-label">Nouveautés</div>
+      <h2 class="section-title" style="margin-bottom:0">Formations <em>récemment ajoutées</em></h2>
+    </div>
+    <a href="formations.html" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
+  </div>
+  <div class="formations-grid" id="recentGrid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">⚡ Chargement...</div></div>
+</section>
+
+<!-- BESTSELLERS -->
+<section style="padding:40px 60px 20px;background:var(--bg)">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+    <div>
+      <div class="section-label">Les plus populaires</div>
+      <h2 class="section-title" style="margin-bottom:0">🏆 Formations <em>Best Sellers</em></h2>
+    </div>
+    <a href="formations.html" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
+  </div>
+  <div class="formations-grid" id="bestsellerGrid"></div>
+</section>
+
+<!-- SEE ALL BUTTON -->
+<section style="padding:20px 60px 40px;background:var(--bg)">
+  <a href="formations.html" style="display:flex;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#1a1508,#2a2010);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:26px;text-decoration:none;transition:all .3s;width:100%" onmouseover="this.style.borderColor='rgba(201,168,76,0.7)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.3)'">
+    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#e8c97a">Voir toutes les formations</span>
+    <span style="background:var(--gold);color:#080808;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px" id="totalCount">1000+ formations</span>
+    <span style="color:#c9a84c;font-size:20px">→</span>
+  </a>
+</section>
+
+<!-- ELITE PASS TEASER -->
+<section style="padding:60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden">
+  <div style="position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1000px;margin:0 auto;position:relative">
+    <div>
+      <div class="section-label">Accès illimité</div>
+      <h2 class="section-title">L'Élite Pass —<br><em>Tout inclus.</em></h2>
+      <p style="color:#666;font-size:15px;line-height:1.7;margin-bottom:28px">Un paiement unique. Un accès illimité à vie à toutes nos formations présentes et futures.</p>
+      <a href="elite-pass.html" class="btn-primary">Découvrir l'Élite Pass →</a>
+    </div>
+    <div style="background:var(--bg3);border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:40px;text-align:center;position:relative;overflow:hidden">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);margin-bottom:8px">L'Élite Pass</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--gold-light);line-height:1">199€</div>
+      <div style="font-size:13px;color:#555;margin-bottom:28px">Paiement unique — à vie</div>
+      <div style="text-align:left">
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✦ <span style="color:var(--gold)">+1000</span> formations incluses</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✦ Nouvelles formations chaque semaine</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✦ Accès immédiat après paiement</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0">✦ Garantie remboursée 7 jours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRATUIT -->
+<section id="gratuitSection" style="padding:60px;background:var(--bg2)">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+    <div>
+      <div class="section-label">100% Gratuit</div>
+      <h2 class="section-title" style="margin-bottom:0">🎁 Formations <em>gratuites</em></h2>
+    </div>
+    <a href="formations.html?cat=gratuit" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
+  </div>
+  <div class="formations-grid" id="gratuitGrid"></div>
+</section>
+
+<!-- CATALOGUE ACCORDION -->
+<section style="padding:60px;background:var(--bg)">
+  <div class="section-label">Catalogue complet</div>
+  <h2 class="section-title" style="margin-bottom:8px">Toutes les <em>catégories</em></h2>
+  <p class="section-sub">Cliquez sur une catégorie pour voir toutes ses formations</p>
+  <div id="accordionContainer"></div>
+</section>
+
+<!-- AVIS -->
+<section style="padding:60px;background:var(--bg2);border-top:1px solid var(--border)">
+  <div class="section-label">Témoignages</div>
+  <h2 class="section-title" style="margin-bottom:8px">Ce que disent <em>nos clients.</em></h2>
+  <p class="section-sub" style="margin-bottom:40px">Des centaines de clients satisfaits chaque mois.</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px"><div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div><p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"J'ai acheté la formation trading via FormationElite. Livraison en moins de 10 minutes. Rapport qualité/prix imbattable !"</p><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)">K</div><div><div style="font-size:14px;font-weight:600">Kévin M.</div><div style="font-size:11px;color:var(--text-muted)">Formation Trading ✓</div></div></div></div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px"><div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div><p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"L'Élite Pass vaut vraiment le coup. +1000 formations en un seul achat. Support réactif, livraison instantanée."</p><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)">S</div><div><div style="font-size:14px;font-weight:600">Sofia T.</div><div style="font-size:11px;color:var(--text-muted)">Élite Pass ✓</div></div></div></div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px"><div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div><p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"FormationElite c'est le meilleur site pour se former sans se ruiner. Contenu complet et à jour."</p><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)">M</div><div><div style="font-size:14px;font-weight:600">Maxime D.</div><div style="font-size:11px;color:var(--text-muted)">Formation SEO ✓</div></div></div></div>
+  </div>
+</section>
+
+<script>
+
+const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
+
+const CAT_EMOJIS = {
+  'Ecommerce/Dropshipping':'📦','Trading':'📈','IA':'🤖','Immobilier':'🏠',
+  'Marketing/Réseaux Sociaux':'📣','Vente/Closing/Affiliation':'💰',
+  'Business/SMMA':'💼','Entreprise/Fiscalité':'🏛️','Informatique/Tech':'💻',
+  'Développement Personnel':'🧠','Séduction/Relations':'❤️',
+  'Sport/Santé':'💪','No Limits':'⚡','OFM':'💎'
+};
+
+async function sbGet(path) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+  });
+  return res.json();
+}
+
+function cardHtml(f) {
+  const isFree = f.prix?.toLowerCase() === 'gratuit';
+  const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
+  const imgHtml = f.image_principale
+    ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    : `<div class="card-img-placeholder">${emoji}</div>`;
+  const desc = f.description || '';
+  const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
+  return `
+  <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
+    ${f.badge ? `<div class="card-badge ${f.badge==='Gratuit'?'free':f.badge==='Nouveau'?'new':''}">${f.badge}</div>` : ''}
+    ${imgHtml}
+    <div class="card-body">
+      <div class="card-category">${f.categorie||''}</div>
+      <div class="card-title">${f.titre}</div>
+      <div class="card-author">Par ${f.auteur||''}</div>
+      <div class="card-desc">${shortDesc}</div>
+      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
+      <div class="card-footer">
+        <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
+        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function handleBuy(id, formations) {
+  const f = formations.find(x => x.id === id);
+  if (!f) return;
+  showPaymentModal(f);
+}
+
+function showPaymentModal(f) {
+  const hasStripe = !!f.stripe_link;
+  const hasPaypal = !!f.paypal_link;
+  const hasBinance = !!f.binance_id;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
+  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"><span style="font-size:28px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — via Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span></a>` : '';
+  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'"><span style="font-size:28px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div><span style="margin-left:auto;color:#0070f0;font-size:18px">→</span></a>` : '';
+  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)" onmouseover="this.style.borderColor='rgba(240,176,0,0.5)'" onmouseout="this.style.borderColor='rgba(240,176,0,0.2)'"><span style="font-size:28px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en crypto — Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:12px;background:rgba(240,176,0,0.1);padding:4px 10px;border-radius:20px">Copier</span></div>` : '';
+  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'"><span style="font-size:28px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span></a>`;
+  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease"><div style="text-align:center;margin-bottom:28px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#e8c97a;margin-top:10px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button></div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+}
+
+function copyBinance(id, el) {
+  navigator.clipboard.writeText(id).then(() => {
+    const span = el.querySelector('span:last-child');
+    const orig = span.textContent;
+    span.textContent = '✅ Copié!';
+    setTimeout(() => { span.textContent = orig; }, 2000);
+  });
+}
+
+function navHtml(activePage) {
+  const pages = [
+    ['index.html','Accueil'],
+    ['formations.html','Formations'],
+    ['elite-pass.html',"L'Élite Pass"],
+    ['preuves.html','Preuves'],
+    ['faq.html','FAQ'],
+  ];
+  return `<nav>
+    <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
+    <div class="nav-links">
+      ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
+      <a href="#" class="nav-cta">Mon Compte</a>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </nav>
+  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
+    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
+  </div>`;
+}
+
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+}
+
+function footerHtml() {
+  return `<footer>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo">FormationElite.fr</a>
+        <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
+        <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Catégories</div>
+        <ul class="footer-links">
+          <li><a href="formations.html?cat=Trading">Trading</a></li>
+          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
+          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
+          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
+          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="formations.html">Formations</a></li>
+          <li><a href="elite-pass.html">L'Élite Pass</a></li>
+          <li><a href="preuves.html">Preuves</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Légal</div>
+        <ul class="footer-links">
+          <li><a href="politique-remboursement.html">Politique de remboursement</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="preuves.html">Preuves clients</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
+      <div style="display:flex;gap:10px">
+        <span class="payment-icon">VISA</span>
+        <span class="payment-icon">MC</span>
+        <span class="payment-icon">PayPal</span>
+        <span class="payment-icon">Crypto</span>
+      </div>
+    </div>
+  </footer>`;
+}
+
+function trustBarHtml() {
+  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
+  </div>`;
+}
+
+document.getElementById('nav-placeholder').innerHTML = navHtml('index.html');
+document.getElementById('footer-placeholder').innerHTML = footerHtml();
+</script>
+<script>
+document.getElementById('trust-bar-placeholder').innerHTML = trustBarHtml();
+
+let allFormations = [];
+
+async function loadIndex() {
+  try {
+    const data = await sbGet('formations?select=*&actif=eq.true&order=created_at.desc');
+    if (Array.isArray(data)) {
+      allFormations = data;
+      window._formations = data;
+      renderRecent(data);
+      renderBestsellers(data);
+      renderGratuit(data);
+      renderAccordion(data);
+      updateCount(data.length);
+    }
+  } catch(e) {}
+}
+
+function updateCount(n) {
+  const el = document.getElementById('totalCount');
+  if (el) el.textContent = n + ' formations';
+}
+
+function renderRecent(data) {
+  const el = document.getElementById('recentGrid');
+  if (el) el.innerHTML = data.slice(0,8).map(cardHtml).join('');
+}
+
+function renderBestsellers(data) {
+  const el = document.getElementById('bestsellerGrid');
+  if (!el) return;
+  let bests = data.filter(f => f.badge === 'Bestseller');
+  if (bests.length < 8) bests = [...bests, ...data.filter(f => f.badge !== 'Bestseller' && f.prix?.toLowerCase() !== 'gratuit')].slice(0,8);
+  el.innerHTML = bests.map(cardHtml).join('');
+}
+
+function renderGratuit(data) {
+  const gratuits = data.filter(f => f.prix?.toLowerCase() === 'gratuit').slice(0,8);
+  const el = document.getElementById('gratuitGrid');
+  if (!el) return;
+  if (gratuits.length === 0) { el.closest('section').style.display='none'; return; }
+  el.innerHTML = gratuits.map(cardHtml).join('');
+}
+
+function renderAccordion(data) {
+  const cats = [...new Set(data.map(f => f.categorie).filter(Boolean))].sort();
+  const container = document.getElementById('accordionContainer');
+  if (!container) return;
+  container.innerHTML = cats.map((cat,i) => {
+    const items = data.filter(f => f.categorie === cat);
+    const emoji = CAT_EMOJIS[cat] || '📚';
+    return `<div class="cat-accordion" id="acc${i}">
+      <div class="cat-accordion-header" onclick="document.getElementById('acc${i}').classList.toggle('open')">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="font-size:26px">${emoji}</span>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500">${cat}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${items.length} formations</div>
+          </div>
+        </div>
+        <span class="cat-accordion-arrow">▼</span>
+      </div>
+      <div class="cat-accordion-body">
+        <div class="formations-grid">${items.map(cardHtml).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function handleSearch() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const section = document.getElementById('searchResults');
+  const grid = document.getElementById('searchGrid');
+  if (q.length < 2) { section.style.display='none'; return; }
+  const results = allFormations.filter(f => f.titre?.toLowerCase().includes(q) || f.auteur?.toLowerCase().includes(q) || f.categorie?.toLowerCase().includes(q));
+  section.style.display = 'block';
+  grid.innerHTML = results.length ? results.map(cardHtml).join('') : `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#666">Aucune formation trouvée</div>`;
+  section.scrollIntoView({behavior:'smooth'});
+}
+
+function animateCounters() {
+  function count(id, target, fmt) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let start = performance.now();
+    const dur = 2000;
+    (function update(now) {
+      const p = Math.min((now-start)/dur,1);
+      const e = 1-Math.pow(1-p,3);
+      const v = Math.round(target*e);
+      el.textContent = fmt(v);
+      if (p<1) requestAnimationFrame(update);
+    })(start);
+  }
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      count('statClients',2400,v=>v.toLocaleString('fr-FR')+'+');
+      count('statFormations',1000,v=>v+'+');
+      count('statSatisfaction',98,v=>v+'%');
+      count('statLivraison',24,v=>v+'h');
+      obs.disconnect();
+    }
+  },{threshold:0.3});
+  const el = document.getElementById('statClients');
+  if (el) obs.observe(el.parentElement);
+}
+
+loadIndex();
+animateCounters();
+
+</script>
+</body>
+</html>
