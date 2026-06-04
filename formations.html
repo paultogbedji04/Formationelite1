@@ -214,7 +214,7 @@ async function handleBuy(id, formations) {
 
   const btn = event.target;
   const origText = btn.innerHTML;
-  btn.innerHTML = '⏳ Chargement...';
+  btn.innerHTML = '⏳ Redirection Stripe...';
   btn.disabled = true;
 
   try {
@@ -224,21 +224,21 @@ async function handleBuy(id, formations) {
       body: JSON.stringify({
         formation_id: f.id,
         formation_titre: f.titre,
-        formation_prix: f.prix,
-        formation_emoji: f.emoji || '📚'
+        formation_prix: f.prix
       })
     });
 
     const data = await res.json();
 
     if (data.url) {
-      window.location.href = data.url;   // Redirection vers Stripe
+      window.location.href = data.url;
     } else {
-      throw new Error(data.error || "Erreur inconnue");
+      alert("Erreur Stripe: " + (data.error || "Inconnue"));
+      window.open('https://t.me/CreativeagencyFr', '_blank');
     }
   } catch (err) {
     console.error(err);
-    alert("Erreur lors de la connexion à Stripe. Redirection vers Telegram...");
+    alert("Impossible de contacter Stripe. Redirection Telegram...");
     window.open('https://t.me/CreativeagencyFr', '_blank');
   } finally {
     btn.innerHTML = origText;
