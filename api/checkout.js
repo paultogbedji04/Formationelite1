@@ -1,9 +1,7 @@
 const Stripe = require('stripe');
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 module.exports = async (req, res) => {
-  // Allow CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -17,13 +15,13 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { formation_id, formation_titre, formation_prix, formation_emoji } = req.body;
+    const { formation_id, formation_titre, formation_prix } = req.body;
 
     if (!formation_id || !formation_titre || !formation_prix) {
       return res.status(400).json({ error: 'Données manquantes' });
     }
 
-    // Convert price to cents (remove € and convert)
+    // Convertir le prix en centimes
     const priceString = formation_prix.replace('€', '').replace(',', '.').trim();
     const priceInCents = Math.round(parseFloat(priceString) * 100);
 
@@ -31,9 +29,8 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Prix invalide' });
     }
 
-    const siteUrl = process.env.SITE_URL || 'https://formationelite.vercel.app';
+    const siteUrl = process.env.SITE_URL || 'https://formationelite1-fmfj.vercel.app';
 
-    // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -41,11 +38,8 @@ module.exports = async (req, res) => {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: `${formation_emoji || '📚'} ${formation_titre}`,
-              description: `Formation complète — Accès immédiat et à vie`,
-              metadata: {
-                formation_id: formation_id,
-              },
+              name: formation_titre,
+              description: 'Formation complète — Accès immédiat et à vie',
             },
             unit_amount: priceInCents,
           },
@@ -53,32 +47,20 @@ module.exports = async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}&formation_id=${formation_id}`,
-      cancel_url: `${siteUrl}/formation.html?id=${formation_id}&cancelled=true`,
-      customer_email: undefined,
-      collect_shipping_address: false,
+      success_url: `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/formations.html`,
       metadata: {
         formation_id: formation_id,
         formation_titre: formation_titre,
       },
-      payment_intent_data: {
-        metadata: {
-          formation_id: formation_id,
-          formation_titre: formation_titre,
-        },
-      },
-      locale: 'fr',
     });
 
-    return res.status(200).json({ 
-      url: session.url,
-      session_id: session.id 
-    });
+    return res.status(200).json({ url: session.url });
 
   } catch (error) {
-    console.error('Stripe checkout error:', error);
+    console.error('Stripe Error:', error);
     return res.status(500).json({ 
-      error: 'Erreur lors de la création du paiement',
+      error: 'Erreur serveur Stripe', 
       details: error.message 
     });
   }
