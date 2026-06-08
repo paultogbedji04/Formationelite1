@@ -112,6 +112,56 @@
     footer .footer-grid{grid-template-columns:1fr}
     .formations-grid{grid-template-columns:1fr}
   }
+  /* ── MOBILE FIXES ── */
+  @media(max-width:768px){
+    /* Hero */
+    .hero{flex-direction:column;padding:90px 20px 40px;gap:30px;min-height:auto}
+    .hero-left{max-width:100%;text-align:center}
+    .hero-right{width:100%;max-width:340px;margin:0 auto}
+    .hero-btns{justify-content:center;flex-direction:column;align-items:center}
+    .hero-btns a{width:100%;text-align:center}
+    .hero-badge{margin:0 auto 20px}
+    .hero h1{font-size:38px}
+
+    /* Telegram banner */
+    section[style*="padding:56px 40px"]{padding:40px 20px!important}
+
+    /* Stats bar */
+    div[id="statClients"]{font-size:32px!important}
+    div[style*="flex:1;min-width:180px"]{min-width:45%!important;padding:20px 10px!important}
+
+    /* Trust bar */
+    div[style*="gap:48px"]{gap:14px!important;padding:16px 20px!important}
+    div[style*="gap:48px"] div{font-size:12px!important}
+
+    /* Sections padding */
+    section[style*="padding:60px 60px"],
+    section[style*="padding:40px 60px"],
+    section[style*="padding:20px 60px"],
+    section[style*="padding:70px 60px"]{padding-left:16px!important;padding-right:16px!important}
+
+    /* Testimonials */
+    div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+
+    /* Elite pass teaser */
+    div[style*="grid-template-columns:1fr 1fr;gap:80px"]{grid-template-columns:1fr!important;gap:32px!important}
+
+    /* Accordion */
+    .cat-accordion-header{padding:16px!important}
+    .cat-accordion-name{font-size:17px!important}
+
+    /* Footer */
+    footer{padding:40px 20px!important}
+    footer .footer-grid{grid-template-columns:1fr!important;gap:24px!important}
+
+    /* Search bar */
+    div[style*="max-width:600px"]{padding:0 16px!important}
+    input[id="searchInput"]{font-size:14px!important}
+
+    /* See all button */
+    section[style*="padding:20px 60px 40px"] a{padding:20px 16px!important}
+    section[style*="padding:20px 60px 40px"] span[style*="font-size:22px"]{font-size:20px!important}
+  }
 
   .hero{min-height:100vh;display:flex;align-items:center;padding:100px 60px 60px;position:relative;overflow:hidden;gap:60px}
   .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 60% 50%,rgba(201,168,76,0.06) 0%,transparent 70%)}
