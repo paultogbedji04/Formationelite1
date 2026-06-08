@@ -81,7 +81,7 @@
 
   /* FOOTER */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:60px;margin-bottom:48px}
   .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
   .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
   .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
@@ -193,7 +193,6 @@
     .nav-mobile-btn{display:block}
     footer{padding:40px 24px}
     .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
     .hero{padding:100px 32px 48px;gap:40px}
     .elite-section{padding:48px 32px}
     .elite-grid{gap:40px}
@@ -418,14 +417,7 @@
   </div>
 </div>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-item"><span>🔒</span> Paiement 100% sécurisé</div>
-  <div class="trust-item"><span>⚡</span> Livraison instantanée</div>
-  <div class="trust-item"><span>✅</span> Accès à vie garanti</div>
-  <div class="trust-item"><span>💬</span> Support Telegram 7j/7</div>
-  <div class="trust-item"><span>🔄</span> Satisfait ou remboursé</div>
-</div>
+
 
 <!-- SEARCH -->
 <section class="search-section">
@@ -448,6 +440,18 @@
     <a href="formations.html">Voir tout →</a>
   </div>
   <div class="formations-grid" id="recentGrid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">⚡ Chargement...</div></div>
+</section>
+
+<!-- GRATUIT (après récentes) -->
+<section id="gratuitSection" class="gratuit-section">
+  <div class="section-header" style="margin-bottom:28px">
+    <div>
+      <div class="section-label">100% Gratuit</div>
+      <h2 class="section-title" style="margin-bottom:0">🎁 Formations <em>gratuites</em></h2>
+    </div>
+    <a href="formations.html?cat=gratuit" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
+  </div>
+  <div class="formations-grid" id="gratuitGrid"></div>
 </section>
 
 <!-- BESTSELLERS -->
@@ -494,17 +498,7 @@
   </div>
 </section>
 
-<!-- GRATUIT -->
-<section id="gratuitSection" class="gratuit-section">
-  <div class="section-header" style="margin-bottom:28px">
-    <div>
-      <div class="section-label">100% Gratuit</div>
-      <h2 class="section-title" style="margin-bottom:0">🎁 Formations <em>gratuites</em></h2>
-    </div>
-    <a href="formations.html?cat=gratuit" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
-  </div>
-  <div class="formations-grid" id="gratuitGrid"></div>
-</section>
+
 
 <!-- CATALOGUE ACCORDION -->
 <section class="accordion-section">
@@ -660,26 +654,6 @@ function footerHtml() {
         <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
       </div>
       <div>
-        <div class="footer-col-title">Catégories</div>
-        <ul class="footer-links">
-          <li><a href="formations.html?cat=Trading">Trading</a></li>
-          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
-          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
-          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
-          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigation</div>
-        <ul class="footer-links">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="formations.html">Formations</a></li>
-          <li><a href="elite-pass.html">L'Élite Pass</a></li>
-          <li><a href="preuves.html">Preuves</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
         <div class="footer-col-title">Légal</div>
         <ul class="footer-links">
           <li><a href="politique-remboursement.html">Politique de remboursement</a></li>
@@ -725,21 +699,27 @@ function updateCount(n) {
   if (el) el.textContent = n + ' formations';
 }
 
+function isMobile() { return window.innerWidth <= 600; }
+
 function renderRecent(data) {
   const el = document.getElementById('recentGrid');
-  if (el) el.innerHTML = data.slice(0,8).map(cardHtml).join('');
+  const limit = isMobile() ? 3 : 8;
+  if (el) el.innerHTML = data.slice(0,limit).map(cardHtml).join('');
 }
 
 function renderBestsellers(data) {
   const el = document.getElementById('bestsellerGrid');
   if (!el) return;
+  const limit = isMobile() ? 3 : 8;
   let bests = data.filter(f => f.badge === 'Bestseller');
-  if (bests.length < 8) bests = [...bests, ...data.filter(f => f.badge !== 'Bestseller' && f.prix?.toLowerCase() !== 'gratuit')].slice(0,8);
+  if (bests.length < limit) bests = [...bests, ...data.filter(f => f.badge !== 'Bestseller' && f.prix?.toLowerCase() !== 'gratuit')].slice(0,limit);
+  else bests = bests.slice(0,limit);
   el.innerHTML = bests.map(cardHtml).join('');
 }
 
 function renderGratuit(data) {
-  const gratuits = data.filter(f => f.prix?.toLowerCase() === 'gratuit').slice(0,8);
+  const limit = isMobile() ? 3 : 8;
+  const gratuits = data.filter(f => f.prix?.toLowerCase() === 'gratuit').slice(0,limit);
   const el = document.getElementById('gratuitGrid');
   if (!el) return;
   if (gratuits.length === 0) { el.closest('section').style.display='none'; return; }
