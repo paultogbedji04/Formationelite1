@@ -469,9 +469,7 @@
 <!-- SEE ALL BUTTON -->
 <section class="see-all-section">
   <a href="formations.html" class="see-all-link">
-    <span class="see-all-title">Voir toutes les formations</span>
-    <span class="see-all-badge" id="totalCount">1000+ formations</span>
-    <span class="see-all-arrow">→</span>
+    <span class="see-all-title">Voir toutes les formations →</span>
   </a>
 </section>
 
@@ -689,14 +687,8 @@ async function loadIndex() {
       renderBestsellers(data);
       renderGratuit(data);
       renderAccordion(data);
-      updateCount(data.length);
     }
   } catch(e) {}
-}
-
-function updateCount(n) {
-  const el = document.getElementById('totalCount');
-  if (el) el.textContent = n + ' formations';
 }
 
 function isMobile() { return window.innerWidth <= 600; }
@@ -719,10 +711,15 @@ function renderBestsellers(data) {
 
 function renderGratuit(data) {
   const limit = isMobile() ? 3 : 8;
-  const gratuits = data.filter(f => f.prix?.toLowerCase() === 'gratuit').slice(0,limit);
+  const gratuits = data.filter(f => f.prix && f.prix.toString().trim().toLowerCase() === 'gratuit').slice(0, limit);
   const el = document.getElementById('gratuitGrid');
+  const section = document.getElementById('gratuitSection');
   if (!el) return;
-  if (gratuits.length === 0) { el.closest('section').style.display='none'; return; }
+  if (gratuits.length === 0) {
+    if (section) section.style.display = 'none';
+    return;
+  }
+  if (section) section.style.display = '';
   el.innerHTML = gratuits.map(cardHtml).join('');
 }
 
