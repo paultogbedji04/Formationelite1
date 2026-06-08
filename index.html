@@ -6,7 +6,6 @@
 <title>Accueil — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -24,7 +23,13 @@
   .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
   .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
   .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
-  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px}
+
+  /* MOBILE NAV */
+  #mobileNav{display:none;position:fixed;top:61px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:16px 20px 24px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+  #mobileNav a{display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+  #mobileNav a:last-child{border-bottom:none}
+  #mobileNav a:hover{color:var(--gold-light)}
 
   /* BUTTONS */
   .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
@@ -64,7 +69,7 @@
   .section-title em{font-style:italic;color:var(--gold-light)}
   .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
 
-  /* PAGE HERO (inner pages) */
+  /* PAGE HERO */
   .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
   .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
 
@@ -99,70 +104,7 @@
   /* PAYMENT MODAL */
   .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
 
-  /* RESPONSIVE */
-  @media(max-width:900px){
-    nav{padding:16px 20px}
-    .nav-links{display:none}
-    .nav-mobile-btn{display:block}
-    .page-hero{padding:120px 24px 60px}
-    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
-  }
-  @media(max-width:600px){
-    footer .footer-grid{grid-template-columns:1fr}
-    .formations-grid{grid-template-columns:1fr}
-  }
-  /* ── MOBILE FIXES ── */
-  @media(max-width:768px){
-    /* Hero */
-    .hero{flex-direction:column;padding:90px 20px 40px;gap:30px;min-height:auto}
-    .hero-left{max-width:100%;text-align:center}
-    .hero-right{width:100%;max-width:340px;margin:0 auto}
-    .hero-btns{justify-content:center;flex-direction:column;align-items:center}
-    .hero-btns a{width:100%;text-align:center}
-    .hero-badge{margin:0 auto 20px}
-    .hero h1{font-size:38px}
-
-    /* Telegram banner */
-    section[style*="padding:56px 40px"]{padding:40px 20px!important}
-
-    /* Stats bar */
-    div[id="statClients"]{font-size:32px!important}
-    div[style*="flex:1;min-width:180px"]{min-width:45%!important;padding:20px 10px!important}
-
-    /* Trust bar */
-    div[style*="gap:48px"]{gap:14px!important;padding:16px 20px!important}
-    div[style*="gap:48px"] div{font-size:12px!important}
-
-    /* Sections padding */
-    section[style*="padding:60px 60px"],
-    section[style*="padding:40px 60px"],
-    section[style*="padding:20px 60px"],
-    section[style*="padding:70px 60px"]{padding-left:16px!important;padding-right:16px!important}
-
-    /* Testimonials */
-    div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
-
-    /* Elite pass teaser */
-    div[style*="grid-template-columns:1fr 1fr;gap:80px"]{grid-template-columns:1fr!important;gap:32px!important}
-
-    /* Accordion */
-    .cat-accordion-header{padding:16px!important}
-    .cat-accordion-name{font-size:17px!important}
-
-    /* Footer */
-    footer{padding:40px 20px!important}
-    footer .footer-grid{grid-template-columns:1fr!important;gap:24px!important}
-
-    /* Search bar */
-    div[style*="max-width:600px"]{padding:0 16px!important}
-    input[id="searchInput"]{font-size:14px!important}
-
-    /* See all button */
-    section[style*="padding:20px 60px 40px"] a{padding:20px 16px!important}
-    section[style*="padding:20px 60px 40px"] span[style*="font-size:22px"]{font-size:20px!important}
-  }
-
+  /* ========== HERO ========== */
   .hero{min-height:100vh;display:flex;align-items:center;padding:100px 60px 60px;position:relative;overflow:hidden;gap:60px}
   .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 60% 50%,rgba(201,168,76,0.06) 0%,transparent 70%)}
   .hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px}
@@ -173,6 +115,61 @@
   .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:fadeUp .8s .1s ease both}
   .hero p{font-size:16px;color:#888;line-height:1.7;font-weight:300;margin-bottom:36px;animation:fadeUp .8s .2s ease both}
   .hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+
+  /* ========== STATS BAR ========== */
+  .stats-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .stats-inner{display:flex;justify-content:center;align-items:stretch;flex-wrap:wrap;width:100%}
+  .stat-item{flex:1;min-width:150px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)}
+  .stat-item:last-child{border-right:none}
+  .stat-number{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1}
+  .stat-label{font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px}
+
+  /* ========== TRUST BAR ========== */
+  .trust-bar{background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 40px;display:flex;justify-content:center;align-items:center;gap:32px;flex-wrap:wrap}
+  .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71;white-space:nowrap}
+
+  /* ========== SEARCH ========== */
+  .search-section{padding:60px 60px 20px;background:var(--bg)}
+  .search-wrap{max-width:600px;margin:0 auto}
+  #searchInput{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:16px 22px;color:var(--text);font-family:inherit;font-size:15px;outline:none;transition:border-color .2s}
+  #searchInput:focus{border-color:var(--gold)}
+  #searchResults{display:none;margin-top:40px;max-width:1100px;margin-left:auto;margin-right:auto}
+
+  /* ========== SECTIONS STANDARDS ========== */
+  .std-section{padding:40px 60px 20px;background:var(--bg)}
+  .std-section.bg2{background:var(--bg2)}
+  .section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px}
+  .section-header a{font-size:13px;color:var(--gold);text-decoration:none}
+
+  /* ========== SEE ALL BUTTON ========== */
+  .see-all-section{padding:20px 60px 40px;background:var(--bg)}
+  .see-all-link{display:flex;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#1a1508,#2a2010);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:26px;text-decoration:none;transition:all .3s;width:100%}
+  .see-all-link:hover{border-color:rgba(201,168,76,0.7)}
+  .see-all-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#e8c97a}
+  .see-all-badge{background:var(--gold);color:#080808;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px}
+  .see-all-arrow{color:#c9a84c;font-size:20px}
+
+  /* ========== ELITE PASS TEASER ========== */
+  .elite-section{padding:60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .elite-section::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none}
+  .elite-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1000px;margin:0 auto;position:relative}
+  .elite-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:40px;text-align:center;position:relative;overflow:hidden}
+  .elite-price{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--gold-light);line-height:1}
+  .elite-feat{display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+  .elite-feat:last-child{border-bottom:none}
+
+  /* ========== TELEGRAM BANNER ========== */
+  .tg-banner{background:#000;border-top:1px solid #111;border-bottom:1px solid #111;padding:56px 40px;text-align:center}
+  .tg-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,52px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:20px}
+  .tg-sub{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:16px}
+  .tg-btn{display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;padding:15px 34px;border-radius:6px;font-weight:700;font-size:15px;transition:all .3s}
+  .tg-btn:hover{background:#1a8fc0}
+
+  /* ========== GRATUIT ========== */
+  .gratuit-section{padding:60px;background:var(--bg2)}
+
+  /* ========== ACCORDEON ========== */
+  .accordion-section{padding:60px;background:var(--bg)}
   .cat-accordion{border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden}
   .cat-accordion-header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;cursor:pointer;background:var(--bg3);transition:background .2s;gap:14px}
   .cat-accordion-header:hover{background:#1a1a1a}
@@ -180,6 +177,121 @@
   .cat-accordion-arrow{color:var(--gold);font-size:18px;transition:transform .3s;flex-shrink:0}
   .cat-accordion-body{display:none;padding:20px 24px;background:var(--bg2);border-top:1px solid var(--border)}
   .cat-accordion.open .cat-accordion-body{display:block}
+
+  /* ========== AVIS ========== */
+  .avis-section{padding:60px;background:var(--bg2);border-top:1px solid var(--border)}
+  .avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .avis-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px}
+  .avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)}
+
+  /* ========================================
+     RESPONSIVE — TABLET 900px
+  ======================================== */
+  @media(max-width:900px){
+    nav{padding:16px 20px}
+    .nav-links{display:none}
+    .nav-mobile-btn{display:block}
+    footer{padding:40px 24px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+    .hero{padding:100px 32px 48px;gap:40px}
+    .elite-section{padding:48px 32px}
+    .elite-grid{gap:40px}
+    .gratuit-section{padding:48px 32px}
+    .accordion-section{padding:48px 32px}
+    .avis-section{padding:48px 32px}
+    .avis-grid{grid-template-columns:1fr 1fr}
+    .std-section{padding:36px 32px 16px}
+    .search-section{padding:48px 32px 16px}
+    .see-all-section{padding:16px 32px 36px}
+    .tg-banner{padding:40px 24px}
+    .trust-bar{gap:16px;padding:16px 24px}
+  }
+
+  /* ========================================
+     RESPONSIVE — MOBILE 600px
+  ======================================== */
+  @media(max-width:600px){
+    /* NAV */
+    nav{padding:14px 16px}
+
+    /* HERO */
+    .hero{flex-direction:column;padding:84px 16px 36px;gap:0;min-height:auto;align-items:flex-start}
+    .hero-left{max-width:100%;width:100%}
+    .hero-right{display:none} /* Cache le SVG sur très petit écran */
+    .hero-badge{margin-bottom:18px}
+    .hero h1{font-size:clamp(36px,9vw,50px);letter-spacing:-0.5px}
+    .hero p{font-size:14px;margin-bottom:28px}
+    .hero-btns{flex-direction:column;gap:10px;width:100%}
+    .hero-btns a{width:100%;text-align:center;padding:15px 20px}
+
+    /* TELEGRAM BANNER */
+    .tg-banner{padding:36px 16px}
+    .tg-btn{padding:13px 22px;font-size:14px}
+
+    /* STATS BAR */
+    .stats-inner{display:grid;grid-template-columns:1fr 1fr}
+    .stat-item{border-right:none;border-bottom:1px solid var(--border);padding:22px 12px}
+    .stat-item:nth-child(odd){border-right:1px solid var(--border)}
+    .stat-item:nth-child(3),.stat-item:nth-child(4){border-bottom:none}
+    .stat-number{font-size:clamp(28px,7vw,40px)}
+    .stat-label{font-size:10px;letter-spacing:1px}
+
+    /* TRUST BAR */
+    .trust-bar{gap:10px;padding:14px 12px;justify-content:flex-start}
+    .trust-item{font-size:11px;gap:6px}
+
+    /* SEARCH */
+    .search-section{padding:32px 16px 12px}
+    #searchInput{font-size:14px;padding:14px 16px}
+
+    /* SECTIONS COMMUNES */
+    .std-section{padding:28px 16px 12px}
+    .section-header{flex-direction:row;align-items:center;gap:8px}
+
+    /* FORMATIONS GRID */
+    .formations-grid{grid-template-columns:1fr}
+
+    /* SEE ALL */
+    .see-all-section{padding:12px 16px 28px}
+    .see-all-link{flex-direction:column;gap:8px;padding:20px 16px;text-align:center}
+    .see-all-title{font-size:18px}
+    .see-all-arrow{display:none}
+
+    /* ELITE PASS */
+    .elite-section{padding:36px 16px}
+    .elite-grid{grid-template-columns:1fr;gap:28px}
+    .elite-price{font-size:52px}
+    .elite-card{padding:28px 20px}
+
+    /* GRATUIT */
+    .gratuit-section{padding:36px 16px}
+
+    /* ACCORDEON */
+    .accordion-section{padding:36px 16px}
+    .cat-accordion-header{padding:14px 16px;gap:10px}
+    .cat-accordion-body{padding:16px}
+    .cat-accordion-header .cat-name-main{font-size:17px}
+
+    /* AVIS */
+    .avis-section{padding:36px 16px}
+    .avis-grid{grid-template-columns:1fr}
+
+    /* FOOTER */
+    footer{padding:32px 16px}
+    .footer-grid{grid-template-columns:1fr;gap:20px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    .footer-bottom > div:last-child{flex-wrap:wrap;justify-content:center}
+  }
+
+  /* ========================================
+     RESPONSIVE — TRÈS PETIT 380px
+  ======================================== */
+  @media(max-width:380px){
+    .hero h1{font-size:32px}
+    .trust-item span:first-child{display:none} /* cache les émojis si trop serré */
+    .tg-title{font-size:24px}
+  }
 </style>
 </head>
 <body>
@@ -250,6 +362,7 @@
         <rect x="152" y="236" width="240" height="10" rx="2" fill="#111"/>
         <rect x="152" y="236" width="42" height="10" rx="2" fill="#9b59b6" opacity=".18"/>
         <rect x="202" y="239" width="65" height="4" rx="2" fill="#1e1e1e"/>
+        <rect x="202" y="239" width="65" height="4" rx="2" fill="#1e1e1e"/>
         <rect x="68" y="270" width="384" height="24" rx="4" fill="#111" stroke="#1e1e1e" stroke-width="1"/>
         <rect x="80" y="275" width="200" height="6" rx="2" fill="#0f0f0f"/>
         <rect x="68" y="294" width="384" height="10" rx="3" fill="#0f0f0f" stroke="#1a1a1a" stroke-width="1"/>
@@ -274,113 +387,116 @@
 </section>
 
 <!-- TELEGRAM BANNER -->
-<div style="background:#000;border-top:1px solid #111;border-bottom:1px solid #111;padding:56px 40px;text-align:center">
-  <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5vw,52px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:20px">
-    Le N°1 Dans La Revente<br>De <span style="color:#c9a84c">Formations</span> !
-  </div>
-  <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:16px">Notre Canal Telegram</div>
-  <a href="https://t.me/formation05" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;padding:15px 34px;border-radius:6px;font-weight:700;font-size:15px;transition:all .3s" onmouseover="this.style.background='#1a8fc0'" onmouseout="this.style.background='#229ED9'">
+<div class="tg-banner">
+  <div class="tg-title">Le N°1 Dans La Revente<br>De <span style="color:#c9a84c">Formations</span> !</div>
+  <div class="tg-sub">Notre Canal Telegram</div>
+  <a href="https://t.me/formation05" target="_blank" class="tg-btn">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.834.95l-.536-.861z"/></svg>
     Rejoins Notre Telegram ici
   </a>
 </div>
 
-<!-- ANIMATED STATS -->
-<div style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div style="display:flex;justify-content:center;align-items:stretch;flex-wrap:wrap;width:100%">
-    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statClients">0</div>
-      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Clients satisfaits</div>
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-number" id="statClients">0</div>
+      <div class="stat-label">Clients satisfaits</div>
     </div>
-    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statFormations">0</div>
-      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Formations dispo</div>
+    <div class="stat-item">
+      <div class="stat-number" id="statFormations">0</div>
+      <div class="stat-label">Formations dispo</div>
     </div>
-    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px;border-right:1px solid var(--border)">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statSatisfaction">0</div>
-      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Taux de satisfaction</div>
+    <div class="stat-item">
+      <div class="stat-number" id="statSatisfaction">0</div>
+      <div class="stat-label">Taux de satisfaction</div>
     </div>
-    <div style="flex:1;min-width:180px;text-align:center;padding:34px 20px">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:var(--gold-light);line-height:1" id="statLivraison">0h</div>
-      <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:8px">Livraison garantie</div>
+    <div class="stat-item">
+      <div class="stat-number" id="statLivraison">0h</div>
+      <div class="stat-label">Livraison garantie</div>
     </div>
   </div>
 </div>
 
 <!-- TRUST BAR -->
-<div id="trust-bar-placeholder"></div>
+<div class="trust-bar">
+  <div class="trust-item"><span>🔒</span> Paiement 100% sécurisé</div>
+  <div class="trust-item"><span>⚡</span> Livraison instantanée</div>
+  <div class="trust-item"><span>✅</span> Accès à vie garanti</div>
+  <div class="trust-item"><span>💬</span> Support Telegram 7j/7</div>
+  <div class="trust-item"><span>🔄</span> Satisfait ou remboursé</div>
+</div>
 
 <!-- SEARCH -->
-<section style="padding:60px 60px 20px;background:var(--bg)">
-  <div style="max-width:600px;margin:0 auto">
-    <input type="text" id="searchInput" placeholder="🔍 Rechercher une formation..." oninput="handleSearch()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:16px 22px;color:var(--text);font-family:inherit;font-size:15px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+<section class="search-section">
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher une formation..." oninput="handleSearch()">
   </div>
-  <div id="searchResults" style="display:none;margin-top:40px;max-width:1100px;margin-left:auto;margin-right:auto">
+  <div id="searchResults">
     <div style="font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:20px;text-transform:uppercase">Résultats</div>
     <div class="formations-grid" id="searchGrid"></div>
   </div>
 </section>
 
 <!-- RECENT -->
-<section style="padding:40px 60px 20px;background:var(--bg)">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+<section class="std-section">
+  <div class="section-header">
     <div>
       <div class="section-label">Nouveautés</div>
       <h2 class="section-title" style="margin-bottom:0">Formations <em>récemment ajoutées</em></h2>
     </div>
-    <a href="formations.html" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
+    <a href="formations.html">Voir tout →</a>
   </div>
   <div class="formations-grid" id="recentGrid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">⚡ Chargement...</div></div>
 </section>
 
 <!-- BESTSELLERS -->
-<section style="padding:40px 60px 20px;background:var(--bg)">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+<section class="std-section">
+  <div class="section-header">
     <div>
       <div class="section-label">Les plus populaires</div>
       <h2 class="section-title" style="margin-bottom:0">🏆 Formations <em>Best Sellers</em></h2>
     </div>
-    <a href="formations.html" style="font-size:13px;color:var(--gold);text-decoration:none">Voir tout →</a>
+    <a href="formations.html">Voir tout →</a>
   </div>
   <div class="formations-grid" id="bestsellerGrid"></div>
 </section>
 
 <!-- SEE ALL BUTTON -->
-<section style="padding:20px 60px 40px;background:var(--bg)">
-  <a href="formations.html" style="display:flex;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#1a1508,#2a2010);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:26px;text-decoration:none;transition:all .3s;width:100%" onmouseover="this.style.borderColor='rgba(201,168,76,0.7)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.3)'">
-    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#e8c97a">Voir toutes les formations</span>
-    <span style="background:var(--gold);color:#080808;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px" id="totalCount">1000+ formations</span>
-    <span style="color:#c9a84c;font-size:20px">→</span>
+<section class="see-all-section">
+  <a href="formations.html" class="see-all-link">
+    <span class="see-all-title">Voir toutes les formations</span>
+    <span class="see-all-badge" id="totalCount">1000+ formations</span>
+    <span class="see-all-arrow">→</span>
   </a>
 </section>
 
 <!-- ELITE PASS TEASER -->
-<section style="padding:60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden">
-  <div style="position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none"></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1000px;margin:0 auto;position:relative">
+<section class="elite-section">
+  <div class="elite-grid">
     <div>
       <div class="section-label">Accès illimité</div>
       <h2 class="section-title">L'Élite Pass —<br><em>Tout inclus.</em></h2>
       <p style="color:#666;font-size:15px;line-height:1.7;margin-bottom:28px">Un paiement unique. Un accès illimité à vie à toutes nos formations présentes et futures.</p>
       <a href="elite-pass.html" class="btn-primary">Découvrir l'Élite Pass →</a>
     </div>
-    <div style="background:var(--bg3);border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:40px;text-align:center;position:relative;overflow:hidden">
+    <div class="elite-card">
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);margin-bottom:8px">L'Élite Pass</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--gold-light);line-height:1">199€</div>
+      <div class="elite-price">199€</div>
       <div style="font-size:13px;color:#555;margin-bottom:28px">Paiement unique — à vie</div>
       <div style="text-align:left">
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✦ <span style="color:var(--gold)">+1000</span> formations incluses</div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✦ Nouvelles formations chaque semaine</div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✦ Accès immédiat après paiement</div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:8px 0">✦ Garantie remboursée 7 jours</div>
+        <div class="elite-feat">✦ <span><span style="color:var(--gold)">+1000</span> formations incluses</span></div>
+        <div class="elite-feat">✦ Nouvelles formations chaque semaine</div>
+        <div class="elite-feat">✦ Accès immédiat après paiement</div>
+        <div class="elite-feat">✦ Garantie remboursée 7 jours</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- GRATUIT -->
-<section id="gratuitSection" style="padding:60px;background:var(--bg2)">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+<section id="gratuitSection" class="gratuit-section">
+  <div class="section-header" style="margin-bottom:28px">
     <div>
       <div class="section-label">100% Gratuit</div>
       <h2 class="section-title" style="margin-bottom:0">🎁 Formations <em>gratuites</em></h2>
@@ -391,7 +507,7 @@
 </section>
 
 <!-- CATALOGUE ACCORDION -->
-<section style="padding:60px;background:var(--bg)">
+<section class="accordion-section">
   <div class="section-label">Catalogue complet</div>
   <h2 class="section-title" style="margin-bottom:8px">Toutes les <em>catégories</em></h2>
   <p class="section-sub">Cliquez sur une catégorie pour voir toutes ses formations</p>
@@ -399,19 +515,41 @@
 </section>
 
 <!-- AVIS -->
-<section style="padding:60px;background:var(--bg2);border-top:1px solid var(--border)">
+<section class="avis-section">
   <div class="section-label">Témoignages</div>
   <h2 class="section-title" style="margin-bottom:8px">Ce que disent <em>nos clients.</em></h2>
   <p class="section-sub" style="margin-bottom:40px">Des centaines de clients satisfaits chaque mois.</p>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px"><div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div><p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"J'ai acheté la formation trading via FormationElite. Livraison en moins de 10 minutes. Rapport qualité/prix imbattable !"</p><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)">K</div><div><div style="font-size:14px;font-weight:600">Kévin M.</div><div style="font-size:11px;color:var(--text-muted)">Formation Trading ✓</div></div></div></div>
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px"><div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div><p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"L'Élite Pass vaut vraiment le coup. +1000 formations en un seul achat. Support réactif, livraison instantanée."</p><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)">S</div><div><div style="font-size:14px;font-weight:600">Sofia T.</div><div style="font-size:11px;color:var(--text-muted)">Élite Pass ✓</div></div></div></div>
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px"><div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div><p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"FormationElite c'est le meilleur site pour se former sans se ruiner. Contenu complet et à jour."</p><div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)">M</div><div><div style="font-size:14px;font-weight:600">Maxime D.</div><div style="font-size:11px;color:var(--text-muted)">Formation SEO ✓</div></div></div></div>
+  <div class="avis-grid">
+    <div class="avis-card">
+      <div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div>
+      <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"J'ai acheté la formation trading via FormationElite. Livraison en moins de 10 minutes. Rapport qualité/prix imbattable !"</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="avis-avatar">K</div>
+        <div><div style="font-size:14px;font-weight:600">Kévin M.</div><div style="font-size:11px;color:var(--text-muted)">Formation Trading ✓</div></div>
+      </div>
+    </div>
+    <div class="avis-card">
+      <div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div>
+      <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"L'Élite Pass vaut vraiment le coup. +1000 formations en un seul achat. Support réactif, livraison instantanée."</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="avis-avatar">S</div>
+        <div><div style="font-size:14px;font-weight:600">Sofia T.</div><div style="font-size:11px;color:var(--text-muted)">Élite Pass ✓</div></div>
+      </div>
+    </div>
+    <div class="avis-card">
+      <div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div>
+      <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"FormationElite c'est le meilleur site pour se former sans se ruiner. Contenu complet et à jour."</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="avis-avatar">M</div>
+        <div><div style="font-size:14px;font-weight:600">Maxime D.</div><div style="font-size:11px;color:var(--text-muted)">Formation SEO ✓</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<script>
+<div id="footer-placeholder"></div>
 
+<script>
 const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
 
@@ -467,12 +605,12 @@ function showPaymentModal(f) {
   const hasPaypal = !!f.paypal_link;
   const hasBinance = !!f.binance_id;
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(12px)';
   const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"><span style="font-size:28px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — via Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span></a>` : '';
   const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'"><span style="font-size:28px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div><span style="margin-left:auto;color:#0070f0;font-size:18px">→</span></a>` : '';
   const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)" onmouseover="this.style.borderColor='rgba(240,176,0,0.5)'" onmouseout="this.style.borderColor='rgba(240,176,0,0.2)'"><span style="font-size:28px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en crypto — Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:12px;background:rgba(240,176,0,0.1);padding:4px 10px;border-radius:20px">Copier</span></div>` : '';
   const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'"><span style="font-size:28px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span></a>`;
-  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease"><div style="text-align:center;margin-bottom:28px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#e8c97a;margin-top:10px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button></div>`;
+  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px 16px 0 0;padding:28px 24px 36px;width:100%;max-width:500px;animation:fadeUp .3s ease;max-height:90vh;overflow-y:auto"><div style="width:40px;height:4px;background:#333;border-radius:4px;margin:0 auto 24px"></div><div style="text-align:center;margin-bottom:24px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#e8c97a;margin-top:8px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:12px;background:none;border:1px solid #1a1a1a;color:#555;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:14px">Fermer</button></div>`;
   document.body.appendChild(overlay);
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
 }
@@ -500,16 +638,17 @@ function navHtml(activePage) {
       ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
     </div>
-    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
   </nav>
-  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
-    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
+  <div id="mobileNav">
+    ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
+    <a href="#" style="color:var(--gold-light)!important;margin-top:8px;font-weight:600">Mon Compte</a>
   </div>`;
 }
 
 function toggleMobileNav() {
   const nav = document.getElementById('mobileNav');
-  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+  nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
 }
 
 function footerHtml() {
@@ -551,7 +690,7 @@ function footerHtml() {
     </div>
     <div class="footer-bottom">
       <div>© 2026 FormationElite.fr — Tous droits réservés</div>
-      <div style="display:flex;gap:10px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
         <span class="payment-icon">PayPal</span>
@@ -561,21 +700,8 @@ function footerHtml() {
   </footer>`;
 }
 
-function trustBarHtml() {
-  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
-  </div>`;
-}
-
 document.getElementById('nav-placeholder').innerHTML = navHtml('index.html');
 document.getElementById('footer-placeholder').innerHTML = footerHtml();
-</script>
-<script>
-document.getElementById('trust-bar-placeholder').innerHTML = trustBarHtml();
 
 let allFormations = [];
 
@@ -630,9 +756,9 @@ function renderAccordion(data) {
     return `<div class="cat-accordion" id="acc${i}">
       <div class="cat-accordion-header" onclick="document.getElementById('acc${i}').classList.toggle('open')">
         <div style="display:flex;align-items:center;gap:14px">
-          <span style="font-size:26px">${emoji}</span>
+          <span style="font-size:26px;flex-shrink:0">${emoji}</span>
           <div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500">${cat}</div>
+            <div class="cat-name-main" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500">${cat}</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${items.length} formations</div>
           </div>
         </div>
@@ -685,7 +811,6 @@ function animateCounters() {
 
 loadIndex();
 animateCounters();
-
 </script>
 </body>
 </html>
