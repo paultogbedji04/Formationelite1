@@ -586,10 +586,15 @@ function cardHtml(f) {
   </div>`;
 }
 
-function handleBuy(id, formations) {
+async function handleBuy(id, formations) {
   const f = formations.find(x => x.id === id);
   if (!f) return;
-  showPaymentModal(f);
+
+  // Redirection vers la nouvelle page checkout
+  const titre = encodeURIComponent(f.titre || 'Formation');
+  const prix = encodeURIComponent(f.prix || '0€');
+  
+  window.location.href = `checkout.html?id=${f.id}&titre=${titre}&prix=${prix}`;
 }
 
 function showPaymentModal(f) {
