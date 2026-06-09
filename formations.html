@@ -226,38 +226,13 @@ async function handleBuy(id, formations) {
   const f = formations.find(x => x.id === id);
   if (!f) return;
 
-  const btn = event.target;
-  const origText = btn.innerHTML;
-  btn.innerHTML = '⏳ Redirection Stripe...';
-  btn.disabled = true;
+  // Redirection vers la page checkout centralisée
+  const titre = encodeURIComponent(f.titre || 'Formation');
+  const prix = encodeURIComponent(f.prix || '0€');
+  
+  window.location.href = `checkout.html?id=${f.id}&titre=${titre}&prix=${prix}`;
+}
 
-  try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        formation_id: f.id,
-        formation_titre: f.titre,
-        formation_prix: f.prix
-      })
-    });
-
-    const data = await res.json();
-
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      alert("Erreur Stripe: " + (data.error || "Inconnue"));
-      window.open('https://t.me/CreativeagencyFr', '_blank');
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Impossible de contacter Stripe. Redirection Telegram...");
-    window.open('https://t.me/CreativeagencyFr', '_blank');
-  } finally {
-    btn.innerHTML = origText;
-    btn.disabled = false;
-  }
 }
 function navHtml(activePage) {
   const pages = [
