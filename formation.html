@@ -6,17 +6,16 @@
 <title>Formation — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
   .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:1px;color:var(--gold-light);text-decoration:none}
   .logo span{color:var(--text-muted)}
   .nav-links{display:flex;gap:32px;align-items:center}
@@ -24,59 +23,79 @@
   .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
   .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
   .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
-  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px}
+  #mobileNav{display:none;position:fixed;top:61px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:16px 20px 24px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+  #mobileNav a{display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+  #mobileNav a:last-child{border-bottom:none;color:var(--gold-light);font-weight:600;margin-top:8px}
 
-  /* BUTTONS */
-  .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
-  .btn-secondary{background:transparent;color:var(--text);padding:16px 36px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
-
-  /* CARDS */
+  /* ── CARDS ── */
   .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
   .formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
-  .card-badge.new{background:#2ecc71}
-  .card-badge.free{background:#3498db}
-  .card-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
-  .card-body{padding:20px}
-  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-  .card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.3;margin-bottom:8px;color:var(--text)}
-  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:14px}
-  .card-desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:18px}
-  .card-stars{display:flex;align-items:center;gap:4px;margin-bottom:16px}
-  .star{color:var(--gold);font-size:12px}
-  .rating-count{font-size:11px;color:var(--text-muted);margin-left:4px}
-  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
-  .card-price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold-light)}
-  .card-price-old{font-size:13px;color:var(--text-muted);text-decoration:line-through;margin-left:6px}
-  .card-price-free{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#2ecc71}
-  .btn-card{background:var(--gold);color:var(--bg);border:none;padding:10px 20px;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+  .card-badge.new{background:#2ecc71}.card-badge.free{background:#3498db}
+  .card-img-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
+  .card-body{padding:18px}
+  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;line-height:1.3;margin-bottom:6px;color:var(--text)}
+  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:12px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border)}
+  .card-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold-light)}
+  .card-price-old{font-size:12px;color:var(--text-muted);text-decoration:line-through;margin-left:4px}
+  .card-price-free{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#2ecc71}
+  .btn-card{background:var(--gold);color:var(--bg);border:none;padding:9px 16px;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s}
   .btn-card:hover{background:var(--gold-light)}
   .btn-card.free-btn{background:transparent;border:1px solid #2ecc71;color:#2ecc71}
   .btn-card.free-btn:hover{background:#2ecc71;color:var(--bg)}
-  .formations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 
-  /* SECTIONS */
-  .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
-  .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
-  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
-  .section-title em{font-style:italic;color:var(--gold-light)}
-  .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
-
-  /* PAGE HERO (inner pages) */
-  .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-  .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
-
-  /* BREADCRUMB */
-  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:20px}
+  /* ── BREADCRUMB ── */
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:20px;flex-wrap:wrap}
   .breadcrumb a{color:#555;text-decoration:none;transition:color .2s}
   .breadcrumb a:hover{color:var(--gold-light)}
   .breadcrumb span{color:#333}
 
-  /* FOOTER */
+  /* ── DETAIL HERO ── */
+  .detail-hero{padding:90px 60px 24px;background:var(--bg2);border-bottom:1px solid var(--border)}
+
+  /* ── DETAIL GRID ── */
+  .detail-grid{display:grid;grid-template-columns:1fr 360px;gap:48px;max-width:1100px;margin:0 auto;padding:48px 60px;align-items:start}
+
+  /* ── STICKY CARD (desktop) ── */
+  .sticky-card{position:sticky;top:80px;background:var(--bg3);border:1px solid rgba(201,168,76,0.25);border-radius:12px;overflow:hidden}
+  .sticky-card-header{padding:24px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#1a1508,#0f0f0f);text-align:center}
+  .sticky-price{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold-light);line-height:1}
+  .sticky-price-old{font-size:14px;color:var(--text-muted);text-decoration:line-through;margin-top:4px}
+  .sticky-body{padding:20px}
+  .btn-buy-main{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:16px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;letter-spacing:.5px;transition:all .3s;margin-bottom:10px}
+  .btn-buy-main:hover{background:var(--gold-light)}
+  .btn-telegram{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:none;border:1px solid rgba(41,182,246,0.3);color:#29b6f6;border-radius:6px;padding:13px;text-decoration:none;font-size:13px;font-weight:600;transition:all .3s;margin-bottom:16px}
+  .btn-telegram:hover{border-color:#29b6f6}
+  .include-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+  .include-item::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
+  .include-item:last-child{border-bottom:none}
+  .trust-mini{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:#555;line-height:1.8}
+
+  /* ── SECTION BLOCKS ── */
+  .section-block{margin-bottom:36px}
+  .section-block h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;margin-bottom:14px;color:var(--text)}
+  .detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:400;line-height:1.1;margin-bottom:14px}
+  .detail-author{font-size:14px;color:var(--text-muted);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+  .detail-desc{font-size:15px;color:#888;line-height:1.8}
+  .badge-cat{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2);margin-bottom:14px}
+
+  /* ── SCREENSHOTS ── */
+  .screenshot-gallery{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
+  .screenshot-thumb{width:150px;height:100px;border-radius:6px;border:1px solid var(--border);object-fit:cover;flex-shrink:0;cursor:pointer;transition:all .2s}
+  .screenshot-thumb:hover{border-color:var(--gold);transform:scale(1.03)}
+
+  /* ── RELATED GRID ── */
+  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+
+  /* ── GARANTIE ── */
+  .garantie-box{background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
+
+  /* ── FOOTER ── */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:60px;margin-bottom:48px}
   .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
   .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
   .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
@@ -84,80 +103,107 @@
   .footer-links li{margin-bottom:10px}
   .footer-links a{font-size:13px;color:#555;text-decoration:none;transition:color .2s}
   .footer-links a:hover{color:var(--gold-light)}
-  .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
   .payment-icon{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 10px;font-size:11px;color:#666}
 
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
-  .modal-overlay.open{display:flex}
-  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
+  /* ── MOBILE CTA BAR (sticky bottom) ── */
+  .mobile-cta-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,8,8,0.97);border-top:1px solid rgba(201,168,76,0.2);padding:12px 16px;backdrop-filter:blur(20px)}
+  .mobile-cta-inner{display:flex;gap:10px;align-items:center;max-width:500px;margin:0 auto}
+  .mobile-cta-price{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-light);flex-shrink:0;line-height:1}
+  .mobile-cta-price.free{color:var(--green)}
+  .mobile-cta-btn{flex:1;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:14px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.3px}
+  .mobile-cta-tg{background:none;border:1px solid rgba(41,182,246,0.4);color:#29b6f6;border-radius:6px;padding:14px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;display:flex;align-items:center}
 
-  /* CAT PILLS */
-  .cat-pill{padding:10px 20px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;transition:all .2s;background:none;font-family:inherit}
-  .cat-pill:hover,.cat-pill.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+  /* ── PAYMENT MODAL ── */
+  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:14px 18px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
 
-  /* PAYMENT MODAL */
-  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
-
-  /* RESPONSIVE */
+  /* ========================================
+     RESPONSIVE 900px
+  ======================================== */
   @media(max-width:900px){
     nav{padding:16px 20px}
     .nav-links{display:none}
     .nav-mobile-btn{display:block}
-    .page-hero{padding:120px 24px 60px}
-    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
-  }
-  @media(max-width:600px){
-    footer .footer-grid{grid-template-columns:1fr}
-    .formations-grid{grid-template-columns:1fr}
+    .detail-hero{padding:76px 24px 20px}
+    .detail-grid{grid-template-columns:1fr;padding:24px 20px;gap:28px}
+    .sticky-card{position:static}
+    /* Sur tablette on met la sticky card EN PREMIER (avant le contenu) */
+    .detail-grid{display:flex;flex-direction:column}
+    .sticky-col{order:-1}
+    .related-grid{grid-template-columns:1fr 1fr}
+    footer{padding:40px 24px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
   }
 
-  .detail-hero{padding:120px 60px 60px;background:var(--bg2);border-bottom:1px solid var(--border)}
-  .detail-grid{display:grid;grid-template-columns:1fr 380px;gap:60px;max-width:1100px;margin:0 auto;padding:60px;align-items:start}
-  .sticky-card{position:sticky;top:80px;background:var(--bg3);border:1px solid rgba(201,168,76,0.25);border-radius:12px;overflow:hidden}
-  .sticky-card-header{padding:28px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#1a1508,#0f0f0f)}
-  .sticky-price{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--gold-light);line-height:1}
-  .sticky-price-old{font-size:16px;color:var(--text-muted);text-decoration:line-through;margin-top:4px}
-  .sticky-body{padding:24px}
-  .include-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#888;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
-  .include-item::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
-  .include-item:last-child{border-bottom:none}
-  .screenshot-gallery{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-top:24px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
-  .screenshot-thumb{width:160px;height:110px;border-radius:6px;border:1px solid var(--border);object-fit:cover;flex-shrink:0;cursor:pointer;transition:all .2s}
-  .screenshot-thumb:hover{border-color:var(--gold);transform:scale(1.03)}
-  .badge-cat{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2);margin-bottom:16px}
-  .detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1.1;margin-bottom:16px}
-  .detail-author{font-size:14px;color:var(--text-muted);margin-bottom:24px;display:flex;align-items:center;gap:8px}
-  .detail-desc{font-size:15px;color:#888;line-height:1.8;margin-bottom:32px}
-  .section-block{margin-bottom:40px}
-  .section-block h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;margin-bottom:16px;color:var(--text)}
-  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
-  @media(max-width:900px){
-    .detail-grid{grid-template-columns:1fr;padding:30px 24px}
-    .sticky-card{position:static}
+  /* ========================================
+     RESPONSIVE 600px MOBILE
+  ======================================== */
+  @media(max-width:600px){
+    nav{padding:14px 16px}
+
+    /* Hero */
+    .detail-hero{padding:70px 16px 16px}
+    .breadcrumb{font-size:11px;gap:6px}
+
+    /* Grid — 1 col, sticky card cachée sur mobile (remplacée par la barre sticky bottom) */
+    .detail-grid{padding:20px 16px 100px;gap:24px} /* padding-bottom pour la barre sticky */
+    .sticky-col{display:none} /* on cache la sidebar sur mobile */
+    .mobile-cta-bar{display:block} /* on affiche la barre sticky bottom */
+
+    /* Titres */
+    .detail-title{font-size:clamp(24px,7vw,34px)}
+    .section-block h3{font-size:19px}
+
+    /* Screenshots */
+    .screenshot-thumb{width:130px;height:88px}
+
+    /* Related */
     .related-grid{grid-template-columns:1fr}
-    .detail-hero{padding:110px 24px 40px}
+
+    /* Garantie */
+    .garantie-box{padding:14px 16px;gap:10px}
+
+    /* Footer */
+    footer{padding:32px 16px}
+    .footer-grid{grid-template-columns:1fr;gap:20px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    .footer-bottom > div:last-child{flex-wrap:wrap;justify-content:center}
+  }
+
+  @media(max-width:380px){
+    .mobile-cta-price{font-size:22px}
+    .mobile-cta-btn{font-size:13px;padding:13px 10px}
+    .mobile-cta-tg{padding:13px 10px;font-size:12px}
   }
 </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
 
-<!-- HERO -->
-<div id="heroSection" class="detail-hero" style="padding-top:90px;padding-bottom:20px"></div>
+<!-- HERO BREADCRUMB -->
+<div id="heroSection" class="detail-hero"></div>
 
 <!-- MAIN CONTENT -->
 <div id="mainContent">
-  <div style="text-align:center;padding:80px;color:#555">
+  <div style="text-align:center;padding:80px 20px;color:#555">
     <div style="font-size:32px;margin-bottom:12px">⚡</div>
-    <div>Chargement de la formation...</div>
+    <div>Chargement...</div>
+  </div>
+</div>
+
+<!-- MOBILE CTA BAR (sticky bottom, affiché seulement sur mobile) -->
+<div class="mobile-cta-bar" id="mobileCta" style="display:none">
+  <div class="mobile-cta-inner">
+    <div class="mobile-cta-price" id="mobileCtaPrice">—</div>
+    <button class="mobile-cta-btn" id="mobileCtaBtn" onclick="mobileCtaAction()">🛒 Commander</button>
+    <a href="https://t.me/CreativeagencyFr" target="_blank" class="mobile-cta-tg">📲 TG</a>
   </div>
 </div>
 
 <div id="footer-placeholder"></div>
-<script>
 
+<script>
 const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
 
@@ -180,10 +226,8 @@ function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
   const imgHtml = f.image_principale
-    ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    ? `<img src="${f.image_principale}" style="width:100%;height:160px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
     : `<div class="card-img-placeholder">${emoji}</div>`;
-  const desc = f.description || '';
-  const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
   return `
   <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
     ${f.badge ? `<div class="card-badge ${f.badge==='Gratuit'?'free':f.badge==='Nouveau'?'new':''}">${f.badge}</div>` : ''}
@@ -192,33 +236,45 @@ function cardHtml(f) {
       <div class="card-category">${f.categorie||''}</div>
       <div class="card-title">${f.titre}</div>
       <div class="card-author">Par ${f.auteur||''}</div>
-      <div class="card-desc">${shortDesc}</div>
-      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
       <div class="card-footer">
         <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}')">${isFree?'Obtenir':'Acheter'}</button>
       </div>
     </div>
   </div>`;
 }
 
-function handleBuy(id, formations) {
-  const f = formations.find(x => x.id === id);
-  if (!f) return;
-  showPaymentModal(f);
+function handleBuy(id) {
+  if (id === window._formation?.id) { buyNow(); return; }
+  window.location = 'formation.html?id=' + id;
 }
 
+// ── PAIEMENT MODAL ──
 function showPaymentModal(f) {
+  const isMob = window.innerWidth <= 600;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:${isMob?'flex-end':'center'};justify-content:center;padding:0;backdrop-filter:blur(12px)`;
   const hasStripe = !!f.stripe_link;
   const hasPaypal = !!f.paypal_link;
   const hasBinance = !!f.binance_id;
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
-  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"><span style="font-size:28px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — via Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span></a>` : '';
-  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'"><span style="font-size:28px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div><span style="margin-left:auto;color:#0070f0;font-size:18px">→</span></a>` : '';
-  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)" onmouseover="this.style.borderColor='rgba(240,176,0,0.5)'" onmouseout="this.style.borderColor='rgba(240,176,0,0.2)'"><span style="font-size:28px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en crypto — Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:12px;background:rgba(240,176,0,0.1);padding:4px 10px;border-radius:20px">Copier</span></div>` : '';
-  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'"><span style="font-size:28px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span></a>`;
-  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease"><div style="text-align:center;margin-bottom:28px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#e8c97a;margin-top:10px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button></div>`;
+  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none"><span style="font-size:26px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c">→</span></a>` : '';
+  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none"><span style="font-size:26px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte</div></div><span style="margin-left:auto;color:#0070f0">→</span></a>` : '';
+  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)"><span style="font-size:26px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:11px;background:rgba(240,176,0,0.1);padding:3px 8px;border-radius:20px">Copier</span></div>` : '';
+  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none"><span style="font-size:26px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6">→</span></a>`;
+  overlay.innerHTML = `
+    <div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:${isMob?'16px 16px 0 0':'16px'};padding:${isMob?'24px 20px 36px':'32px'};max-width:460px;width:100%;animation:${isMob?'slideUp':'fadeUp'} .3s ease;max-height:92vh;overflow-y:auto">
+      ${isMob?'<div style="width:40px;height:4px;background:#222;border-radius:4px;margin:0 auto 20px"></div>':''}
+      <div style="text-align:center;margin-bottom:22px">
+        <div style="font-size:32px;margin-bottom:8px">${f.emoji||'📚'}</div>
+        <div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#f0ece0;margin-bottom:3px">${f.titre}</div>
+        <div style="font-size:12px;color:#666;margin-bottom:6px">Par ${f.auteur||''}</div>
+        <div style="font-family:\'Cormorant Garamond\',serif;font-size:30px;color:#e8c97a">${f.prix}</div>
+      </div>
+      <div style="font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>
+      ${stripeBtn}${paypalBtn}${binanceBtn}
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div>
+      <button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:12px;background:none;border:1px solid #1a1a1a;color:#555;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:14px">Fermer</button>
+    </div>`;
   document.body.appendChild(overlay);
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
 }
@@ -232,59 +288,36 @@ function copyBinance(id, el) {
   });
 }
 
-function navHtml(activePage) {
-  const pages = [
-    ['index.html','Accueil'],
-    ['formations.html','Formations'],
-    ['elite-pass.html',"L'Élite Pass"],
-    ['preuves.html','Preuves'],
-    ['faq.html','FAQ'],
-  ];
+// ── NAV ──
+function navHtml() {
+  const pages = [['index.html','Accueil'],['formations.html','Formations'],['elite-pass.html',"L'Élite Pass"],['preuves.html','Preuves'],['faq.html','FAQ']];
   return `<nav>
     <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
     <div class="nav-links">
-      ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
+      ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
     </div>
     <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
   </nav>
-  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
-    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
+  <div id="mobileNav">
+    ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
+    <a href="#">Mon Compte</a>
   </div>`;
 }
 
 function toggleMobileNav() {
-  const nav = document.getElementById('mobileNav');
-  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+  const n = document.getElementById('mobileNav');
+  n.style.display = n.style.display === 'block' ? 'none' : 'block';
 }
 
+// ── FOOTER (même que index) ──
 function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
         <a href="index.html" class="footer-logo">FormationElite.fr</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
-        <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
-      </div>
-      <div>
-        <div class="footer-col-title">Catégories</div>
-        <ul class="footer-links">
-          <li><a href="formations.html?cat=Trading">Trading</a></li>
-          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
-          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
-          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
-          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigation</div>
-        <ul class="footer-links">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="formations.html">Formations</a></li>
-          <li><a href="elite-pass.html">L'Élite Pass</a></li>
-          <li><a href="preuves.html">Preuves</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
+        <a href="https://t.me/formation05" target="_blank" style="display:inline-block;background:transparent;color:var(--text);padding:10px 20px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:inherit;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s">Rejoindre le Telegram →</a>
       </div>
       <div>
         <div class="footer-col-title">Légal</div>
@@ -297,7 +330,7 @@ function footerHtml() {
     </div>
     <div class="footer-bottom">
       <div>© 2026 FormationElite.fr — Tous droits réservés</div>
-      <div style="display:flex;gap:10px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
         <span class="payment-icon">PayPal</span>
@@ -307,49 +340,56 @@ function footerHtml() {
   </footer>`;
 }
 
-function trustBarHtml() {
-  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
-  </div>`;
-}
-
-document.getElementById('nav-placeholder').innerHTML = navHtml('formations.html');
+document.getElementById('nav-placeholder').innerHTML = navHtml();
 document.getElementById('footer-placeholder').innerHTML = footerHtml();
 
+// ── INIT ──
 let formation = null;
 let allFormations = [];
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-
   if (!id) { window.location.href = 'formations.html'; return; }
-
   try {
-    // Load this formation
     const data = await sbGet(`formations?id=eq.${id}&select=*`);
     if (!Array.isArray(data) || data.length === 0) {
-      document.getElementById('mainContent').innerHTML = '<div style="text-align:center;padding:80px;color:#555"><div style="font-size:40px;margin-bottom:16px">😕</div><div>Formation introuvable</div><a href="formations.html" style="color:var(--gold);text-decoration:none;margin-top:16px;display:inline-block">← Retour au catalogue</a></div>';
+      document.getElementById('mainContent').innerHTML = `<div style="text-align:center;padding:80px 20px;color:#555"><div style="font-size:40px;margin-bottom:16px">😕</div><div>Formation introuvable</div><a href="formations.html" style="color:var(--gold);text-decoration:none;margin-top:16px;display:inline-block">← Retour au catalogue</a></div>`;
       return;
     }
     formation = data[0];
-    window._formations = [formation];
-
-    // Update page title
+    window._formation = formation;
     document.title = formation.titre + ' — FormationElite.fr';
-
-    // Load related formations (same category)
     const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=3&select=*`);
     allFormations = Array.isArray(related) ? related : [];
-
     renderPage();
-  } catch(e) {
-    console.error(e);
+    initMobileCta();
+  } catch(e) { console.error(e); }
+}
+
+function initMobileCta() {
+  if (!formation) return;
+  const f = formation;
+  const isFree = f.prix?.toLowerCase() === 'gratuit';
+  const bar = document.getElementById('mobileCta');
+  const priceEl = document.getElementById('mobileCtaPrice');
+  const btn = document.getElementById('mobileCtaBtn');
+
+  priceEl.textContent = isFree ? 'Gratuit' : f.prix;
+  priceEl.className = 'mobile-cta-price' + (isFree ? ' free' : '');
+  btn.textContent = isFree ? '🎁 Obtenir' : '🛒 Commander';
+
+  // Afficher la barre seulement sur mobile
+  function checkMobile() {
+    bar.style.display = window.innerWidth <= 600 ? 'block' : 'none';
   }
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+}
+
+function mobileCtaAction() {
+  if (!formation) return;
+  buyNow();
 }
 
 function renderPage() {
@@ -361,36 +401,37 @@ function renderPage() {
     : ['Accès immédiat après paiement', 'Contenu complet de la formation', 'Accès à vie', 'Support disponible'];
   const screenshots = Array.isArray(f.screenshots) ? f.screenshots.filter(Boolean) : [];
 
-  // Hero section
+  // Hero breadcrumb
   document.getElementById('heroSection').innerHTML = `
     <div style="max-width:1100px;margin:0 auto">
       <div class="breadcrumb">
-        <a href="index.html">Accueil</a>
-        <span>›</span>
-        <a href="formations.html">Formations</a>
-        <span>›</span>
-        <a href="formations.html?cat=${encodeURIComponent(f.categorie)}">${f.categorie}</a>
-        <span>›</span>
-        <span style="color:var(--text-muted)">${f.titre}</span>
+        <a href="index.html">Accueil</a><span>›</span>
+        <a href="formations.html">Formations</a><span>›</span>
+        <a href="formations.html?cat=${encodeURIComponent(f.categorie)}">${f.categorie}</a><span>›</span>
+        <span style="color:var(--text-muted);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:middle">${f.titre}</span>
       </div>
     </div>`;
 
   // Main content
   document.getElementById('mainContent').innerHTML = `
   <div class="detail-grid">
-    <!-- LEFT: Détails -->
-    <div>
+
+    <!-- LEFT: Contenu -->
+    <div class="content-col">
       <span class="badge-cat">${f.categorie}</span>
-      ${f.badge ? `<span style="margin-left:8px;display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;background:var(--gold);color:var(--bg);letter-spacing:1px;text-transform:uppercase">${f.badge}</span>` : ''}
+      ${f.badge ? `<span style="margin-left:8px;display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:var(--gold);color:var(--bg);letter-spacing:1px;text-transform:uppercase">${f.badge}</span>` : ''}
+
       <h1 class="detail-title">${f.titre}</h1>
+
       <div class="detail-author">
-        <span style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--bg);font-weight:700;flex-shrink:0">${(f.auteur||'?')[0].toUpperCase()}</span>
+        <span style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:inline-flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--bg);font-weight:700;flex-shrink:0">${(f.auteur||'?')[0].toUpperCase()}</span>
         Par <strong style="color:var(--text)">${f.auteur || 'Formateur'}</strong>
       </div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:28px">
-        <span style="color:var(--gold);font-size:14px">★★★★★</span>
+
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:24px">
+        <span style="color:var(--gold);font-size:13px">★★★★★</span>
         <span style="font-size:13px;color:#888">5.0 · Accès immédiat</span>
-        ${f.ancien_prix ? `<span style="margin-left:8px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);color:#2ecc71;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">ÉCONOMISEZ ${f.ancien_prix}</span>` : ''}
+        ${f.ancien_prix ? `<span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);color:#2ecc71;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">-${calcRemise(f.prix,f.ancien_prix)}%</span>` : ''}
       </div>
 
       ${f.description ? `
@@ -399,17 +440,15 @@ function renderPage() {
         <p class="detail-desc">${f.description}</p>
       </div>` : ''}
 
-      <!-- Screenshots -->
       ${screenshots.length > 0 ? `
       <div class="section-block">
         <h3>📸 Aperçus de la formation</h3>
-        <p style="font-size:13px;color:#666;margin-bottom:14px">Cliquez sur une image pour l'agrandir</p>
+        <p style="font-size:13px;color:#666;margin-bottom:12px">Cliquez pour agrandir</p>
         <div class="screenshot-gallery">
-          ${screenshots.map(src => `<img src="${src}" class="screenshot-thumb" onclick="openImg('${src}')" alt="Aperçu formation">`).join('')}
+          ${screenshots.map(src => `<img src="${src}" class="screenshot-thumb" onclick="openImg('${src}')" alt="Aperçu">`).join('')}
         </div>
       </div>` : ''}
 
-      <!-- Ce qui est inclus -->
       <div class="section-block">
         <h3>✅ Ce qui est inclus</h3>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px">
@@ -417,16 +456,14 @@ function renderPage() {
         </div>
       </div>
 
-      <!-- Garantie -->
-      <div style="background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:20px 24px;display:flex;gap:16px;align-items:flex-start;margin-bottom:40px">
-        <span style="font-size:28px;flex-shrink:0">🛡️</span>
+      <div class="garantie-box">
+        <span style="font-size:26px;flex-shrink:0">🛡️</span>
         <div>
           <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">Garantie satisfait ou remboursé 7 jours</div>
-          <div style="font-size:13px;color:#666;line-height:1.6">Si vous n'êtes pas satisfait, contactez-nous sur Telegram dans les 7 jours suivant l'achat et nous vous remboursons intégralement.</div>
+          <div style="font-size:13px;color:#666;line-height:1.6">Si vous n'êtes pas satisfait, contactez-nous sur Telegram dans les 7 jours et nous vous remboursons intégralement.</div>
         </div>
       </div>
 
-      <!-- Formations similaires -->
       ${allFormations.length > 0 ? `
       <div class="section-block">
         <h3>📚 Formations similaires</h3>
@@ -436,30 +473,29 @@ function renderPage() {
       </div>` : ''}
     </div>
 
-    <!-- RIGHT: Sticky card -->
-    <div>
+    <!-- RIGHT: Sticky card (cachée sur mobile) -->
+    <div class="sticky-col">
       <div class="sticky-card">
         <div class="sticky-card-header">
-          <div style="font-size:48px;margin-bottom:12px;text-align:center">${f.image_principale ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;border-radius:4px;margin-bottom:8px" onerror="this.style.display='none'">` : emoji}</div>
-          <div style="text-align:center">
-            ${isFree
-              ? '<div style="font-family:Cormorant Garamond,serif;font-size:48px;font-weight:300;color:#2ecc71">Gratuit</div>'
-              : `<div class="sticky-price">${f.prix}</div>${f.ancien_prix ? `<div class="sticky-price-old">${f.ancien_prix} à l'origine</div>` : ''}`
-            }
-          </div>
+          ${f.image_principale
+            ? `<img src="${f.image_principale}" style="width:100%;height:160px;object-fit:cover;border-radius:4px;margin-bottom:14px" onerror="this.style.display='none'">`
+            : `<div style="font-size:52px;margin-bottom:12px">${emoji}</div>`}
+          ${isFree
+            ? '<div style="font-family:\'Cormorant Garamond\',serif;font-size:44px;font-weight:300;color:#2ecc71">Gratuit</div>'
+            : `<div class="sticky-price">${f.prix}</div>${f.ancien_prix ? `<div class="sticky-price-old">${f.ancien_prix} à l'origine</div>` : ''}`}
         </div>
         <div class="sticky-body">
-          <button onclick="buyNow('${f.id}','${f.titre}','${f.prix}','${f.emoji||'📚'}')" style="width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:16px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;letter-spacing:.5px;transition:all .3s;margin-bottom:12px" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">
+          <button class="btn-buy-main" onclick="buyNow()">
             ${isFree ? '🎁 Obtenir gratuitement' : '🛒 Commander maintenant'}
           </button>
-          <a href="https://t.me/CreativeagencyFr" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:none;border:1px solid rgba(41,182,246,0.3);color:#29b6f6;border-radius:6px;padding:13px;text-decoration:none;font-size:13px;font-weight:600;transition:all .3s;margin-bottom:20px" onmouseover="this.style.borderColor='#29b6f6'" onmouseout="this.style.borderColor='rgba(41,182,246,0.3)'">
+          <a href="https://t.me/CreativeagencyFr" target="_blank" class="btn-telegram">
             📲 Commander via Telegram
           </a>
-          <div style="border-top:1px solid var(--border);padding-top:16px">
+          <div style="border-top:1px solid var(--border);padding-top:14px">
             ${inclus.slice(0,4).map(item => `<div class="include-item">${item}</div>`).join('')}
           </div>
-          <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:#555">
-            🔒 Paiement sécurisé · ⚡ Accès immédiat · 🔄 Remboursé si insatisfait
+          <div class="trust-mini">
+            🔒 Paiement sécurisé<br>⚡ Accès immédiat · 🔄 Remboursé si insatisfait
           </div>
         </div>
       </div>
@@ -467,57 +503,58 @@ function renderPage() {
   </div>`;
 }
 
+function calcRemise(prix, ancien) {
+  const p = parseFloat(prix?.replace('€','').replace(',','.'));
+  const a = parseFloat(ancien?.replace('€','').replace(',','.'));
+  if (!p || !a || a <= p) return '';
+  return Math.round((1 - p/a) * 100);
+}
+
 function openImg(src) {
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;backdrop-filter:blur(10px)';
-  overlay.innerHTML = `<div style="position:relative;max-width:800px;width:100%"><img src="${src}" style="width:100%;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.8)"><button onclick="this.closest('[style*=fixed]').remove()" style="position:absolute;top:-14px;right:-14px;background:var(--gold);border:none;color:#080808;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;font-weight:700">✕</button></div>`;
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;backdrop-filter:blur(10px)';
+  overlay.innerHTML = `<div style="position:relative;max-width:800px;width:100%"><img src="${src}" style="width:100%;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.8)"><button onclick="this.closest('[style*=fixed]').remove()" style="position:absolute;top:-14px;right:-14px;background:var(--gold);border:none;color:#080808;width:32px;height:32px;border-radius:50%;font-size:14px;cursor:pointer;font-weight:700">✕</button></div>`;
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
   document.body.appendChild(overlay);
 }
 
-async function buyNow(id, titre, prix, emoji) {
-  // Free formation - open Telegram
-  if (prix?.toLowerCase() === 'gratuit') {
+async function buyNow() {
+  const f = formation;
+  if (!f) return;
+  const isFree = f.prix?.toLowerCase() === 'gratuit';
+
+  if (isFree) {
     window.open('https://t.me/CreativeagencyFr', '_blank');
     return;
   }
 
-  // Show loading state
-  const btn = event.target;
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '⏳ Redirection en cours...';
-  btn.disabled = true;
+  // Trouver le bouton cliqué
+  const btn = document.getElementById('mobileCtaBtn') || event?.target;
+  const originalText = btn?.innerHTML;
+  if (btn) { btn.innerHTML = '⏳ Redirection...'; btn.disabled = true; }
 
   try {
     const res = await fetch('/api/checkout', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        formation_id: id,
-        formation_titre: titre,
-        formation_prix: prix,
-        formation_emoji: emoji
+        formation_id: f.id,
+        formation_titre: f.titre,
+        formation_prix: f.prix,
+        formation_emoji: f.emoji
       })
     });
-
     const data = await res.json();
-
     if (data.url) {
       window.location.href = data.url;
-    } else {
-      throw new Error(data.error || 'Erreur inconnue');
-    }
-  } catch (err) {
-    console.error('Checkout error:', err);
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-    // Fallback to Telegram if API fails
-    showPaymentModal(formation);
+    } else throw new Error(data.error || 'Erreur');
+  } catch(err) {
+    if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
+    showPaymentModal(f);
   }
 }
 
 init();
-
 </script>
 </body>
 </html>
