@@ -6,7 +6,6 @@
 <title>Preuves & Témoignages — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -14,6 +13,7 @@
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
   /* NAV */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
@@ -24,7 +24,14 @@
   .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
   .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
   .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
-  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer;padding:4px 8px;line-height:1}
+
+  /* MOBILE NAV MENU */
+  #mobileNav{display:none;position:fixed;top:61px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;border-bottom:1px solid var(--border);animation:slideDown .2s ease}
+  #mobileNav.open{display:block}
+  #mobileNav a{display:flex;align-items:center;padding:16px 24px;font-size:15px;color:#aaa;text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.08);transition:color .2s, background .2s}
+  #mobileNav a:hover,#mobileNav a.active{color:var(--gold-light);background:rgba(201,168,76,0.04)}
+  #mobileNav a:last-child{border-bottom:none;color:var(--gold-light);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:16px 24px}
 
   /* BUTTONS */
   .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
@@ -60,11 +67,11 @@
   /* SECTIONS */
   .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
   .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
-  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
   .section-title em{font-style:italic;color:var(--gold-light)}
   .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
 
-  /* PAGE HERO (inner pages) */
+  /* PAGE HERO */
   .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
   .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
 
@@ -74,9 +81,13 @@
   .breadcrumb a:hover{color:var(--gold-light)}
   .breadcrumb span{color:#333}
 
+  /* TRUST BAR */
+  .trust-bar{background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap}
+  .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71;white-space:nowrap}
+
   /* FOOTER */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:60px;margin-bottom:48px}
   .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
   .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
   .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
@@ -87,39 +98,59 @@
   .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
   .payment-icon{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 10px;font-size:11px;color:#666}
 
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
-  .modal-overlay.open{display:flex}
-  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
-
-  /* CAT PILLS */
-  .cat-pill{padding:10px 20px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;transition:all .2s;background:none;font-family:inherit}
-  .cat-pill:hover,.cat-pill.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
-
-  /* PAYMENT MODAL */
-  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
-
-  /* RESPONSIVE */
-  @media(max-width:900px){
-    nav{padding:16px 20px}
-    .nav-links{display:none}
-    .nav-mobile-btn{display:block}
-    .page-hero{padding:120px 24px 60px}
-    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
-  }
-  @media(max-width:600px){
-    footer .footer-grid{grid-template-columns:1fr}
-    .formations-grid{grid-template-columns:1fr}
-  }
-
+  /* PREUVES */
   .preuves-grid{columns:3;gap:16px;column-fill:balance}
   .preuve-item{break-inside:avoid;margin-bottom:16px;border-radius:10px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all .2s;display:block}
   .preuve-item:hover{border-color:rgba(201,168,76,0.5);transform:scale(1.01)}
   .preuve-item img{width:100%;display:block}
   .info-block{background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:16px;font-size:14px;color:#888;line-height:1.7}
-  @media(max-width:900px){.preuves-grid{columns:2}}
-  @media(max-width:600px){.preuves-grid{columns:1}}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
+
+  /* PAY OPTION */
+  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
+
+  /* ===================== RESPONSIVE ===================== */
+  @media(max-width:900px){
+    nav{padding:16px 20px}
+    .nav-links{display:none}
+    .nav-mobile-btn{display:block}
+
+    .page-hero{padding:100px 20px 48px}
+    .page-hero .section-title{font-size:clamp(26px,6vw,38px)}
+
+    .trust-bar{padding:14px 16px;gap:12px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+    .trust-bar::-webkit-scrollbar{display:none}
+
+    section[style*="padding:60px"]{padding:40px 20px!important}
+
+    .preuves-grid{columns:2}
+
+    footer{padding:40px 20px}
+    .footer-grid{grid-template-columns:1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  }
+
+  @media(max-width:600px){
+    .page-hero{padding:90px 16px 40px}
+
+    .preuves-grid{columns:1}
+
+    .intro-card{padding:24px 16px!important}
+    .info-block{font-size:13px;padding:14px 16px}
+
+    .section-label{font-size:10px}
+
+    .preuves-header{flex-direction:column;align-items:flex-start!important;gap:12px}
+
+    .cta-telegram-btn{width:100%;justify-content:center;padding:16px 20px!important;font-size:14px!important}
+
+    .img-modal-inner{max-width:100%!important}
+    .img-modal-close{top:8px!important;right:8px!important}
+  }
 </style>
 </head>
 <body>
@@ -136,7 +167,7 @@
 <!-- TEXTE INTRO -->
 <section style="padding:60px;background:var(--bg2);border-bottom:1px solid var(--border)">
   <div style="max-width:860px;margin:0 auto">
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:36px">
+    <div class="intro-card" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:36px">
       <p style="font-size:15px;color:#aaa;line-height:1.8;margin-bottom:20px">
         Chez <strong style="color:var(--gold-light)">FormationElite</strong>, la confiance et la transparence sont au cœur de notre engagement. Vous trouverez ci-dessous plusieurs preuves de commandes et échanges clients issus de notre communauté privée Telegram, où certaines ventes sont traitées en temps réel.
       </p>
@@ -156,7 +187,7 @@
 
 <!-- PREUVES GRID -->
 <section style="padding:60px;background:var(--bg)">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
+  <div class="preuves-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
     <div>
       <div class="section-label">Screenshots</div>
       <h2 class="section-title" style="margin-bottom:0">Nos <em>preuves de commandes</em></h2>
@@ -175,15 +206,15 @@
   <div class="section-label" style="justify-content:center">Rejoignez-nous</div>
   <h2 class="section-title" style="text-align:center;margin-bottom:12px">Voir plus de preuves <em>en temps réel</em></h2>
   <p style="color:#666;font-size:15px;margin-bottom:28px">Rejoignez notre communauté Telegram pour voir les nouvelles commandes en direct</p>
-  <a href="https://t.me/formation05" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;padding:16px 36px;border-radius:6px;font-weight:700;font-size:15px;transition:all .3s" onmouseover="this.style.background='#1a8fc0'" onmouseout="this.style.background='#229ED9'">
+  <a href="https://t.me/formation05" target="_blank" class="cta-telegram-btn" style="display:inline-flex;align-items:center;gap:10px;background:#229ED9;color:#fff;text-decoration:none;padding:16px 36px;border-radius:6px;font-weight:700;font-size:15px;transition:all .3s" onmouseover="this.style.background='#1a8fc0'" onmouseout="this.style.background='#229ED9'">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.834.95l-.536-.861z"/></svg>
     Rejoindre notre canal Telegram
   </a>
 </section>
 
 <div id="footer-placeholder"></div>
-<script>
 
+<script>
 const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
 
@@ -272,17 +303,28 @@ function navHtml(activePage) {
       ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
     </div>
-    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
   </nav>
-  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
-    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
+  <div id="mobileNav">
+    ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
+    <a href="#">Mon Compte</a>
   </div>`;
 }
 
 function toggleMobileNav() {
   const nav = document.getElementById('mobileNav');
-  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+  nav.classList.toggle('open');
 }
+
+// Fermer le menu mobile si on clique ailleurs
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('mobileNav');
+  if (!nav) return;
+  const btn = document.querySelector('.nav-mobile-btn');
+  if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== btn) {
+    nav.classList.remove('open');
+  }
+});
 
 function footerHtml() {
   return `<footer>
@@ -291,26 +333,6 @@ function footerHtml() {
         <a href="index.html" class="footer-logo">FormationElite.fr</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
         <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
-      </div>
-      <div>
-        <div class="footer-col-title">Catégories</div>
-        <ul class="footer-links">
-          <li><a href="formations.html?cat=Trading">Trading</a></li>
-          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
-          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
-          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
-          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigation</div>
-        <ul class="footer-links">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="formations.html">Formations</a></li>
-          <li><a href="elite-pass.html">L'Élite Pass</a></li>
-          <li><a href="preuves.html">Preuves</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
       </div>
       <div>
         <div class="footer-col-title">Légal</div>
@@ -323,7 +345,7 @@ function footerHtml() {
     </div>
     <div class="footer-bottom">
       <div>© 2026 FormationElite.fr — Tous droits réservés</div>
-      <div style="display:flex;gap:10px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
         <span class="payment-icon">PayPal</span>
@@ -331,16 +353,6 @@ function footerHtml() {
       </div>
     </div>
   </footer>`;
-}
-
-function trustBarHtml() {
-  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
-  </div>`;
 }
 
 document.getElementById('nav-placeholder').innerHTML = navHtml('preuves.html');
@@ -370,18 +382,17 @@ async function loadPreuves() {
 
 function openImg(src) {
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;backdrop-filter:blur(12px)';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:400;display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out;backdrop-filter:blur(12px)';
   overlay.innerHTML = `
-    <div style="position:relative;max-width:700px;width:100%">
+    <div class="img-modal-inner" style="position:relative;max-width:700px;width:100%">
       <img src="${src}" style="width:100%;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.8)">
-      <button onclick="this.closest('[style*=fixed]').remove()" style="position:absolute;top:-14px;right:-14px;background:var(--gold);border:none;color:#080808;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">✕</button>
+      <button class="img-modal-close" onclick="this.closest('[style*=fixed]').remove()" style="position:absolute;top:-14px;right:-14px;background:var(--gold);border:none;color:#080808;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:1">✕</button>
     </div>`;
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
   document.body.appendChild(overlay);
 }
 
 loadPreuves();
-
 </script>
 </body>
 </html>
