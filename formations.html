@@ -188,8 +188,11 @@ function cardHtml(f) {
   const imgHtml = f.image_principale
     ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
     : `<div class="card-img-placeholder">${emoji}</div>`;
-  const desc = f.description || '';
-  const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
+
+  const shortDesc = (f.description || '').length > 90 
+    ? (f.description || '').slice(0,90)+'...' 
+    : (f.description || '');
+
   return `
   <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
     ${f.badge ? `<div class="card-badge ${f.badge==='Gratuit'?'free':f.badge==='Nouveau'?'new':''}">${f.badge}</div>` : ''}
@@ -200,25 +203,17 @@ function cardHtml(f) {
       <div class="card-author">Par ${f.auteur||''}</div>
       <div class="card-desc">${shortDesc}</div>
       <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
+      
       <div class="card-footer">
-       <div class="card-footer">
-  <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-  
-  ${isFree ? `
-  <button class="btn-card free-btn" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">Obtenir</button>
-  ` : `
-  <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
-    <button class="btn-card" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">Acheter avec Stripe</button>
-    
-    <a href="https://paypal.me/paultogbedji" 
-       target="_blank"
-       onclick="event.stopPropagation();"
-       style="display:block; background:#0070BA; color:white; padding:10px 20px; text-align:center; border-radius:2px; font-size:12px; font-weight:600; text-decoration:none;">
-      💰 Payer avec PayPal
-    </a>
-  </div>
-  `}
-</div>
+        <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
+        
+        ${isFree ? `
+          <button class="btn-card free-btn" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">Obtenir</button>
+        ` : `
+          <button class="btn-card" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">Acheter</button>
+        `}
+      </div>
+    </div>
   </div>`;
 }
 
