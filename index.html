@@ -709,18 +709,132 @@ function renderBestsellers(data) {
   el.innerHTML = bests.map(cardHtml).join('');
 }
 
+const DEMO_GRATUITS = [
+  {
+    id: 'demo-1',
+    titre: 'Introduction au Trading — Les Bases',
+    auteur: 'FormationElite',
+    categorie: 'Trading',
+    prix: 'Gratuit',
+    ancien_prix: '29€',
+    badge: 'Gratuit',
+    emoji: '📈',
+    description: 'Découvrez les fondamentaux du trading : lecture de graphiques, gestion du risque et premières stratégies pour bien démarrer.'
+  },
+  {
+    id: 'demo-2',
+    titre: 'Créer sa Boutique Dropshipping en 2025',
+    auteur: 'FormationElite',
+    categorie: 'Ecommerce/Dropshipping',
+    prix: 'Gratuit',
+    ancien_prix: '39€',
+    badge: 'Gratuit',
+    emoji: '📦',
+    description: 'Guide complet pour lancer votre première boutique en ligne : choix de niche, fournisseurs et premières ventes.'
+  },
+  {
+    id: 'demo-3',
+    titre: 'ChatGPT & IA pour les Entrepreneurs',
+    auteur: 'FormationElite',
+    categorie: 'IA',
+    prix: 'Gratuit',
+    ancien_prix: '49€',
+    badge: 'Gratuit',
+    emoji: '🤖',
+    description: 'Apprenez à utiliser l\'IA pour automatiser vos tâches, créer du contenu et booster votre productivité au quotidien.'
+  },
+  {
+    id: 'demo-4',
+    titre: 'SEO — Référencer son Site Google',
+    auteur: 'FormationElite',
+    categorie: 'Marketing/Réseaux Sociaux',
+    prix: 'Gratuit',
+    ancien_prix: '35€',
+    badge: 'Gratuit',
+    emoji: '🔍',
+    description: 'Les techniques SEO essentielles pour apparaître en première page de Google sans dépenser en publicité.'
+  },
+  {
+    id: 'demo-5',
+    titre: 'Mindset & Développement Personnel',
+    auteur: 'FormationElite',
+    categorie: 'Développement Personnel',
+    prix: 'Gratuit',
+    ancien_prix: '25€',
+    badge: 'Gratuit',
+    emoji: '🧠',
+    description: 'Développez un état d\'esprit de gagnant : discipline, focus et habitudes des entrepreneurs qui réussissent.'
+  },
+  {
+    id: 'demo-6',
+    titre: 'Instagram — Gagner ses 1000 premiers abonnés',
+    auteur: 'FormationElite',
+    categorie: 'Marketing/Réseaux Sociaux',
+    prix: 'Gratuit',
+    ancien_prix: '19€',
+    badge: 'Gratuit',
+    emoji: '📣',
+    description: 'Stratégie concrète pour exploser sur Instagram : contenu, hashtags, algorithme et monétisation.'
+  },
+  {
+    id: 'demo-7',
+    titre: 'Closing — Techniques de Vente Avancées',
+    auteur: 'FormationElite',
+    categorie: 'Vente/Closing/Affiliation',
+    prix: 'Gratuit',
+    ancien_prix: '45€',
+    badge: 'Gratuit',
+    emoji: '💰',
+    description: 'Maîtrisez l\'art du closing pour convaincre vos prospects et multiplier vos conversions dès aujourd\'hui.'
+  },
+  {
+    id: 'demo-8',
+    titre: 'Investir dans l\'Immobilier sans Capital',
+    auteur: 'FormationElite',
+    categorie: 'Immobilier',
+    prix: 'Gratuit',
+    ancien_prix: '55€',
+    badge: 'Gratuit',
+    emoji: '🏠',
+    description: 'Découvrez les stratégies pour investir dans l\'immobilier avec peu ou pas d\'apport personnel.'
+  }
+];
+
 function renderGratuit(data) {
+  // Cherche d'abord dans Supabase, sinon utilise les démos
   const limit = isMobile() ? 3 : 8;
-  const gratuits = data.filter(f => f.prix && f.prix.toString().trim().toLowerCase() === 'gratuit').slice(0, limit);
+  const fromDb = data.filter(f => f.prix && f.prix.toString().trim().toLowerCase() === 'gratuit');
+  const gratuits = (fromDb.length > 0 ? fromDb : DEMO_GRATUITS).slice(0, limit);
   const el = document.getElementById('gratuitGrid');
   const section = document.getElementById('gratuitSection');
   if (!el) return;
-  if (gratuits.length === 0) {
-    if (section) section.style.display = 'none';
-    return;
-  }
   if (section) section.style.display = '';
-  el.innerHTML = gratuits.map(cardHtml).join('');
+  el.innerHTML = gratuits.map(f => {
+    // Pour les démos, le clic ouvre le Telegram au lieu d'une page formation
+    if (f.id.startsWith('demo-')) {
+      const isFree = true;
+      const emoji = f.emoji || '📚';
+      const desc = f.description || '';
+      const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
+      return `
+      <div class="formation-card" onclick="window.open('https://t.me/formation05','_blank')">
+        <div class="card-badge free">Gratuit</div>
+        <div class="card-img-placeholder">${emoji}</div>
+        <div class="card-body">
+          <div class="card-category">${f.categorie}</div>
+          <div class="card-title">${f.titre}</div>
+          <div class="card-author">Par ${f.auteur}</div>
+          <div class="card-desc">${shortDesc}</div>
+          <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
+          <div class="card-footer">
+            <div><span class="card-price-free">Gratuit</span><span class="card-price-old">${f.ancien_prix}</span></div>
+            <button class="btn-card free-btn" onclick="event.stopPropagation();window.open('https://t.me/formation05','_blank')">Obtenir</button>
+          </div>
+        </div>
+      </div>`;
+    }
+    return cardHtml(f);
+  }).join('');
 }
 
 function renderAccordion(data) {
