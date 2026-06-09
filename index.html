@@ -801,7 +801,6 @@ const DEMO_GRATUITS = [
 ];
 
 function renderGratuit(data) {
-  // Cherche d'abord dans Supabase, sinon utilise les démos
   const limit = isMobile() ? 3 : 8;
   const fromDb = data.filter(f => f.prix && f.prix.toString().trim().toLowerCase() === 'gratuit');
   const gratuits = (fromDb.length > 0 ? fromDb : DEMO_GRATUITS).slice(0, limit);
@@ -810,31 +809,135 @@ function renderGratuit(data) {
   if (!el) return;
   if (section) section.style.display = '';
   el.innerHTML = gratuits.map(f => {
-    // Pour les démos, le clic ouvre le Telegram au lieu d'une page formation
-    if (f.id.startsWith('demo-')) {
-      const isFree = true;
-      const emoji = f.emoji || '📚';
-      const desc = f.description || '';
-      const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
-      return `
-      <div class="formation-card" onclick="window.open('https://t.me/formation05','_blank')">
-        <div class="card-badge free">Gratuit</div>
-        <div class="card-img-placeholder">${emoji}</div>
-        <div class="card-body">
-          <div class="card-category">${f.categorie}</div>
-          <div class="card-title">${f.titre}</div>
-          <div class="card-author">Par ${f.auteur}</div>
-          <div class="card-desc">${shortDesc}</div>
-          <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
-          <div class="card-footer">
-            <div><span class="card-price-free">Gratuit</span><span class="card-price-old">${f.ancien_prix}</span></div>
-            <button class="btn-card free-btn" onclick="event.stopPropagation();window.open('https://t.me/formation05','_blank')">Obtenir</button>
-          </div>
+    const emoji = f.emoji || '📚';
+    const desc = f.description || '';
+    const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
+    const ancien = f.ancien_prix || '';
+    const dataF = encodeURIComponent(JSON.stringify({
+      id: f.id, titre: f.titre, auteur: f.auteur || 'FormationElite',
+      categorie: f.categorie, emoji, ancien_prix: ancien,
+      lien_acces: f.lien_acces || ''
+    }));
+    return `
+    <div class="formation-card" onclick="openGratuitModal('${dataF}')">
+      <div class="card-badge free">Gratuit</div>
+      <div class="card-img-placeholder">${emoji}</div>
+      <div class="card-body">
+        <div class="card-category">${f.categorie||''}</div>
+        <div class="card-title">${f.titre}</div>
+        <div class="card-author">Par ${f.auteur||'FormationElite'}</div>
+        <div class="card-desc">${shortDesc}</div>
+        <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
+        <div class="card-footer">
+          <div><span class="card-price-free">Gratuit</span>${ancien ? `<span class="card-price-old">${ancien}</span>` : ''}</div>
+          <button class="btn-card free-btn" onclick="event.stopPropagation();openGratuitModal('${dataF}')">Obtenir</button>
         </div>
-      </div>`;
-    }
-    return cardHtml(f);
+      </div>
+    </div>`;
   }).join('');
+}
+
+function openGratuitModal(dataEncoded) {
+  const f = JSON.parse(decodeURIComponent(dataEncoded));
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(12px)';
+  overlay.innerHTML = `
+    <div style="background:#0a0a0a;border:1px solid rgba(46,204,113,0.25);border-radius:16px 16px 0 0;padding:28px 24px 40px;width:100%;max-width:500px;animation:fadeUp .3s ease" id="gratuitModalInner">
+      <!-- Drag handle -->
+      <div style="width:40px;height:4px;background:#222;border-radius:4px;margin:0 auto 24px"></div>
+
+      <!-- Header -->
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:44px;margin-bottom:10px">${f.emoji}</div>
+        <div style="font-size:11px;color:#2ecc71;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Formation gratuite</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0ece0;line-height:1.3;margin-bottom:4px">${f.titre}</div>
+        <div style="font-size:12px;color:#666">Par ${f.auteur}</div>
+      </div>
+
+      <!-- Formulaire -->
+      <div id="gratuitForm">
+        <div style="font-size:13px;color:#666;text-align:center;margin-bottom:20px;line-height:1.6">
+          Entrez votre email pour recevoir la formation <strong style="color:#aaa">directement dans votre boîte mail</strong>.
+        </div>
+        <div style="margin-bottom:12px">
+          <input type="text" id="gratuitNom" placeholder="Votre prénom (optionnel)" style="width:100%;background:#111;border:1px solid #222;border-radius:6px;padding:13px 16px;color:#f0ece0;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#2ecc71'" onblur="this.style.borderColor='#222'">
+        </div>
+        <div style="margin-bottom:20px">
+          <input type="email" id="gratuitEmail" placeholder="Votre adresse email *" style="width:100%;background:#111;border:1px solid #222;border-radius:6px;padding:13px 16px;color:#f0ece0;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#2ecc71'" onblur="this.style.borderColor='#222'">
+        </div>
+        <button id="gratuitSubmitBtn" onclick="submitGratuit('${encodeURIComponent(JSON.stringify(f))}')" style="width:100%;background:#2ecc71;color:#080808;border:none;border-radius:6px;padding:15px;font-family:inherit;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s">
+          🎁 Recevoir gratuitement
+        </button>
+        <div id="gratuitError" style="display:none;color:#e74c3c;font-size:12px;text-align:center;margin-top:10px"></div>
+      </div>
+
+      <!-- Succès (caché au début) -->
+      <div id="gratuitSuccess" style="display:none;text-align:center;padding:10px 0">
+        <div style="font-size:48px;margin-bottom:16px">✅</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:10px">C'est envoyé !</div>
+        <div style="font-size:14px;color:#666;line-height:1.7">Vérifiez votre boîte mail.<br>La formation vous a été envoyée.</div>
+      </div>
+
+      <button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:14px">
+        Fermer
+      </button>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+  setTimeout(() => document.getElementById('gratuitEmail')?.focus(), 300);
+}
+
+async function submitGratuit(dataEncoded) {
+  const f = JSON.parse(decodeURIComponent(dataEncoded));
+  const nom = document.getElementById('gratuitNom').value.trim();
+  const email = document.getElementById('gratuitEmail').value.trim();
+  const errEl = document.getElementById('gratuitError');
+  const btn = document.getElementById('gratuitSubmitBtn');
+
+  // Validation email
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errEl.textContent = 'Veuillez entrer une adresse email valide.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  // État loading
+  btn.textContent = '⏳ Envoi en cours...';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  try {
+    const res = await fetch('/api/gratuit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nom, email,
+        formation_id: f.id,
+        formation_titre: f.titre,
+        formation_emoji: f.emoji,
+        lien_acces: f.lien_acces || ''
+      })
+    });
+
+    if (res.ok) {
+      // Afficher succès
+      document.getElementById('gratuitForm').style.display = 'none';
+      document.getElementById('gratuitSuccess').style.display = 'block';
+      // Fermer auto après 3s
+      setTimeout(() => {
+        document.querySelector('[style*="position:fixed"][style*="300"]')?.remove();
+      }, 3500);
+    } else {
+      throw new Error('Erreur serveur');
+    }
+  } catch(e) {
+    btn.textContent = '🎁 Recevoir gratuitement';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    errEl.textContent = 'Une erreur est survenue. Réessayez ou contactez-nous sur Telegram.';
+    errEl.style.display = 'block';
+  }
 }
 
 function renderAccordion(data) {
