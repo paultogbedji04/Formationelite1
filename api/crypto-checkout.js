@@ -20,6 +20,14 @@ module.exports = async (req, res) => {
   }
 
   try {
+    // 0. Vérifier que la clé API NowPayments fonctionne
+    const statusCheck = await fetch('https://api.nowpayments.io/v1/status', {
+      headers: { 'x-api-key': NOWPAYMENTS_API_KEY }
+    });
+    if (!statusCheck.ok) {
+      return res.status(500).json({ error: 'Clé NowPayments invalide ou service indisponible' });
+    }
+
     // 1. Créer le paiement NowPayments
     const response = await fetch('https://api.nowpayments.io/v1/invoice', {
       method: 'POST',
@@ -84,8 +92,7 @@ module.exports = async (req, res) => {
         formation_titre:  formation_titre || 'Formation',
         montant:          `${amount}€`,
         statut:           'crypto_en_attente',
-        livraison_statut: 'en_attente',
-        nowpayments_id:   data.id || null
+        livraison_statut: 'en_attente'
       })
     });
 
