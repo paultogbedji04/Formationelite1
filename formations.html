@@ -6,17 +6,16 @@
 <title>Formations — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
   .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:1px;color:var(--gold-light);text-decoration:none}
   .logo span{color:var(--text-muted)}
   .nav-links{display:flex;gap:32px;align-items:center}
@@ -24,20 +23,59 @@
   .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
   .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
   .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
-  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px}
+  #mobileNav{display:none;position:fixed;top:61px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:16px 20px 24px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+  #mobileNav a{display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)}
+  #mobileNav a:last-child{border-bottom:none;color:var(--gold-light);font-weight:600;margin-top:8px}
 
-  /* BUTTONS */
-  .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
-  .btn-secondary{background:transparent;color:var(--text);padding:16px 36px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+  /* ── PAGE HERO ── */
+  .page-hero{padding:110px 60px 40px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.05) 0%,transparent 70%);pointer-events:none}
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:16px}
+  .breadcrumb a{color:#555;text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--gold-light)}
+  .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+  .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px}
+  .section-title em{font-style:italic;color:var(--gold-light)}
+  .search-bar{display:flex;gap:10px;max-width:500px;margin-top:20px}
+  #searchInput{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:13px 18px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
+  #searchInput:focus{border-color:var(--gold)}
+  #searchInput::placeholder{color:var(--text-muted)}
 
-  /* CARDS */
+  /* ── FILTER BAR DESKTOP ── */
+  .filter-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:12px 60px;position:sticky;top:61px;z-index:50;display:flex;align-items:center;gap:10px}
+  .filter-scroll{display:flex;gap:8px;flex:1;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  .filter-scroll::-webkit-scrollbar{display:none}
+  .filter-btn{padding:7px 16px;border:1px solid var(--border);border-radius:100px;font-size:12px;color:#888;cursor:pointer;background:none;font-family:inherit;transition:all .2s;white-space:nowrap;flex-shrink:0}
+  .filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+  .sort-select{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:7px 12px;color:var(--text);font-family:inherit;font-size:12px;outline:none;cursor:pointer;flex-shrink:0}
+  .sort-select option{background:var(--bg3)}
+
+  /* ── MOBILE FILTER DRAWER ── */
+  .mobile-filter-btn{display:none;position:fixed;bottom:20px;right:20px;z-index:140;background:var(--gold);color:var(--bg);border:none;border-radius:100px;padding:13px 22px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 20px rgba(201,168,76,0.4);letter-spacing:.5px}
+  .filter-drawer{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px)}
+  .filter-drawer.open{display:flex;align-items:flex-end;justify-content:center}
+  .filter-drawer-inner{background:var(--bg3);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:24px 20px 40px;width:100%;max-height:80vh;overflow-y:auto;animation:slideUp .3s ease}
+  .filter-drawer-handle{width:40px;height:4px;background:#333;border-radius:4px;margin:0 auto 20px}
+  .filter-drawer-title{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--text)}
+  .drawer-cats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+  .drawer-cat-btn{padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:#888;cursor:pointer;background:none;font-family:inherit;transition:all .2s;text-align:left;display:flex;align-items:center;gap:8px}
+  .drawer-cat-btn.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+  .drawer-sort{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:13px 16px;color:var(--text);font-family:inherit;font-size:14px;outline:none;cursor:pointer;margin-bottom:16px}
+  .drawer-apply{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:15px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer}
+
+  /* ── GRID SECTION ── */
+  .grid-section{padding:28px 60px 60px;background:var(--bg)}
+  .results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px}
+  .results-count{font-size:13px;color:#666}
+  .formations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+
+  /* ── CARDS ── */
   .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
   .formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
-  .card-badge.new{background:#2ecc71}
-  .card-badge.free{background:#3498db}
+  .card-badge.new{background:#2ecc71}.card-badge.free{background:#3498db}
   .card-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
   .card-body{padding:20px}
   .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
@@ -55,28 +93,17 @@
   .btn-card:hover{background:var(--gold-light)}
   .btn-card.free-btn{background:transparent;border:1px solid #2ecc71;color:#2ecc71}
   .btn-card.free-btn:hover{background:#2ecc71;color:var(--bg)}
-  .formations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 
-  /* SECTIONS */
-  .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
-  .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
-  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
-  .section-title em{font-style:italic;color:var(--gold-light)}
-  .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
+  /* ── LOAD MORE ── */
+  .load-more{display:block;width:100%;padding:16px;background:none;border:1px solid var(--border);border-radius:4px;color:#888;font-family:inherit;font-size:13px;cursor:pointer;transition:all .2s;margin-top:32px;text-align:center}
+  .load-more:hover{border-color:var(--gold);color:var(--gold-light)}
 
-  /* PAGE HERO (inner pages) */
-  .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-  .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
+  /* ── PAYMENT MODAL ── */
+  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:14px 18px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
 
-  /* BREADCRUMB */
-  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:20px}
-  .breadcrumb a{color:#555;text-decoration:none;transition:color .2s}
-  .breadcrumb a:hover{color:var(--gold-light)}
-  .breadcrumb span{color:#333}
-
-  /* FOOTER */
+  /* ── FOOTER ── */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:60px;margin-bottom:48px}
   .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
   .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
   .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
@@ -84,43 +111,54 @@
   .footer-links li{margin-bottom:10px}
   .footer-links a{font-size:13px;color:#555;text-decoration:none;transition:color .2s}
   .footer-links a:hover{color:var(--gold-light)}
-  .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
   .payment-icon{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 10px;font-size:11px;color:#666}
 
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
-  .modal-overlay.open{display:flex}
-  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
-
-  /* CAT PILLS */
-  .cat-pill{padding:10px 20px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;transition:all .2s;background:none;font-family:inherit}
-  .cat-pill:hover,.cat-pill.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
-
-  /* PAYMENT MODAL */
-  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
-
-  /* RESPONSIVE */
+  /* ========================================
+     RESPONSIVE 900px
+  ======================================== */
   @media(max-width:900px){
     nav{padding:16px 20px}
     .nav-links{display:none}
     .nav-mobile-btn{display:block}
-    .page-hero{padding:120px 24px 60px}
-    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
-  }
-  @media(max-width:600px){
-    footer .footer-grid{grid-template-columns:1fr}
-    .formations-grid{grid-template-columns:1fr}
+    .page-hero{padding:90px 24px 32px}
+    .filter-bar{padding:10px 20px}
+    .grid-section{padding:20px 24px 60px}
+    footer{padding:40px 24px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
   }
 
-  .filter-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:16px 60px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:60px;z-index:50}
-  .filter-btn{padding:8px 18px;border:1px solid var(--border);border-radius:100px;font-size:12px;color:#888;cursor:pointer;background:none;font-family:inherit;transition:all .2s;white-space:nowrap}
-  .filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
-  .results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-  .sort-select{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 14px;color:var(--text);font-family:inherit;font-size:13px;outline:none;cursor:pointer}
-  .sort-select option{background:var(--bg3)}
-  .load-more{display:block;width:100%;padding:16px;background:none;border:1px solid var(--border);border-radius:4px;color:#888;font-family:inherit;font-size:13px;cursor:pointer;transition:all .2s;margin-top:32px;text-align:center}
-  .load-more:hover{border-color:var(--gold);color:var(--gold-light)}
+  /* ========================================
+     RESPONSIVE 600px MOBILE
+  ======================================== */
+  @media(max-width:600px){
+    nav{padding:14px 16px}
+
+    /* Hero */
+    .page-hero{padding:76px 16px 24px}
+    .search-bar{max-width:100%}
+    #searchInput{font-size:14px;padding:12px 14px}
+
+    /* Filter bar — cachée, remplacée par le drawer */
+    .filter-bar{display:none}
+    .mobile-filter-btn{display:flex;align-items:center;gap:6px}
+
+    /* Grid */
+    .grid-section{padding:16px 16px 100px} /* padding-bottom pour le bouton flottant */
+    .formations-grid{grid-template-columns:1fr}
+    .results-bar{margin-bottom:14px}
+
+    /* Footer */
+    footer{padding:32px 16px}
+    .footer-grid{grid-template-columns:1fr;gap:20px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    .footer-bottom > div:last-child{flex-wrap:wrap;justify-content:center}
+  }
+
+  @media(max-width:380px){
+    .mobile-filter-btn{padding:12px 18px;font-size:12px}
+  }
 </style>
 </head>
 <body>
@@ -128,42 +166,82 @@
 
 <!-- PAGE HERO -->
 <div class="page-hero">
-  <div class="breadcrumb"><a href="index.html">Accueil</a><span>›</span><span style="color:var(--text-muted)">Formations</span></div>
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>›</span><span style="color:var(--text-muted)">Formations</span>
+  </div>
   <div class="section-label">Notre catalogue</div>
   <h1 class="section-title">Toutes les <em>formations</em></h1>
-  <p style="color:#666;font-size:15px;line-height:1.6;max-width:500px;margin-bottom:28px">Des formations sélectionnées parmi les meilleures du marché, à des prix imbattables.</p>
-  <div style="display:flex;gap:12px;max-width:520px">
-    <input type="text" id="searchInput" placeholder="🔍 Rechercher une formation..." oninput="handleSearch()" style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:13px 18px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+  <p style="color:#666;font-size:14px;line-height:1.6;max-width:480px;margin-bottom:4px">Des formations sélectionnées parmi les meilleures du marché, à des prix imbattables.</p>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher une formation..." oninput="handleSearch()">
   </div>
 </div>
 
-<!-- FILTER BAR -->
+<!-- FILTER BAR DESKTOP -->
 <div class="filter-bar">
-  <div id="filterBtns" style="display:flex;gap:8px;flex-wrap:wrap;flex:1">
+  <div class="filter-scroll" id="filterBtns">
     <button class="filter-btn active">⚡ Chargement...</button>
   </div>
   <select class="sort-select" id="sortSelect" onchange="applyFilters()">
     <option value="recent">Plus récents</option>
     <option value="alpha">A → Z</option>
-    <option value="price-asc">Prix croissant</option>
-    <option value="price-desc">Prix décroissant</option>
+    <option value="price-asc">Prix ↑</option>
+    <option value="price-desc">Prix ↓</option>
   </select>
 </div>
 
 <!-- GRID -->
-<section style="padding:40px 60px 60px;background:var(--bg)">
+<section class="grid-section">
   <div class="results-bar">
-    <span style="font-size:13px;color:#666" id="resultCount">Chargement...</span>
+    <span class="results-count" id="resultCount">Chargement...</span>
+    <!-- Sort visible seulement sur mobile dans la results bar -->
+    <select class="sort-select" id="sortSelectMobile" onchange="syncSort(this)" style="display:none">
+      <option value="recent">Plus récents</option>
+      <option value="alpha">A → Z</option>
+      <option value="price-asc">Prix ↑</option>
+      <option value="price-desc">Prix ↓</option>
+    </select>
   </div>
   <div class="formations-grid" id="grid">
-    <div style="grid-column:1/-1;text-align:center;padding:60px;color:#555">⚡ Chargement des formations...</div>
+    <div style="grid-column:1/-1;text-align:center;padding:60px;color:#555">⚡ Chargement...</div>
   </div>
   <button class="load-more" id="loadMoreBtn" style="display:none" onclick="loadMore()">Voir plus</button>
 </section>
 
-<div id="footer-placeholder"></div>
-<script>
+<!-- BOUTON FILTRE MOBILE (flottant) -->
+<button class="mobile-filter-btn" onclick="openDrawer()">
+  🎯 Filtrer <span id="activeFilterLabel"></span>
+</button>
 
+<!-- DRAWER MOBILE -->
+<div class="filter-drawer" id="filterDrawer" onclick="handleDrawerClick(event)">
+  <div class="filter-drawer-inner">
+    <div class="filter-drawer-handle"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div class="filter-drawer-title">Filtrer les formations</div>
+      <button onclick="closeDrawer()" style="background:none;border:none;color:#666;font-size:20px;cursor:pointer">✕</button>
+    </div>
+
+    <!-- Tri -->
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Trier par</div>
+    <select class="drawer-sort" id="drawerSort">
+      <option value="recent">Plus récents</option>
+      <option value="alpha">A → Z</option>
+      <option value="price-asc">Prix croissant</option>
+      <option value="price-desc">Prix décroissant</option>
+    </select>
+
+    <!-- Catégories -->
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Catégorie</div>
+    <div class="drawer-cats" id="drawerCats"></div>
+
+    <button class="drawer-apply" onclick="applyDrawer()">Voir les formations</button>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
 const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
 
@@ -175,6 +253,12 @@ const CAT_EMOJIS = {
   'Sport/Santé':'💪','No Limits':'⚡','OFM':'💎'
 };
 
+let allFormations = [];
+let filtered = [];
+let currentCat = 'Tous';
+let currentSearch = '';
+let displayed = 24;
+
 async function sbGet(path) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
@@ -182,6 +266,61 @@ async function sbGet(path) {
   return res.json();
 }
 
+// ── NAV ──
+function navHtml() {
+  const pages = [['index.html','Accueil'],['formations.html','Formations'],['elite-pass.html',"L'Élite Pass"],['preuves.html','Preuves'],['faq.html','FAQ']];
+  return `<nav>
+    <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
+    <div class="nav-links">
+      ${pages.map(([href,label]) => `<a href="${href}" class="${href==='formations.html'?'active':''}">${label}</a>`).join('')}
+      <a href="#" class="nav-cta">Mon Compte</a>
+    </div>
+    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+  </nav>
+  <div id="mobileNav">
+    ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
+    <a href="#">Mon Compte</a>
+  </div>`;
+}
+function toggleMobileNav() {
+  const n = document.getElementById('mobileNav');
+  n.style.display = n.style.display === 'block' ? 'none' : 'block';
+}
+
+// ── FOOTER ──
+function footerHtml() {
+  return `<footer>
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="footer-logo">FormationElite.fr</a>
+        <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
+        <a href="https://t.me/formation05" target="_blank" style="display:inline-block;background:transparent;color:var(--text);padding:10px 20px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:inherit;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s">Rejoindre le Telegram →</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Légal</div>
+        <ul class="footer-links">
+          <li><a href="politique-remboursement.html">Politique de remboursement</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="preuves.html">Preuves clients</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="payment-icon">VISA</span>
+        <span class="payment-icon">MC</span>
+        <span class="payment-icon">PayPal</span>
+        <span class="payment-icon">Crypto</span>
+      </div>
+    </div>
+  </footer>`;
+}
+
+document.getElementById('nav-placeholder').innerHTML = navHtml();
+document.getElementById('footer-placeholder').innerHTML = footerHtml();
+
+// ── CARDS ──
 function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
@@ -202,29 +341,40 @@ function cardHtml(f) {
       <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
       <div class="card-footer">
         <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}')">${isFree?'Obtenir':'Acheter'}</button>
       </div>
     </div>
   </div>`;
 }
 
-function handleBuy(id, formations) {
-  const f = formations.find(x => x.id === id);
+function handleBuy(id) {
+  const f = allFormations.find(x => x.id === id);
   if (!f) return;
   showPaymentModal(f);
 }
 
 function showPaymentModal(f) {
-  const hasStripe = !!f.stripe_link;
-  const hasPaypal = !!f.paypal_link;
-  const hasBinance = !!f.binance_id;
+  const isMob = window.innerWidth <= 600;
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
-  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"><span style="font-size:28px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — via Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span></a>` : '';
-  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'"><span style="font-size:28px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div><span style="margin-left:auto;color:#0070f0;font-size:18px">→</span></a>` : '';
-  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)" onmouseover="this.style.borderColor='rgba(240,176,0,0.5)'" onmouseout="this.style.borderColor='rgba(240,176,0,0.2)'"><span style="font-size:28px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en crypto — Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:12px;background:rgba(240,176,0,0.1);padding:4px 10px;border-radius:20px">Copier</span></div>` : '';
-  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'"><span style="font-size:28px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span></a>`;
-  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease"><div style="text-align:center;margin-bottom:28px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#e8c97a;margin-top:10px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button></div>`;
+  overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:${isMob?'flex-end':'center'};justify-content:center;padding:0;backdrop-filter:blur(12px)`;
+  const hasStripe = !!f.stripe_link, hasPaypal = !!f.paypal_link, hasBinance = !!f.binance_id;
+  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none"><span style="font-size:26px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — Stripe</div></div><span style="margin-left:auto;color:#c9a84c">→</span></a>` : '';
+  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none"><span style="font-size:26px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte</div></div><span style="margin-left:auto;color:#0070f0">→</span></a>` : '';
+  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)"><span style="font-size:26px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:11px;background:rgba(240,176,0,0.1);padding:3px 8px;border-radius:20px">Copier</span></div>` : '';
+  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none"><span style="font-size:26px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6">→</span></a>`;
+  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:${isMob?'16px 16px 0 0':'16px'};padding:${isMob?'24px 20px 36px':'32px'};max-width:460px;width:100%;max-height:92vh;overflow-y:auto">
+    ${isMob?'<div style="width:40px;height:4px;background:#222;border-radius:4px;margin:0 auto 20px"></div>':''}
+    <div style="text-align:center;margin-bottom:22px">
+      <div style="font-size:32px;margin-bottom:8px">${f.emoji||'📚'}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0ece0;margin-bottom:3px">${f.titre}</div>
+      <div style="font-size:12px;color:#666;margin-bottom:6px">Par ${f.auteur||''}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#e8c97a">${f.prix}</div>
+    </div>
+    <div style="font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>
+    ${stripeBtn}${paypalBtn}${binanceBtn}
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div>
+    <button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:12px;background:none;border:1px solid #1a1a1a;color:#555;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:14px">Fermer</button>
+  </div>`;
   document.body.appendChild(overlay);
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
 }
@@ -238,104 +388,7 @@ function copyBinance(id, el) {
   });
 }
 
-function navHtml(activePage) {
-  const pages = [
-    ['index.html','Accueil'],
-    ['formations.html','Formations'],
-    ['elite-pass.html',"L'Élite Pass"],
-    ['preuves.html','Preuves'],
-    ['faq.html','FAQ'],
-  ];
-  return `<nav>
-    <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
-    <div class="nav-links">
-      ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
-      <a href="#" class="nav-cta">Mon Compte</a>
-    </div>
-    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
-  </nav>
-  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
-    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
-  </div>`;
-}
-
-function toggleMobileNav() {
-  const nav = document.getElementById('mobileNav');
-  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
-}
-
-function footerHtml() {
-  return `<footer>
-    <div class="footer-grid">
-      <div>
-        <a href="index.html" class="footer-logo">FormationElite.fr</a>
-        <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
-        <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
-      </div>
-      <div>
-        <div class="footer-col-title">Catégories</div>
-        <ul class="footer-links">
-          <li><a href="formations.html?cat=Trading">Trading</a></li>
-          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
-          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
-          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
-          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigation</div>
-        <ul class="footer-links">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="formations.html">Formations</a></li>
-          <li><a href="elite-pass.html">L'Élite Pass</a></li>
-          <li><a href="preuves.html">Preuves</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Légal</div>
-        <ul class="footer-links">
-          <li><a href="politique-remboursement.html">Politique de remboursement</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="preuves.html">Preuves clients</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
-      <div style="display:flex;gap:10px">
-        <span class="payment-icon">VISA</span>
-        <span class="payment-icon">MC</span>
-        <span class="payment-icon">PayPal</span>
-        <span class="payment-icon">Crypto</span>
-      </div>
-    </div>
-  </footer>`;
-}
-
-function trustBarHtml() {
-  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
-  </div>`;
-}
-
-</script>
-<script>
-document.getElementById('nav-placeholder').innerHTML = navHtml('formations.html');
-document.getElementById('footer-placeholder').innerHTML = footerHtml();
-</script>
-<script>
-
-let allFormations = [];
-let filtered = [];
-let currentCat = 'Tous';
-let currentSearch = '';
-let displayed = 24;
-
+// ── INIT ──
 async function init() {
   try {
     const data = await sbGet('formations?select=*&actif=eq.true&order=created_at.desc');
@@ -343,8 +396,11 @@ async function init() {
       allFormations = data;
       window._formations = data;
       buildFilters(data);
-      applyFilters();
       checkUrlParams();
+      // Show sort on mobile
+      if (window.innerWidth <= 600) {
+        document.getElementById('sortSelectMobile').style.display = 'block';
+      }
     }
   } catch(e) {
     document.getElementById('grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#555">Erreur de chargement</div>';
@@ -357,27 +413,45 @@ function checkUrlParams() {
   const q = params.get('q');
   if (cat) {
     currentCat = decodeURIComponent(cat);
-    document.querySelectorAll('.filter-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.cat === currentCat);
-    });
-    applyFilters();
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === currentCat));
+    updateDrawerCats();
   }
   if (q) {
     document.getElementById('searchInput').value = q;
-    currentSearch = q;
-    applyFilters();
+    currentSearch = q.toLowerCase();
   }
+  applyFilters();
+  updateActiveLabel();
 }
 
 function buildFilters(data) {
   const cats = [...new Set(data.map(f => f.categorie).filter(Boolean))].sort();
-  const container = document.getElementById('filterBtns');
-  container.innerHTML = `<button class="filter-btn active" data-cat="Tous" onclick="setFilter(this,'Tous')">⚡ Tous (${data.length})</button>` +
+
+  // Desktop filter bar
+  document.getElementById('filterBtns').innerHTML =
+    `<button class="filter-btn ${currentCat==='Tous'?'active':''}" data-cat="Tous" onclick="setFilter(this,'Tous')">⚡ Tous (${data.length})</button>` +
     cats.map(cat => {
       const count = data.filter(f => f.categorie === cat).length;
-      const emoji = CAT_EMOJIS[cat] || '📚';
-      return `<button class="filter-btn" data-cat="${cat}" onclick="setFilter(this,'${cat}')">${emoji} ${cat} (${count})</button>`;
+      return `<button class="filter-btn ${currentCat===cat?'active':''}" data-cat="${cat}" onclick="setFilter(this,'${cat}')">${CAT_EMOJIS[cat]||'📚'} ${cat} (${count})</button>`;
     }).join('');
+
+  // Mobile drawer cats
+  buildDrawerCats(cats, data);
+}
+
+function buildDrawerCats(cats, data) {
+  document.getElementById('drawerCats').innerHTML =
+    `<button class="drawer-cat-btn ${currentCat==='Tous'?'active':''}" data-cat="Tous" onclick="selectDrawerCat(this,'Tous')">⚡ Tous</button>` +
+    cats.map(cat => `<button class="drawer-cat-btn ${currentCat===cat?'active':''}" data-cat="${cat}" onclick="selectDrawerCat(this,'${cat}')">${CAT_EMOJIS[cat]||'📚'} ${cat}</button>`).join('');
+}
+
+function updateDrawerCats() {
+  document.querySelectorAll('.drawer-cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === currentCat));
+}
+
+function selectDrawerCat(btn, cat) {
+  document.querySelectorAll('.drawer-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 function setFilter(btn, cat) {
@@ -386,6 +460,7 @@ function setFilter(btn, cat) {
   currentCat = cat;
   displayed = 24;
   applyFilters();
+  updateActiveLabel();
 }
 
 function handleSearch() {
@@ -394,18 +469,21 @@ function handleSearch() {
   applyFilters();
 }
 
+function syncSort(el) {
+  document.getElementById('sortSelect').value = el.value;
+  applyFilters();
+}
+
 function applyFilters() {
-  const sort = document.getElementById('sortSelect')?.value || 'recent';
+  const sort = document.getElementById('sortSelect').value;
   filtered = allFormations.filter(f => {
     const matchCat = currentCat === 'Tous' || f.categorie === currentCat;
-    const matchSearch = !currentSearch || f.titre?.toLowerCase().includes(currentSearch) || f.auteur?.toLowerCase().includes(currentSearch);
+    const matchSearch = !currentSearch || f.titre?.toLowerCase().includes(currentSearch) || f.auteur?.toLowerCase().includes(currentSearch) || f.categorie?.toLowerCase().includes(currentSearch);
     return matchCat && matchSearch;
   });
-
-  if (sort === 'price-asc') filtered.sort((a,b) => parseFloat(a.prix)||0 - parseFloat(b.prix)||0);
-  else if (sort === 'price-desc') filtered.sort((a,b) => parseFloat(b.prix)||0 - parseFloat(a.prix)||0);
+  if (sort === 'price-asc') filtered.sort((a,b) => (parseFloat(a.prix)||0) - (parseFloat(b.prix)||0));
+  else if (sort === 'price-desc') filtered.sort((a,b) => (parseFloat(b.prix)||0) - (parseFloat(a.prix)||0));
   else if (sort === 'alpha') filtered.sort((a,b) => a.titre.localeCompare(b.titre));
-
   document.getElementById('resultCount').textContent = `${filtered.length} formation${filtered.length>1?'s':''} trouvée${filtered.length>1?'s':''}`;
   renderGrid();
 }
@@ -414,54 +492,69 @@ function renderGrid() {
   const grid = document.getElementById('grid');
   const toShow = filtered.slice(0, displayed);
   if (filtered.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:80px;color:#555"><div style="font-size:40px;margin-bottom:16px">🔍</div><div>Aucune formation trouvée</div></div>';
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:80px 20px;color:#555"><div style="font-size:40px;margin-bottom:16px">🔍</div><div style="font-size:16px;margin-bottom:12px">Aucune formation trouvée</div><button onclick="resetFilters()" style="background:none;border:1px solid var(--border);color:var(--gold);padding:10px 24px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:13px">Réinitialiser les filtres</button></div>`;
     document.getElementById('loadMoreBtn').style.display = 'none';
     return;
   }
   grid.innerHTML = toShow.map(cardHtml).join('');
   const btn = document.getElementById('loadMoreBtn');
-  if (displayed >= filtered.length) {
-    btn.style.display = 'none';
-  } else {
-    btn.style.display = 'block';
-    btn.textContent = `Voir plus (${filtered.length - displayed} restantes)`;
-  }
+  btn.style.display = displayed >= filtered.length ? 'none' : 'block';
+  if (displayed < filtered.length) btn.textContent = `Voir plus (${filtered.length - displayed} restantes)`;
 }
 
 function loadMore() {
   displayed += 24;
   renderGrid();
-  document.getElementById('grid').lastElementChild?.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
+function resetFilters() {
+  currentCat = 'Tous';
+  currentSearch = '';
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  updateDrawerCats();
+  displayed = 24;
+  applyFilters();
+  updateActiveLabel();
+}
 
-async function buyNow(id, titre, prix, emoji) {
-  if (prix?.toLowerCase() === 'gratuit') {
-    window.open('https://t.me/CreativeagencyFr', '_blank');
-    return;
-  }
-  const btn = event.target;
-  const orig = btn.innerHTML;
-  btn.innerHTML = '⏳...';
-  btn.disabled = true;
-  try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ formation_id: id, formation_titre: titre, formation_prix: prix, formation_emoji: emoji })
-    });
-    const data = await res.json();
-    if (data.url) { window.location.href = data.url; }
-    else { throw new Error(data.error); }
-  } catch(err) {
-    btn.innerHTML = orig;
-    btn.disabled = false;
-    window.open('https://t.me/CreativeagencyFr', '_blank');
-  }
+function updateActiveLabel() {
+  const label = document.getElementById('activeFilterLabel');
+  if (label) label.textContent = currentCat !== 'Tous' ? `· ${currentCat}` : '';
+}
+
+// ── DRAWER ──
+function openDrawer() {
+  document.getElementById('filterDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Sync drawer state
+  document.getElementById('drawerSort').value = document.getElementById('sortSelect').value;
+  updateDrawerCats();
+}
+
+function closeDrawer() {
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleDrawerClick(e) {
+  if (e.target === document.getElementById('filterDrawer')) closeDrawer();
+}
+
+function applyDrawer() {
+  const selectedCat = document.querySelector('.drawer-cat-btn.active')?.dataset.cat || 'Tous';
+  const sort = document.getElementById('drawerSort').value;
+  currentCat = selectedCat;
+  document.getElementById('sortSelect').value = sort;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === currentCat));
+  displayed = 24;
+  applyFilters();
+  updateActiveLabel();
+  closeDrawer();
+  window.scrollTo({top: document.querySelector('.grid-section').offsetTop - 70, behavior:'smooth'});
 }
 
 init();
-
 </script>
 </body>
 </html>
