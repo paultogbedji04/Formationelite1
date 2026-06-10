@@ -6,17 +6,17 @@
 <title>L'Élite Pass — Accès illimité — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
   .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:1px;color:var(--gold-light);text-decoration:none}
   .logo span{color:var(--text-muted)}
   .nav-links{display:flex;gap:32px;align-items:center}
@@ -24,59 +24,83 @@
   .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
   .nav-cta{background:transparent!important;border:1px solid var(--gold)!important;color:var(--gold-light)!important;padding:9px 22px!important;border-radius:2px!important;font-size:12px!important;letter-spacing:1.5px!important;text-transform:uppercase!important;transition:all .3s!important}
   .nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important}
-  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px}
+  #mobileNav{display:none;position:fixed;top:61px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:16px 20px 24px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+  #mobileNav a{display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)}
+  #mobileNav a:last-child{border-bottom:none;color:var(--gold-light);font-weight:600;margin-top:8px}
 
-  /* BUTTONS */
-  .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
-  .btn-secondary{background:transparent;color:var(--text);padding:16px 36px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+  /* ── IMAGE HERO (depuis admin) ── */
+  .elite-image-hero{width:100%;max-height:480px;overflow:hidden;position:relative;display:none}
+  .elite-image-hero img{width:100%;height:100%;object-fit:cover;display:block}
+  .elite-image-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--bg))}
 
-  /* CARDS */
-  .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
-  .formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
-  .card-badge.new{background:#2ecc71}
-  .card-badge.free{background:#3498db}
-  .card-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
-  .card-body{padding:20px}
-  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-  .card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.3;margin-bottom:8px;color:var(--text)}
-  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:14px}
-  .card-desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:18px}
-  .card-stars{display:flex;align-items:center;gap:4px;margin-bottom:16px}
-  .star{color:var(--gold);font-size:12px}
-  .rating-count{font-size:11px;color:var(--text-muted);margin-left:4px}
-  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
-  .card-price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold-light)}
-  .card-price-old{font-size:13px;color:var(--text-muted);text-decoration:line-through;margin-left:6px}
-  .card-price-free{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#2ecc71}
-  .btn-card{background:var(--gold);color:var(--bg);border:none;padding:10px 20px;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s}
-  .btn-card:hover{background:var(--gold-light)}
-  .btn-card.free-btn{background:transparent;border:1px solid #2ecc71;color:#2ecc71}
-  .btn-card.free-btn:hover{background:#2ecc71;color:var(--bg)}
-  .formations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+  /* ── HERO ── */
+  .elite-hero{min-height:75vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+  .elite-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,0.09) 0%,transparent 70%)}
+  .elite-hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px}
+  .elite-hero-inner{position:relative;z-index:1;max-width:680px;width:100%}
+  .elite-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:8px 20px;border-radius:100px;font-size:12px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px}
+  .elite-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px}
+  .elite-hero p{font-size:16px;color:#888;line-height:1.7;font-weight:300;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto}
+  .btn-hero{background:var(--gold);color:var(--bg);padding:18px 44px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;display:inline-block}
+  .btn-hero:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
+  .hero-trust{margin-top:16px;font-size:12px;color:#555}
 
-  /* SECTIONS */
+  /* ── SECTIONS ── */
+  .std-section{padding:80px 60px}
+  .std-section.bg2{background:var(--bg2);border-top:1px solid var(--border)}
   .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .section-label.center{justify-content:center}
   .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
-  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:16px}
   .section-title em{font-style:italic;color:var(--gold-light)}
-  .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
 
-  /* PAGE HERO (inner pages) */
-  .page-hero{padding:140px 60px 80px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-  .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
+  /* ── FEATURES GRID ── */
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto}
+  .feature-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:24px;transition:border-color .2s}
+  .feature-card:hover{border-color:rgba(201,168,76,0.3)}
 
-  /* BREADCRUMB */
-  .breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-bottom:20px}
-  .breadcrumb a{color:#555;text-decoration:none;transition:color .2s}
-  .breadcrumb a:hover{color:var(--gold-light)}
-  .breadcrumb span{color:#333}
+  /* ── PRICE + INCLUDES ── */
+  .price-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1000px;margin:0 auto}
+  .price-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden}
+  .price-card::before{content:'OFFRE LIMITÉE';position:absolute;top:22px;right:-32px;background:var(--gold);color:var(--bg);font-size:9px;font-weight:700;letter-spacing:2px;padding:6px 48px;transform:rotate(45deg)}
+  .price-big{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:6px}
+  .include-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px;color:#888}
+  .include-row:last-child{border-bottom:none}
+  .include-row::before{content:'✦';color:var(--gold);font-size:11px;flex-shrink:0}
+  .btn-buy{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:16px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;letter-spacing:.5px;transition:all .3s;margin-bottom:12px}
+  .btn-buy:hover{background:var(--gold-light)}
 
-  /* FOOTER */
+  /* ── COMPARE TABLE ── */
+  .compare-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:800px;margin:32px auto 0}
+  .compare-table{width:100%;border-collapse:collapse}
+  .compare-table th{padding:16px 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:500;text-align:left}
+  .compare-table td{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px}
+  .compare-table tr:last-child td{border-bottom:none}
+  .compare-table tr:hover td{background:rgba(255,255,255,0.01)}
+  .check-gold{color:var(--gold);font-size:17px;font-weight:700;text-align:center}
+  .check-green{color:#2ecc71;font-size:17px;font-weight:700;text-align:center}
+  .cross-red{color:#e74c3c;font-size:17px;text-align:center}
+
+  /* ── FAQ ── */
+  .faq-item{border-bottom:1px solid var(--border)}
+  .faq-q{width:100%;background:none;border:none;color:var(--text);font-family:inherit;font-size:15px;font-weight:500;text-align:left;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;transition:color .2s}
+  .faq-q:hover{color:var(--gold-light)}
+  .faq-icon{color:var(--gold);font-size:22px;flex-shrink:0;transition:transform .3s}
+  .faq-item.open .faq-icon{transform:rotate(45deg)}
+  .faq-a{display:none;font-size:14px;color:#777;line-height:1.8;padding-bottom:18px}
+  .faq-item.open .faq-a{display:block}
+
+  /* ── CTA FINAL ── */
+  .cta-final{padding:80px 60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
+  .cta-final::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none}
+
+  /* ── PAYMENT MODAL ── */
+  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:14px 18px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
+
+  /* ── FOOTER ── */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:60px;margin-bottom:48px}
   .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:14px;display:block;text-decoration:none}
   .footer-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:20px}
   .footer-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
@@ -84,163 +108,188 @@
   .footer-links li{margin-bottom:10px}
   .footer-links a{font-size:13px;color:#555;text-decoration:none;transition:color .2s}
   .footer-links a:hover{color:var(--gold-light)}
-  .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted)}
   .payment-icon{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 10px;font-size:11px;color:#666}
 
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(10px)}
-  .modal-overlay.open{display:flex}
-  .modal{background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:8px;width:100%;max-width:700px;margin:auto;overflow:hidden;animation:fadeUp .3s ease}
+  /* ── MOBILE CTA BAR ── */
+  .mobile-cta-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,8,8,0.97);border-top:1px solid rgba(201,168,76,0.2);padding:12px 16px;backdrop-filter:blur(20px)}
+  .mobile-cta-inner{display:flex;gap:10px;align-items:center;max-width:500px;margin:0 auto}
+  .mobile-cta-price{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-light);flex-shrink:0;line-height:1}
+  .mobile-cta-btn{flex:1;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:14px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer}
+  .mobile-cta-tg{background:none;border:1px solid rgba(41,182,246,0.4);color:#29b6f6;border-radius:6px;padding:14px 16px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:flex;align-items:center;white-space:nowrap}
 
-  /* CAT PILLS */
-  .cat-pill{padding:10px 20px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:#888;cursor:pointer;transition:all .2s;background:none;font-family:inherit}
-  .cat-pill:hover,.cat-pill.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
-
-  /* PAYMENT MODAL */
-  .pay-option{display:flex;align-items:center;gap:14px;background:#0f0f0f;border-radius:8px;padding:16px 20px;text-decoration:none;transition:all .2s;margin-bottom:10px;cursor:pointer}
-
-  /* RESPONSIVE */
+  /* ========================================
+     RESPONSIVE 900px
+  ======================================== */
   @media(max-width:900px){
     nav{padding:16px 20px}
     .nav-links{display:none}
     .nav-mobile-btn{display:block}
-    .page-hero{padding:120px 24px 60px}
-    footer .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
-  }
-  @media(max-width:600px){
-    footer .footer-grid{grid-template-columns:1fr}
-    .formations-grid{grid-template-columns:1fr}
+    .elite-hero{padding:100px 32px 60px;min-height:auto}
+    .std-section{padding:56px 32px}
+    .features-grid{grid-template-columns:1fr 1fr}
+    .price-section-grid{grid-template-columns:1fr;gap:40px}
+    .cta-final{padding:60px 32px}
+    footer{padding:40px 24px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    .compare-table th,.compare-table td{padding:12px 14px;font-size:13px}
   }
 
-  .elite-hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:140px 60px 80px;position:relative;overflow:hidden}
-  .elite-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,0.09) 0%,transparent 70%)}
-  .elite-hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px}
-  .price-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:48px 40px;text-align:center;position:relative;overflow:hidden;max-width:420px;width:100%}
-  .price-card::before{content:'OFFRE LIMITÉE';position:absolute;top:22px;right:-32px;background:var(--gold);color:var(--bg);font-size:9px;font-weight:700;letter-spacing:2px;padding:6px 48px;transform:rotate(45deg)}
-  .feature-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:24px;transition:border-color .2s}
-  .feature-card:hover{border-color:rgba(201,168,76,0.3)}
-  .include-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px;color:#888}
-  .include-row:last-child{border-bottom:none}
-  .include-row::before{content:'✦';color:var(--gold);font-size:11px;flex-shrink:0}
-  .compare-table{width:100%;border-collapse:collapse;margin-top:32px}
-  .compare-table th{padding:16px 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:500;text-align:left}
-  .compare-table td{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px}
-  .compare-table tr:last-child td{border-bottom:none}
-  .compare-table tr:hover td{background:rgba(255,255,255,0.01)}
-  .check-gold{color:var(--gold);font-size:18px;font-weight:700}
-  .check-green{color:#2ecc71;font-size:18px;font-weight:700}
-  .cross-red{color:#e74c3c;font-size:18px}
+  /* ========================================
+     RESPONSIVE 600px MOBILE
+  ======================================== */
+  @media(max-width:600px){
+    nav{padding:14px 16px}
+
+    /* Image hero */
+    .elite-image-hero{max-height:260px}
+
+    /* Hero */
+    .elite-hero{padding:80px 16px 48px;min-height:auto}
+    .elite-hero h1{font-size:clamp(34px,9vw,46px);letter-spacing:-0.5px}
+    .elite-hero p{font-size:14px}
+    .btn-hero{padding:16px 28px;font-size:13px;width:100%}
+    .hero-trust{font-size:11px}
+
+    /* Sections */
+    .std-section{padding:36px 16px}
+
+    /* Features — 1 col */
+    .features-grid{grid-template-columns:1fr}
+
+    /* Price card */
+    .price-card{padding:28px 20px}
+    .price-big{font-size:56px}
+    .price-card::before{font-size:8px;padding:5px 40px}
+
+    /* Compare table — simplifiée */
+    .compare-wrap{overflow-x:auto}
+    .compare-table th,.compare-table td{padding:10px 12px;font-size:12px}
+
+    /* FAQ */
+    .faq-q{font-size:14px;padding:18px 0}
+
+    /* CTA final */
+    .cta-final{padding:48px 16px}
+    .cta-final .btn-hero{width:100%}
+
+    /* Mobile CTA bar visible */
+    .mobile-cta-bar{display:block}
+
+    /* Footer */
+    footer{padding:32px 16px}
+    .footer-grid{grid-template-columns:1fr;gap:20px}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    .footer-bottom > div:last-child{flex-wrap:wrap;justify-content:center}
+  }
+
+  @media(max-width:380px){
+    .mobile-cta-price{font-size:22px}
+    .mobile-cta-btn{font-size:13px;padding:13px 10px}
+    .mobile-cta-tg{padding:13px 10px;font-size:12px}
+  }
 </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
 
+<!-- IMAGE HERO (depuis admin — cachée si pas d'image) -->
+<div class="elite-image-hero" id="eliteImageHero">
+  <img id="eliteHeroImg" src="" alt="Élite Pass">
+</div>
+
 <!-- HERO -->
 <section class="elite-hero">
   <div class="elite-hero-bg"></div>
   <div class="elite-hero-lines"></div>
-  <div style="position:relative;z-index:1;max-width:700px">
-    <div class="breadcrumb" style="justify-content:center;margin-bottom:24px">
-      <a href="index.html">Accueil</a><span>›</span><span style="color:var(--text-muted)">L'Élite Pass</span>
-    </div>
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:8px 20px;border-radius:100px;font-size:12px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px">
-      💎 Accès illimité à vie
-    </div>
-    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,80px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px">
-      L'Élite Pass —<br><em style="color:var(--gold-light)">Tout inclus.</em>
-    </h1>
-    <p style="font-size:17px;color:#888;line-height:1.7;font-weight:300;margin-bottom:40px;max-width:540px;margin-left:auto;margin-right:auto">
-      Un seul paiement. Un accès illimité à vie à toutes nos formations présentes et futures. Plus jamais rien à payer.
-    </p>
-    <button onclick="buyElitePass()" class="btn-primary" style="font-size:15px;padding:18px 48px">
-      Obtenir l'Élite Pass — 199€
-    </button>
-    <div style="margin-top:16px;font-size:13px;color:#555">🔒 Paiement sécurisé · 🔄 Remboursé si insatisfait 7j</div>
+  <div class="elite-hero-inner">
+    <div class="elite-badge">💎 Accès illimité à vie</div>
+    <h1>L'Élite Pass —<br><em>Tout inclus.</em></h1>
+    <p>Un seul paiement. Un accès illimité à vie à toutes nos formations présentes et futures. Plus jamais rien à payer.</p>
+    <button onclick="buyElitePass()" class="btn-hero">Obtenir l'Élite Pass — 199€</button>
+    <div class="hero-trust">🔒 Paiement sécurisé · 📦 Produit numérique</div>
   </div>
 </section>
 
-<!-- FEATURES GRID -->
-<section style="padding:80px 60px;background:var(--bg2);border-top:1px solid var(--border)">
-  <div style="text-align:center;margin-bottom:48px">
-    <div class="section-label" style="justify-content:center">Pourquoi choisir l'Élite Pass</div>
+<!-- FEATURES -->
+<section class="std-section bg2">
+  <div style="text-align:center;margin-bottom:40px">
+    <div class="section-label center">Pourquoi choisir l'Élite Pass</div>
     <h2 class="section-title" style="text-align:center">Tout ce que vous <em>obtenez</em></h2>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto">
+  <div class="features-grid">
     <div class="feature-card">
-      <div style="font-size:36px;margin-bottom:14px">📚</div>
+      <div style="font-size:34px;margin-bottom:12px">📚</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">+1000 Formations</div>
       <div style="font-size:13px;color:#666;line-height:1.6">Accès immédiat à tout notre catalogue — Trading, SEO, Dropshipping, IA et bien plus.</div>
     </div>
     <div class="feature-card">
-      <div style="font-size:36px;margin-bottom:14px">♾️</div>
+      <div style="font-size:34px;margin-bottom:12px">♾️</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">Accès à vie</div>
       <div style="font-size:13px;color:#666;line-height:1.6">Payez une seule fois et accédez à toutes les formations pour toujours. Sans abonnement.</div>
     </div>
     <div class="feature-card">
-      <div style="font-size:36px;margin-bottom:14px">🆕</div>
+      <div style="font-size:34px;margin-bottom:12px">🆕</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">Mises à jour incluses</div>
       <div style="font-size:13px;color:#666;line-height:1.6">Nouvelles formations ajoutées chaque semaine. Vous y avez accès automatiquement.</div>
     </div>
     <div class="feature-card">
-      <div style="font-size:36px;margin-bottom:14px">⚡</div>
+      <div style="font-size:34px;margin-bottom:12px">⚡</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">Livraison immédiate</div>
       <div style="font-size:13px;color:#666;line-height:1.6">Accès envoyé dans les minutes suivant votre paiement. 24h maximum garanti.</div>
     </div>
     <div class="feature-card">
-      <div style="font-size:36px;margin-bottom:14px">💬</div>
+      <div style="font-size:34px;margin-bottom:12px">💬</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">Support VIP</div>
       <div style="font-size:13px;color:#666;line-height:1.6">Accès prioritaire à notre équipe sur Telegram. Réponse garantie en moins d'une heure.</div>
     </div>
     <div class="feature-card">
-      <div style="font-size:36px;margin-bottom:14px">🛡️</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">Garantie 7 jours</div>
-      <div style="font-size:13px;color:#666;line-height:1.6">Pas satisfait ? Contactez-nous dans les 7 jours et nous vous remboursons intégralement.</div>
+      <div style="font-size:34px;margin-bottom:12px">🔒</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:8px">Paiement sécurisé</div>
+      <div style="font-size:13px;color:#666;line-height:1.6">Stripe, PayPal, Binance Pay — vos données bancaires ne sont jamais stockées.</div>
     </div>
   </div>
 </section>
 
 <!-- PRICE + INCLUDES -->
-<section style="padding:80px 60px;background:var(--bg)">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1000px;margin:0 auto">
+<section class="std-section">
+  <div class="price-section-grid">
     <div>
       <div class="section-label">Ce qui est inclus</div>
       <h2 class="section-title">Tout est <em>inclus</em><br>sans exception.</h2>
-      <p style="color:#666;font-size:15px;line-height:1.7;margin-bottom:32px">L'Élite Pass vous donne accès à absolument tout notre catalogue. Pas de surprise, pas de formation cachée.</p>
+      <p style="color:#666;font-size:15px;line-height:1.7;margin-bottom:28px">L'Élite Pass vous donne accès à absolument tout notre catalogue. Pas de surprise, pas de formation cachée.</p>
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px">
         <div class="include-row">+1000 formations premium disponibles immédiatement</div>
         <div class="include-row">Toutes les catégories : Trading, SEO, Dropshipping, IA, Immobilier...</div>
         <div class="include-row">Nouvelles formations ajoutées chaque semaine</div>
         <div class="include-row">Accès à vie sans frais supplémentaires</div>
         <div class="include-row">Support Telegram prioritaire 7j/7</div>
-        <div class="include-row">Garantie satisfait ou remboursé 7 jours</div>
         <div class="include-row">Livraison immédiate après paiement</div>
       </div>
     </div>
     <div style="display:flex;justify-content:center">
-      <div class="price-card">
-        <div style="font-size:11px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:16px">Accès complet</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;color:var(--gold-light);margin-bottom:8px">L'Élite Pass</div>
-        <div style="font-size:13px;color:#555;margin-bottom:28px">Tout le catalogue · À vie · Sans limite</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:76px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:6px">199€</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:32px">Paiement unique — plus jamais rien à payer</div>
-        <button onclick="buyElitePass()" style="width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:16px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.5px;transition:all .3s;margin-bottom:12px" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">
-          Obtenir l'Élite Pass →
-        </button>
-        <div style="font-size:12px;color:#555;text-align:center">🔒 Paiement sécurisé · 🔄 Remboursé 7j si insatisfait</div>
+      <div class="price-card" style="width:100%;max-width:400px">
+        <div style="font-size:11px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:14px">Accès complet</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--gold-light);margin-bottom:6px">L'Élite Pass</div>
+        <div style="font-size:13px;color:#555;margin-bottom:20px">Tout le catalogue · À vie · Sans limite</div>
+        <div class="price-big">199€</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:28px">Paiement unique — plus jamais rien à payer</div>
+        <button onclick="buyElitePass()" class="btn-buy">Obtenir l'Élite Pass →</button>
+        <div style="font-size:11px;color:#555;text-align:center">🔒 Paiement sécurisé · 📦 Produit numérique</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- COMPARAISON -->
-<section style="padding:80px 60px;background:var(--bg2);border-top:1px solid var(--border)">
+<section class="std-section bg2">
   <div style="max-width:800px;margin:0 auto">
-    <div style="text-align:center;margin-bottom:40px">
-      <div class="section-label" style="justify-content:center">Comparaison</div>
+    <div style="text-align:center;margin-bottom:32px">
+      <div class="section-label center">Comparaison</div>
       <h2 class="section-title" style="text-align:center">Élite Pass vs <em>achat individuel</em></h2>
     </div>
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <div class="compare-wrap">
       <table class="compare-table">
         <thead>
           <tr style="background:var(--bg)">
@@ -250,16 +299,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Accès à +1000 formations</td><td style="text-align:center" class="check-gold">✦</td><td style="text-align:center" class="cross-red">✗</td></tr>
-          <tr><td>Nouvelles formations incluses</td><td style="text-align:center" class="check-gold">✦</td><td style="text-align:center" class="cross-red">✗</td></tr>
-          <tr><td>Accès à vie</td><td style="text-align:center" class="check-green">✓</td><td style="text-align:center" class="check-green">✓</td></tr>
-          <tr><td>Support Telegram prioritaire</td><td style="text-align:center" class="check-gold">✦</td><td style="text-align:center" class="cross-red">✗</td></tr>
-          <tr><td>Livraison immédiate</td><td style="text-align:center" class="check-green">✓</td><td style="text-align:center" class="check-green">✓</td></tr>
-          <tr><td>Garantie remboursement 7j</td><td style="text-align:center" class="check-green">✓</td><td style="text-align:center" class="check-green">✓</td></tr>
+          <tr><td>Accès à +1000 formations</td><td class="check-gold">✦</td><td class="cross-red">✗</td></tr>
+          <tr><td>Nouvelles formations incluses</td><td class="check-gold">✦</td><td class="cross-red">✗</td></tr>
+          <tr><td>Accès à vie</td><td class="check-green">✓</td><td class="check-green">✓</td></tr>
+          <tr><td>Support Telegram prioritaire</td><td class="check-gold">✦</td><td class="cross-red">✗</td></tr>
+          <tr><td>Livraison immédiate</td><td class="check-green">✓</td><td class="check-green">✓</td></tr>
           <tr style="background:rgba(201,168,76,0.04)">
             <td style="font-weight:600;color:var(--text)">Prix</td>
             <td style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);font-weight:600">199€</td>
-            <td style="text-align:center;color:#888">20€ - 45€ / formation</td>
+            <td style="text-align:center;color:#888;font-size:13px">20€ – 45€ / formation</td>
           </tr>
         </tbody>
       </table>
@@ -268,163 +316,74 @@
 </section>
 
 <!-- FAQ RAPIDE -->
-<section style="padding:80px 60px;background:var(--bg)">
+<section class="std-section">
   <div style="max-width:700px;margin:0 auto">
-    <div style="text-align:center;margin-bottom:40px">
-      <div class="section-label" style="justify-content:center">Questions fréquentes</div>
+    <div style="text-align:center;margin-bottom:36px">
+      <div class="section-label center">Questions fréquentes</div>
       <h2 class="section-title" style="text-align:center">Vous avez des <em>questions ?</em></h2>
     </div>
     <div id="faqElite"></div>
-    <div style="text-align:center;margin-top:32px">
+    <div style="text-align:center;margin-top:28px">
       <a href="faq.html" style="color:var(--gold);text-decoration:none;font-size:14px">Voir toutes les questions →</a>
     </div>
   </div>
 </section>
 
 <!-- CTA FINAL -->
-<section style="padding:80px 60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden">
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none"></div>
+<section class="cta-final">
   <div style="position:relative;z-index:1">
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,62px);font-weight:300;margin-bottom:16px">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,58px);font-weight:300;margin-bottom:14px">
       Prêt à tout <em style="color:var(--gold-light)">débloquer ?</em>
     </h2>
-    <p style="color:#666;font-size:16px;margin-bottom:36px">Rejoignez les 2400+ membres qui ont déjà fait confiance à FormationElite</p>
-    <button onclick="buyElitePass()" class="btn-primary" style="font-size:15px;padding:18px 52px">
-      Obtenir l'Élite Pass — 199€ →
-    </button>
+    <p style="color:#666;font-size:15px;margin-bottom:32px">Rejoignez les 2400+ membres qui ont déjà fait confiance à FormationElite</p>
+    <button onclick="buyElitePass()" class="btn-hero">Obtenir l'Élite Pass — 199€ →</button>
   </div>
 </section>
 
-<div id="footer-placeholder"></div>
-<script>
+<!-- MOBILE CTA BAR -->
+<div class="mobile-cta-bar">
+  <div class="mobile-cta-inner">
+    <div class="mobile-cta-price">199€</div>
+    <button class="mobile-cta-btn" onclick="buyElitePass()">💎 Obtenir l'Élite Pass</button>
+    <a href="https://t.me/CreativeagencyFr" target="_blank" class="mobile-cta-tg">📲 TG</a>
+  </div>
+</div>
 
+<div id="footer-placeholder"></div>
+
+<script>
 const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
 
-const CAT_EMOJIS = {
-  'Ecommerce/Dropshipping':'📦','Trading':'📈','IA':'🤖','Immobilier':'🏠',
-  'Marketing/Réseaux Sociaux':'📣','Vente/Closing/Affiliation':'💰',
-  'Business/SMMA':'💼','Entreprise/Fiscalité':'🏛️','Informatique/Tech':'💻',
-  'Développement Personnel':'🧠','Séduction/Relations':'❤️',
-  'Sport/Santé':'💪','No Limits':'⚡','OFM':'💎'
-};
-
-async function sbGet(path) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
-  });
-  return res.json();
-}
-
-function cardHtml(f) {
-  const isFree = f.prix?.toLowerCase() === 'gratuit';
-  const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
-  const imgHtml = f.image_principale
-    ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
-    : `<div class="card-img-placeholder">${emoji}</div>`;
-  const desc = f.description || '';
-  const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
-  return `
-  <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
-    ${f.badge ? `<div class="card-badge ${f.badge==='Gratuit'?'free':f.badge==='Nouveau'?'new':''}">${f.badge}</div>` : ''}
-    ${imgHtml}
-    <div class="card-body">
-      <div class="card-category">${f.categorie||''}</div>
-      <div class="card-title">${f.titre}</div>
-      <div class="card-author">Par ${f.auteur||''}</div>
-      <div class="card-desc">${shortDesc}</div>
-      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
-      <div class="card-footer">
-        <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
-      </div>
-    </div>
-  </div>`;
-}
-
-function handleBuy(id, formations) {
-  const f = formations.find(x => x.id === id);
-  if (!f) return;
-  showPaymentModal(f);
-}
-
-function showPaymentModal(f) {
-  const hasStripe = !!f.stripe_link;
-  const hasPaypal = !!f.paypal_link;
-  const hasBinance = !!f.binance_id;
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
-  const stripeBtn = hasStripe ? `<a href="${f.stripe_link}" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'"><span style="font-size:28px">💳</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte bancaire</div><div style="color:#666;font-size:12px">Visa, Mastercard — via Stripe sécurisé</div></div><span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span></a>` : '';
-  const paypalBtn = hasPaypal ? `<a href="${f.paypal_link}" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'"><span style="font-size:28px">🅿️</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div><span style="margin-left:auto;color:#0070f0;font-size:18px">→</span></a>` : '';
-  const binanceBtn = hasBinance ? `<div class="pay-option" style="border:1px solid rgba(240,176,0,0.2)" onclick="copyBinance('${f.binance_id}',this)" onmouseover="this.style.borderColor='rgba(240,176,0,0.5)'" onmouseout="this.style.borderColor='rgba(240,176,0,0.2)'"><span style="font-size:28px">₿</span><div style="flex:1"><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en crypto — Binance Pay</div><div style="color:#666;font-size:12px">ID: <span style="color:#f0b000;font-weight:600">${f.binance_id}</span></div></div><span style="color:#f0b000;font-size:12px;background:rgba(240,176,0,0.1);padding:4px 10px;border-radius:20px">Copier</span></div>` : '';
-  const telegramBtn = `<a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);text-decoration:none" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'"><span style="font-size:28px">📲</span><div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison manuelle sous 24h</div></div><span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span></a>`;
-  overlay.innerHTML = `<div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease"><div style="text-align:center;margin-bottom:28px"><div style="font-size:36px;margin-bottom:10px">${f.emoji||'📚'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#f0ece0;margin-bottom:4px">${f.titre}</div><div style="font-size:13px;color:#666">Par ${f.auteur||''}</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#e8c97a;margin-top:10px">${f.prix}</div></div><div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>${stripeBtn}${paypalBtn}${binanceBtn}<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">${telegramBtn}</div><button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;margin-top:14px;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button></div>`;
-  document.body.appendChild(overlay);
-  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
-}
-
-function copyBinance(id, el) {
-  navigator.clipboard.writeText(id).then(() => {
-    const span = el.querySelector('span:last-child');
-    const orig = span.textContent;
-    span.textContent = '✅ Copié!';
-    setTimeout(() => { span.textContent = orig; }, 2000);
-  });
-}
-
-function navHtml(activePage) {
-  const pages = [
-    ['index.html','Accueil'],
-    ['formations.html','Formations'],
-    ['elite-pass.html',"L'Élite Pass"],
-    ['preuves.html','Preuves'],
-    ['faq.html','FAQ'],
-  ];
+// ── NAV ──
+function navHtml() {
+  const pages = [['index.html','Accueil'],['formations.html','Formations'],['elite-pass.html',"L'Élite Pass"],['preuves.html','Preuves'],['faq.html','FAQ']];
   return `<nav>
     <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
     <div class="nav-links">
-      ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
+      ${pages.map(([href,label]) => `<a href="${href}" class="${href==='elite-pass.html'?'active':''}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
     </div>
     <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
   </nav>
-  <div id="mobileNav" style="display:none;position:fixed;top:60px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:20px;border-bottom:1px solid var(--border)">
-    ${pages.map(([href,label]) => `<a href="${href}" style="display:block;padding:14px 0;font-size:14px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">${label}</a>`).join('')}
+  <div id="mobileNav">
+    ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
+    <a href="#">Mon Compte</a>
   </div>`;
 }
-
 function toggleMobileNav() {
-  const nav = document.getElementById('mobileNav');
-  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+  const n = document.getElementById('mobileNav');
+  n.style.display = n.style.display === 'block' ? 'none' : 'block';
 }
 
+// ── FOOTER ──
 function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
         <a href="index.html" class="footer-logo">FormationElite.fr</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
-        <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
-      </div>
-      <div>
-        <div class="footer-col-title">Catégories</div>
-        <ul class="footer-links">
-          <li><a href="formations.html?cat=Trading">Trading</a></li>
-          <li><a href="formations.html?cat=Ecommerce%2FDropshipping">Dropshipping</a></li>
-          <li><a href="formations.html?cat=IA">Intelligence Artificielle</a></li>
-          <li><a href="formations.html?cat=Immobilier">Immobilier</a></li>
-          <li><a href="formations.html?cat=Marketing%2FR%C3%A9seaux+Sociaux">Marketing</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigation</div>
-        <ul class="footer-links">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="formations.html">Formations</a></li>
-          <li><a href="elite-pass.html">L'Élite Pass</a></li>
-          <li><a href="preuves.html">Preuves</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
+        <a href="https://t.me/formation05" target="_blank" style="display:inline-block;background:transparent;color:var(--text);padding:10px 20px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:inherit;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s">Rejoindre le Telegram →</a>
       </div>
       <div>
         <div class="footer-col-title">Légal</div>
@@ -437,7 +396,7 @@ function footerHtml() {
     </div>
     <div class="footer-bottom">
       <div>© 2026 FormationElite.fr — Tous droits réservés</div>
-      <div style="display:flex;gap:10px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
         <span class="payment-icon">PayPal</span>
@@ -447,67 +406,78 @@ function footerHtml() {
   </footer>`;
 }
 
-function trustBarHtml() {
-  return `<div style="background:#0a1a0f;border-top:1px solid rgba(46,204,113,0.2);border-bottom:1px solid rgba(46,204,113,0.2);padding:18px 60px;display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔒</span> Paiement 100% sécurisé</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>⚡</span> Livraison instantanée</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>✅</span> Accès à vie garanti</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>💬</span> Support Telegram 7j/7</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#2ecc71"><span>🔄</span> Satisfait ou remboursé</div>
-  </div>`;
-}
-
-document.getElementById('nav-placeholder').innerHTML = navHtml('elite-pass.html');
+document.getElementById('nav-placeholder').innerHTML = navHtml();
 document.getElementById('footer-placeholder').innerHTML = footerHtml();
 
+// ── IMAGE HERO depuis Supabase ──
+async function loadEliteImage() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_settings?select=elite_pass_image_url&limit=1`, {
+      headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`}
+    });
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0 && data[0].elite_pass_image_url) {
+      const img = document.getElementById('eliteHeroImg');
+      const section = document.getElementById('eliteImageHero');
+      img.src = data[0].elite_pass_image_url;
+      img.onload = () => { section.style.display = 'block'; };
+    }
+  } catch(e) {}
+}
+loadEliteImage();
+
+// ── BUY MODAL ──
 function buyElitePass() {
+  const isMob = window.innerWidth <= 600;
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
+  overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:${isMob?'flex-end':'center'};justify-content:center;padding:0;backdrop-filter:blur(12px)`;
   overlay.innerHTML = `
-    <div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:36px;max-width:460px;width:100%;animation:fadeUp .3s ease">
-      <div style="text-align:center;margin-bottom:28px">
-        <div style="font-size:40px;margin-bottom:10px">💎</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#f0ece0;margin-bottom:6px">L'Élite Pass</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;color:#e8c97a;font-weight:300">199€</div>
+    <div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:${isMob?'16px 16px 0 0':'16px'};padding:${isMob?'24px 20px 36px':'32px 28px'};max-width:460px;width:100%;animation:${isMob?'slideUp':'fadeUp'} .3s ease;max-height:92vh;overflow-y:auto">
+      ${isMob?'<div style="width:40px;height:4px;background:#222;border-radius:4px;margin:0 auto 20px"></div>':''}
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:36px;margin-bottom:8px">💎</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0ece0;margin-bottom:4px">L'Élite Pass</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:#e8c97a;font-weight:300">199€</div>
         <div style="font-size:12px;color:#555;margin-top:4px">Paiement unique — accès à vie</div>
       </div>
-      <div style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;text-align:center">Choisissez votre moyen de paiement</div>
-      <a href="https://t.me/CreativeagencyFr" target="_blank" style="display:flex;align-items:center;gap:14px;background:#0f0f0f;border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:16px 20px;text-decoration:none;margin-bottom:10px;transition:all .2s" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'">
-        <span style="font-size:28px">💳</span>
+      <div style="font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>
+      <a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2)">
+        <span style="font-size:26px">💳</span>
         <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte / Stripe</div><div style="color:#666;font-size:12px">Visa, Mastercard — paiement sécurisé</div></div>
-        <span style="margin-left:auto;color:#c9a84c;font-size:18px">→</span>
+        <span style="margin-left:auto;color:#c9a84c">→</span>
       </a>
-      <a href="https://t.me/CreativeagencyFr" target="_blank" style="display:flex;align-items:center;gap:14px;background:#0f0f0f;border:1px solid rgba(0,112,240,0.2);border-radius:8px;padding:16px 20px;text-decoration:none;margin-bottom:10px;transition:all .2s" onmouseover="this.style.borderColor='rgba(0,112,240,0.5)'" onmouseout="this.style.borderColor='rgba(0,112,240,0.2)'">
-        <span style="font-size:28px">🅿️</span>
+      <a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2)">
+        <span style="font-size:26px">🅿️</span>
         <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div>
-        <span style="margin-left:auto;color:#0070f0;font-size:18px">→</span>
+        <span style="margin-left:auto;color:#0070f0">→</span>
       </a>
-      <a href="https://t.me/CreativeagencyFr" target="_blank" style="display:flex;align-items:center;gap:14px;background:#0f0f0f;border:1px solid rgba(41,182,246,0.2);border-radius:8px;padding:16px 20px;text-decoration:none;margin-bottom:14px;transition:all .2s" onmouseover="this.style.borderColor='rgba(41,182,246,0.5)'" onmouseout="this.style.borderColor='rgba(41,182,246,0.2)'">
-        <span style="font-size:28px">📲</span>
+      <a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);margin-bottom:14px">
+        <span style="font-size:26px">📲</span>
         <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison immédiate après paiement</div></div>
-        <span style="margin-left:auto;color:#29b6f6;font-size:18px">→</span>
+        <span style="margin-left:auto;color:#29b6f6">→</span>
       </a>
-      <button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;background:none;border:1px solid #1a1a1a;color:#555;padding:10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px">Fermer</button>
+      <button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;background:none;border:1px solid #1a1a1a;color:#555;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:14px">Fermer</button>
     </div>`;
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
   document.body.appendChild(overlay);
 }
 
-// FAQ rapide
+// ── FAQ ──
 const faqs = [
-  ["Comment fonctionne la livraison ?", "Après paiement confirmé, vous recevez votre accès par email et Telegram dans un délai maximum de 24h. La plupart des livraisons sont instantanées."],
+  ["Comment fonctionne la livraison ?", "Après paiement confirmé, vous recevez votre accès par email et/ou Telegram dans un délai maximum de 24h. La plupart des livraisons sont instantanées."],
   ["L'Élite Pass inclut-il les nouvelles formations ?", "Oui ! Toutes les formations ajoutées après votre achat sont automatiquement incluses, sans frais supplémentaires."],
-  ["Puis-je être remboursé ?", "Oui. Garantie satisfait ou remboursé 7 jours. Contactez-nous sur Telegram et nous procédons au remboursement sans question."],
-  ["Comment accéder aux formations ?", "Après paiement, nous vous envoyons les accès par Telegram ou email selon votre préférence."],
+  ["Puis-je être remboursé ?", "Non. Comme tous nos produits numériques, la vente est définitive une fois l'accès livré. Consultez notre <a href='politique-remboursement.html' style='color:var(--gold)'>politique de remboursement →</a>"],
+  ["Comment accéder aux formations ?", "Après paiement, nous vous envoyons les accès par Telegram ou email selon votre préférence, dans un délai maximum de 24h."],
 ];
-document.getElementById('faqElite').innerHTML = faqs.map((f,i) => `
-  <div style="border-bottom:1px solid var(--border)">
-    <button onclick="this.nextSibling.style.display=this.nextSibling.style.display==='block'?'none':'block';this.querySelector('span').textContent=this.nextSibling.style.display==='block'?'−':'+';" style="width:100%;background:none;border:none;color:var(--text);font-family:inherit;font-size:15px;font-weight:500;text-align:left;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px">
-      ${f[0]} <span style="color:var(--gold);font-size:20px;flex-shrink:0">+</span>
+document.getElementById('faqElite').innerHTML = faqs.map((f, i) => {
+  const id = `faq_${i}`;
+  return `<div class="faq-item" id="${id}">
+    <button class="faq-q" onclick="document.getElementById('${id}').classList.toggle('open')">
+      <span>${f[0]}</span><span class="faq-icon">+</span>
     </button>
-    <div style="display:none;font-size:14px;color:#666;line-height:1.8;padding-bottom:18px">${f[1]}</div>
-  </div>`).join('');
-
+    <div class="faq-a">${f[1]}</div>
+  </div>`;
+}).join('');
 </script>
 </body>
 </html>
