@@ -41,8 +41,8 @@ module.exports = async (req, res) => {
         pay_currency:    'btc',                  // crypto par défaut (client peut changer sur la page NowPayments)
         order_id:        formation_id || `order_${Date.now()}`,
         order_description: formation_titre || 'Formation FormationElite',
-        success_url:     `${process.env.SITE_URL || 'https://formationelite.store'}/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
-        cancel_url:      `${process.env.SITE_URL || 'https://formationelite.store'}/checkout.html`,
+        success_url:     `${process.env.SITE_URL || 'https://www.formationelite.vip'}/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
+        cancel_url:      `${process.env.SITE_URL || 'https://www.formationelite.vip'}/checkout.html`,
         is_fixed_rate:   false,
         is_fee_paid_by_user: false
       })
