@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Montant invalide' });
   }
 
-  const NOWPAYMENTS_API_KEY = process.env.NOWPAYMENTS_API_KEY;
+  const NOWPAYMENTS_API_KEY = process.env.NOWPEMENT_API_KEY;
   if (!NOWPAYMENTS_API_KEY) {
     return res.status(500).json({ error: 'Clé NowPayments non configurée' });
   }
@@ -40,7 +40,14 @@ module.exports = async (req, res) => {
       })
     });
 
-    const data = await response.json();
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch(e) {
+      console.error('NowPayments non-JSON response:', responseText.slice(0, 200));
+      return res.status(500).json({ error: 'Réponse NowPayments invalide : ' + responseText.slice(0, 100) });
+    }
 
     if (!response.ok) {
       console.error('NowPayments error:', data);
