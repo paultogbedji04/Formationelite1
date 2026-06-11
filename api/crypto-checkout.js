@@ -38,7 +38,6 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         price_amount:    amount,
         price_currency:  currency.toLowerCase(), // 'eur'
-        pay_currency:    'btc',                  // crypto par défaut (client peut changer sur la page NowPayments)
         order_id:        formation_id || `order_${Date.now()}`,
         order_description: formation_titre || 'Formation FormationElite',
         success_url:     `${process.env.SITE_URL || 'https://www.formationelite.vip'}/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
