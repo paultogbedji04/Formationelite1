@@ -16,6 +16,22 @@
       "dest": "/api/checkout.js"
     },
     {
+      "src": "/api/crypto-checkout",
+      "dest": "/api/crypto-checkout.js"
+    },
+    {
+      "src": "/api/commandes",
+      "dest": "/api/commandes.js"
+    },
+    {
+      "src": "/api/webhook",
+      "dest": "/api/webhook.js"
+    },
+    {
+      "src": "/api/gratuit",
+      "dest": "/api/gratuit.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
