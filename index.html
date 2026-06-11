@@ -590,9 +590,18 @@ function cardHtml(f) {
 }
 
 function handleBuy(id, formations) {
-  const f = formations.find(x => x.id === id);
+  const f = (formations || allFormations || window._formations || []).find(x => x.id === id);
   if (!f) return;
-  showPaymentModal(f);
+  const isFree = f.prix?.toString().trim().toLowerCase() === 'gratuit';
+  if (isFree) {
+    openGratuitModal(encodeURIComponent(JSON.stringify({
+      id: f.id, titre: f.titre, auteur: f.auteur, categorie: f.categorie,
+      emoji: f.emoji || '📚', ancien_prix: f.ancien_prix || '', lien_acces: f.lien_acces || ''
+    })));
+    return;
+  }
+  // Rediriger vers le checkout intermédiaire
+  window.location.href = `checkout.html?id=${f.id}&titre=${encodeURIComponent(f.titre)}&prix=${encodeURIComponent(f.prix)}&emoji=${encodeURIComponent(f.emoji||'📚')}`;
 }
 
 function showPaymentModal(f) {

@@ -532,40 +532,21 @@ function openImg(src) {
   document.body.appendChild(overlay);
 }
 
-async function buyNow() {
+function buyNow() {
   const f = formation;
   if (!f) return;
   const isFree = f.prix?.toLowerCase() === 'gratuit';
 
   if (isFree) {
-    window.open('https://t.me/CreativeagencyFr', '_blank');
+    openGratuitModal(encodeURIComponent(JSON.stringify({
+      id: f.id, titre: f.titre, auteur: f.auteur, categorie: f.categorie,
+      emoji: f.emoji || '📚', ancien_prix: f.ancien_prix || '', lien_acces: f.lien_acces || ''
+    })));
     return;
   }
 
-  // Trouver le bouton cliqué
-  const btn = document.getElementById('mobileCtaBtn') || event?.target;
-  const originalText = btn?.innerHTML;
-  if (btn) { btn.innerHTML = '⏳ Redirection...'; btn.disabled = true; }
-
-  try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        formation_id: f.id,
-        formation_titre: f.titre,
-        formation_prix: f.prix,
-        formation_emoji: f.emoji
-      })
-    });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else throw new Error(data.error || 'Erreur');
-  } catch(err) {
-    if (btn) { btn.innerHTML = originalText; btn.disabled = false; }
-    showPaymentModal(f);
-  }
+  // Rediriger vers le checkout intermédiaire
+  window.location.href = `checkout.html?id=${encodeURIComponent(f.id)}&titre=${encodeURIComponent(f.titre)}&prix=${encodeURIComponent(f.prix)}&emoji=${encodeURIComponent(f.emoji||'📚')}`;
 }
 
 init();
