@@ -75,7 +75,7 @@
         <div class="formation-emoji" id="fEmoji">📚</div>
         <div class="formation-info">
             <div class="formation-titre" id="fTitre">Chargement...</div>
-            <div class="formation-sub">Accès immédiat · À vie</div>
+            <div class="formation-sub" id="fSub">Accès immédiat · À vie</div>
         </div>
         <div class="formation-prix" id="fPrix">—</div>
     </div>
@@ -128,17 +128,25 @@
 <script>
     // ── Lecture des paramètres URL ──
     const params = new URLSearchParams(window.location.search);
+    const mode   = params.get('mode') || 'single';
     const id     = params.get('id') || '';
+    const ids    = params.get('ids') || '';
     const titre  = decodeURIComponent(params.get('titre') || 'Formation');
     const prixStr= decodeURIComponent(params.get('prix') || '0€');
     const emoji  = decodeURIComponent(params.get('emoji') || '📚');
+    const count  = parseInt(params.get('count') || '1');
     const prix   = parseFloat(prixStr.replace('€','').replace(',','.').trim()) || 0;
 
     // Affichage
     document.getElementById('fEmoji').textContent  = emoji;
-    document.getElementById('fTitre').textContent  = titre;
+    document.getElementById('fTitre').textContent  = mode === 'panier'
+      ? `${count} formations sélectionnées`
+      : titre;
     document.getElementById('fPrix').textContent   = prixStr;
-    document.title = `Paiement — ${titre} — FormationElite`;
+    if (mode === 'panier') {
+      document.getElementById('fSub').textContent = titre.slice(0, 60) + (titre.length > 60 ? '...' : '');
+    }
+    document.title = `Paiement — ${mode === 'panier' ? count+' formations' : titre} — FormationElite`;
 
     function showError(msg) {
         const box = document.getElementById('errorBox');
@@ -161,19 +169,17 @@
     }
 
     // ── STRIPE ──
-    // checkout.js attend un POST JSON → on crée un formulaire invisible
     async function payWithStripe() {
         setLoading('btnStripe', true);
         try {
+            const body = mode === 'panier'
+                ? { mode: 'panier', ids, formation_titre: `${count} formations`, formation_prix: prixStr, formation_emoji: '🛒' }
+                : { formation_id: id, formation_titre: titre, formation_prix: prixStr, formation_emoji: emoji };
+
             const res = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    formation_id:    id,
-                    formation_titre: titre,
-                    formation_prix:  prixStr,
-                    formation_emoji: emoji
-                })
+                body: JSON.stringify(body)
             });
             const data = await res.json();
             if (data.url) {
@@ -202,8 +208,8 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    formation_id:    id,
-                    formation_titre: titre,
+                    formation_id:    mode === 'panier' ? ids : id,
+                    formation_titre: mode === 'panier' ? `${count} formations` : titre,
                     amount:          prix,
                     currency:        'EUR'
                 })

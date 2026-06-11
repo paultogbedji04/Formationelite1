@@ -197,7 +197,8 @@
   <div class="mobile-cta-inner">
     <div class="mobile-cta-price" id="mobileCtaPrice">—</div>
     <button class="mobile-cta-btn" id="mobileCtaBtn" onclick="mobileCtaAction()">🛒 Commander</button>
-    <a href="https://t.me/CreativeagencyFr" target="_blank" class="mobile-cta-tg">📲 TG</a>
+    <button id="mobilePanierBtn" onclick="mobilePanierAction()" style="background:none;border:1px solid var(--border);color:#888;border-radius:6px;padding:14px 12px;font-size:16px;cursor:pointer;flex-shrink:0;transition:all .2s" title="Ajouter au panier">🛒+</button>
+    <a href="https://t.me/CreativeagencyFr" target="_blank" class="mobile-cta-tg">📲</a>
   </div>
 </div>
 
@@ -297,7 +298,12 @@ function navHtml() {
       ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
     </div>
-    <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="ouvrirPanier()" class="panier-nav-btn" style="position:relative;background:none;border:1px solid var(--border);border-radius:4px;color:#888;cursor:pointer;padding:8px 12px;font-size:16px;transition:all .2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">
+        🛒 <span class="panier-badge" style="display:none;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:50%;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;padding:0 4px">0</span>
+      </button>
+      <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+    </div>
   </nav>
   <div id="mobileNav">
     ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
@@ -390,6 +396,13 @@ function initMobileCta() {
 function mobileCtaAction() {
   if (!formation) return;
   buyNow();
+}
+
+function mobilePanierAction() {
+  if (!formation) return;
+  const isFree = formation.prix?.toLowerCase() === 'gratuit';
+  if (isFree) return;
+  ajouterAuPanier(formation);
 }
 
 function renderPage() {
@@ -488,6 +501,7 @@ function renderPage() {
           <button class="btn-buy-main" onclick="buyNow()">
             ${isFree ? '🎁 Obtenir gratuitement' : '🛒 Commander maintenant'}
           </button>
+          ${!isFree ? `<button style="width:100%;background:none;border:1px solid var(--border);color:#888;border-radius:6px;padding:13px;font-family:inherit;font-size:13px;cursor:pointer;transition:all .3s;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="ajouterAuPanier(window._formation)" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">🛒 Ajouter au panier</button>` : ''}
           <a href="https://t.me/CreativeagencyFr" target="_blank" class="btn-telegram">
             📲 Commander via Telegram
           </a>
@@ -556,5 +570,6 @@ async function buyNow() {
 
 init();
 </script>
+<script src="panier.js"></script>
 </body>
 </html>

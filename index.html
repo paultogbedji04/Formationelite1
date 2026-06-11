@@ -580,21 +580,19 @@ function cardHtml(f) {
       <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
       <div class="card-footer">
         <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+        <div style="display:flex;gap:6px">
+          ${!isFree ? `<button class="btn-card" style="background:none;border:1px solid var(--border);color:#888;padding:10px 10px" onclick="event.stopPropagation();ajouterAuPanier({id:'${f.id}',titre:${JSON.stringify(f.titre)},prix:'${f.prix}',emoji:'${f.emoji||'📚'}',auteur:${JSON.stringify(f.auteur||'')},categorie:${JSON.stringify(f.categorie||'')}})" title="Ajouter au panier">🛒</button>` : ''}
+          <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+        </div>
       </div>
     </div>
   </div>`;
 }
 
-async function handleBuy(id, formations) {
+function handleBuy(id, formations) {
   const f = formations.find(x => x.id === id);
   if (!f) return;
-
-  // Redirection vers la nouvelle page checkout
-  const titre = encodeURIComponent(f.titre || 'Formation');
-  const prix = encodeURIComponent(f.prix || '0€');
-  
-  window.location.href = `checkout.html?id=${f.id}&titre=${titre}&prix=${prix}`;
+  showPaymentModal(f);
 }
 
 function showPaymentModal(f) {
@@ -635,7 +633,12 @@ function navHtml(activePage) {
       ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
     </div>
-    <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="ouvrirPanier()" class="panier-nav-btn" style="position:relative;background:none;border:1px solid var(--border);border-radius:4px;color:#888;cursor:pointer;padding:8px 12px;font-size:16px;transition:all .2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">
+        🛒 <span class="panier-badge" style="display:none;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:50%;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;padding:0 4px">0</span>
+      </button>
+      <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+    </div>
   </nav>
   <div id="mobileNav">
     ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
@@ -1011,5 +1014,6 @@ function animateCounters() {
 loadIndex();
 animateCounters();
 </script>
+<script src="panier.js"></script>
 </body>
 </html>
