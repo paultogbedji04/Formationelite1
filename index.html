@@ -581,7 +581,7 @@ function cardHtml(f) {
       <div class="card-footer">
         <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
         <div style="display:flex;gap:6px">
-          ${!isFree ? `<button class="btn-card" style="background:none;border:1px solid var(--border);color:#888;padding:10px 10px" onclick="event.stopPropagation();ajouterAuPanier({id:'${f.id}',titre:${JSON.stringify(f.titre)},prix:'${f.prix}',emoji:'${f.emoji||'📚'}',auteur:${JSON.stringify(f.auteur||'')},categorie:${JSON.stringify(f.categorie||'')}})" title="Ajouter au panier">🛒</button>` : ''}
+          ${!isFree ? `<button class="btn-card" style="background:none;border:1px solid var(--border);color:#888;padding:10px 10px" onclick="event.stopPropagation();ajouterFormationAuPanier('${f.id}')" title="Ajouter au panier">🛒</button>` : ''}
           <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
         </div>
       </div>
@@ -589,7 +589,14 @@ function cardHtml(f) {
   </div>`;
 }
 
-function handleBuy(id, formations) {
+function ajouterFormationAuPanier(id) {
+  const f = allFormations.find(x => x.id === id);
+  if (!f) return;
+  ajouterAuPanier({
+    id: f.id, titre: f.titre, prix: f.prix,
+    emoji: f.emoji || '📚', auteur: f.auteur || '', categorie: f.categorie || ''
+  });
+}
   const f = (formations || allFormations || window._formations || []).find(x => x.id === id);
   if (!f) return;
   const isFree = f.prix?.toString().trim().toLowerCase() === 'gratuit';
