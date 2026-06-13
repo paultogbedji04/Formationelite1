@@ -363,17 +363,19 @@ function ajouterFormationAuPanier(id) {
     emoji: f.emoji || '📚', auteur: f.auteur || '', categorie: f.categorie || ''
   });
 }
+
+function handleBuy(id) {
   const f = allFormations.find(x => x.id === id);
   if (!f) return;
-  const isFree = f.prix?.toString().trim().toLowerCase() === 'gratuit';
+  const isFree = f.prix ? f.prix.toString().trim().toLowerCase() === 'gratuit' : false;
   if (isFree) {
     openGratuitModal(encodeURIComponent(JSON.stringify({
-      id: f.id, titre: f.titre, auteur: f.auteur, categorie: f.categorie,
+      id: f.id, titre: f.titre, auteur: f.auteur || '', categorie: f.categorie || '',
       emoji: f.emoji || '📚', ancien_prix: f.ancien_prix || '', lien_acces: f.lien_acces || ''
     })));
     return;
   }
-  window.location.href = `checkout.html?id=${f.id}&titre=${encodeURIComponent(f.titre)}&prix=${encodeURIComponent(f.prix)}&emoji=${encodeURIComponent(f.emoji||'📚')}`;
+  window.location.href = 'checkout.html?id=' + encodeURIComponent(f.id) + '&titre=' + encodeURIComponent(f.titre) + '&prix=' + encodeURIComponent(f.prix) + '&emoji=' + encodeURIComponent(f.emoji || '📚');
 }
 
 function showPaymentModal(f) {
