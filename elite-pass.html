@@ -436,32 +436,62 @@ function buyElitePass() {
       ${isMob?'<div style="width:40px;height:4px;background:#222;border-radius:4px;margin:0 auto 20px"></div>':''}
       <div style="text-align:center;margin-bottom:24px">
         <div style="font-size:36px;margin-bottom:8px">💎</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0ece0;margin-bottom:4px">L'Élite Pass</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;color:#e8c97a;font-weight:300">199€</div>
+        <div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;color:#f0ece0;margin-bottom:4px">L'Élite Pass</div>
+        <div style="font-family:\'Cormorant Garamond\',serif;font-size:38px;color:#e8c97a;font-weight:300">199€</div>
         <div style="font-size:12px;color:#555;margin-top:4px">Paiement unique — accès à vie</div>
       </div>
       <div style="font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>
-      <a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2)">
+
+      <!-- STRIPE -->
+      <a href="https://buy.stripe.com/00w28rcSGdZG7QG1NHgIo01" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2)">
         <span style="font-size:26px">💳</span>
         <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte / Stripe</div><div style="color:#666;font-size:12px">Visa, Mastercard — paiement sécurisé</div></div>
         <span style="margin-left:auto;color:#c9a84c">→</span>
       </a>
-      <a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2)">
+
+      <!-- PAYPAL -->
+      <a href="https://www.paypal.me/paultogbedji" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2)">
         <span style="font-size:26px">🅿️</span>
-        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Compte PayPal ou carte via PayPal</div></div>
+        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Envoyer 199€ — indiquer "Élite Pass" en note</div></div>
         <span style="margin-left:auto;color:#0070f0">→</span>
       </a>
-      <a href="https://t.me/CreativeagencyFr" target="_blank" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);margin-bottom:14px">
-        <span style="font-size:26px">📲</span>
-        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Commander via Telegram</div><div style="color:#666;font-size:12px">Livraison immédiate après paiement</div></div>
+
+      <!-- CRYPTO -->
+      <a href="#" onclick="this.closest('[style*=fixed]').remove();payerCryptoElitePass();return false;" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);margin-bottom:14px">
+        <span style="font-size:26px">₿</span>
+        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en Crypto</div><div style="color:#666;font-size:12px">BTC, ETH, USDT et plus — via NowPayments</div></div>
         <span style="margin-left:auto;color:#29b6f6">→</span>
       </a>
+
       <button onclick="this.closest('[style*=fixed]').remove()" style="display:block;width:100%;background:none;border:1px solid #1a1a1a;color:#555;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:14px">Fermer</button>
     </div>`;
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
   document.body.appendChild(overlay);
 }
 
+// Paiement crypto Élite Pass via NowPayments
+async function payerCryptoElitePass() {
+  try {
+    const res = await fetch('/api/crypto-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        formation_id: 'elite-pass',
+        formation_titre: "L'Élite Pass",
+        prix: 199,
+        email: null
+      })
+    });
+    const data = await res.json();
+    if (data.invoice_url) {
+      window.open(data.invoice_url, '_blank');
+    } else {
+      alert('Erreur lors de la création du paiement crypto. Contactez-nous sur Telegram.');
+    }
+  } catch(e) {
+    alert('Erreur réseau. Contactez-nous sur Telegram @CreativeagencyFr');
+  }
+}
 // ── FAQ ──
 const faqs = [
   ["Comment fonctionne la livraison ?", "Après paiement confirmé, vous recevez votre accès par email et/ou Telegram dans un délai maximum de 24h. La plupart des livraisons sont instantanées."],
