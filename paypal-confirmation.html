@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmer votre paiement PayPal — FormationElite.fr</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold-light);text-decoration:none}
+  .logo span{color:var(--text-muted)}
+  .nav-mobile-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+  /* PAGE */
+  .page-wrap{min-height:100vh;padding:100px 24px 60px;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative}
+  .page-wrap::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
+
+  /* CARD */
+  .confirm-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:40px;max-width:580px;width:100%;animation:fadeUp .4s ease;position:relative;z-index:1}
+
+  /* FORM */
+  .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+  .form-label{font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase}
+  .form-label span{color:#e74c3c;margin-left:2px}
+  .form-input{background:var(--bg);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
+  .form-input:focus{border-color:var(--gold)}
+  .form-input::placeholder{color:#444}
+  select.form-input{cursor:pointer}
+  select.form-input option{background:var(--bg3)}
+  .form-hint{font-size:11px;color:#555;margin-top:-4px}
+
+  /* UPLOAD */
+  .upload-zone{border:2px dashed rgba(201,168,76,0.25);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:all .2s}
+  .upload-zone:hover{border-color:rgba(201,168,76,0.6);background:rgba(201,168,76,0.03)}
+
+  /* BTN */
+  .btn-submit{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:16px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .3s;letter-spacing:.5px;margin-top:8px}
+  .btn-submit:hover{background:var(--gold-light)}
+  .btn-submit:disabled{opacity:.5;cursor:not-allowed}
+
+  /* SUCCESS STATE */
+  .success-state{display:none;text-align:center;padding:20px 0}
+
+  /* FOOTER */
+  footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px;text-align:center}
+
+  @media(max-width:600px){
+    nav{padding:14px 16px}
+    .nav-mobile-btn{display:block}
+    .confirm-card{padding:28px 16px}
+    footer{padding:24px 16px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
+  <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
+</nav>
+<div id="mobileNav" style="display:none;position:fixed;top:61px;left:0;right:0;background:rgba(8,8,8,0.98);z-index:99;padding:16px 20px 24px;border-bottom:1px solid var(--border)">
+  <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">Accueil</a>
+  <a href="formations.html" style="display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none;border-bottom:1px solid var(--border)">Formations</a>
+  <a href="elite-pass.html" style="display:block;padding:14px 0;font-size:15px;color:#888;text-decoration:none">L'Élite Pass</a>
+</div>
+
+<div class="page-wrap">
+  <div class="confirm-card">
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-size:40px;margin-bottom:12px">🅿️</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin-bottom:8px">
+        Confirmer votre <em style="color:var(--gold-light)">paiement PayPal</em>
+      </h1>
+      <p style="color:#666;font-size:14px;line-height:1.6">
+        Vous venez de payer via PayPal.Me — remplissez ce formulaire pour recevoir votre accès automatiquement.
+      </p>
+    </div>
+
+    <!-- INFO BOX -->
+    <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 18px;margin-bottom:28px;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:18px;flex-shrink:0">💡</span>
+      <p style="font-size:13px;color:#888;line-height:1.6;margin:0">
+        L'ID de transaction se trouve dans votre email de confirmation PayPal ou dans <strong style="color:var(--text)">Activité → détails du paiement</strong>.
+      </p>
+    </div>
+
+    <!-- FORM -->
+    <div id="formState">
+      <div class="form-group">
+        <label class="form-label">Votre nom complet <span>*</span></label>
+        <input type="text" class="form-input" id="fNom" placeholder="Jean Dupont">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Votre email <span>*</span></label>
+        <input type="email" class="form-input" id="fEmail" placeholder="jean@email.com">
+        <span class="form-hint">L'accès sera envoyé à cette adresse</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Formation achetée <span>*</span></label>
+        <select class="form-input" id="fFormation">
+          <option value="">Chargement des formations...</option>
+        </select>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group">
+          <label class="form-label">Montant payé (€) <span>*</span></label>
+          <input type="number" class="form-input" id="fMontant" placeholder="29">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ID Transaction PayPal <span>*</span></label>
+          <input type="text" class="form-input" id="fTransaction" placeholder="5XY123ABC456">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Capture d'écran du paiement <span style="color:#555;font-weight:400">(optionnel)</span></label>
+        <div class="upload-zone" onclick="document.getElementById('fScreenshot').click()" id="uploadZone">
+          <div style="font-size:28px;margin-bottom:8px">📸</div>
+          <div style="font-size:13px;color:#666;margin-bottom:4px">Cliquez pour uploader votre capture</div>
+          <div style="font-size:11px;color:#444">JPG, PNG — Max 5MB</div>
+          <input type="file" id="fScreenshot" accept="image/*" style="display:none" onchange="handleScreenshot(this)">
+        </div>
+        <div id="screenshotPreview" style="display:none;margin-top:8px">
+          <img id="screenshotImg" src="" style="max-width:100%;max-height:150px;border-radius:6px;border:1px solid var(--border);object-fit:cover">
+          <button onclick="removeScreenshot()" style="display:block;margin-top:6px;background:none;border:1px solid rgba(231,76,60,0.3);color:#e74c3c;font-family:inherit;font-size:11px;padding:4px 10px;border-radius:3px;cursor:pointer">🗑️ Supprimer</button>
+        </div>
+      </div>
+
+      <div id="formError" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:6px;padding:12px 16px;font-size:13px;color:#e74c3c;margin-bottom:16px"></div>
+
+      <button class="btn-submit" onclick="submitForm()" id="submitBtn">
+        ✅ Confirmer mon paiement PayPal
+      </button>
+
+      <p style="font-size:12px;color:#444;text-align:center;margin-top:14px;line-height:1.6">
+        🔒 Vos informations sont sécurisées et ne seront jamais partagées
+      </p>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-state" id="successState">
+      <div style="font-size:56px;margin-bottom:16px">✅</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:12px;color:var(--green)">Demande envoyée !</h2>
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:20px;margin-bottom:24px">
+        <p style="color:#c9a84c;font-size:14px;line-height:1.7;margin:0">
+          ✅ Votre paiement a été soumis avec succès.<br>
+          Notre système vérifie actuellement votre transaction PayPal.<br>
+          <strong>Vous recevrez vos accès par email dans les plus brefs délais.</strong>
+        </p>
+      </div>
+      <a href="formations.html" style="display:inline-block;background:var(--gold);color:var(--bg);text-decoration:none;padding:14px 32px;border-radius:6px;font-weight:700;font-size:14px">
+        Voir d'autres formations →
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p style="font-size:12px;color:#555">
+    © 2026 FormationElite.fr — 
+    Support : <a href="https://t.me/CreativeagencyFr" target="_blank" style="color:var(--gold);text-decoration:none">@CreativeagencyFr</a>
+  </p>
+</footer>
+
+<script>
+const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
+
+let screenshotUrl = null;
+let formations = [];
+
+// Charger les formations depuis Supabase
+async function loadFormations() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/formations?select=id,titre,prix,emoji&actif=eq.true&order=titre.asc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    formations = await res.json();
+    const select = document.getElementById('fFormation');
+    select.innerHTML = '<option value="">— Sélectionnez votre formation —</option>' +
+      formations.map(f => `<option value="${f.id}" data-prix="${f.prix}" data-titre="${f.titre}">${f.emoji || '📚'} ${f.titre} — ${f.prix}</option>`).join('');
+
+    // Pré-remplir si formation_id dans URL
+    const params = new URLSearchParams(window.location.search);
+    const fid = params.get('formation_id');
+    if (fid) {
+      select.value = fid;
+      const f = formations.find(x => x.id === fid);
+      if (f) {
+        const prix = f.prix?.replace('€','').replace(',','.').trim();
+        if (prix && !isNaN(prix)) document.getElementById('fMontant').value = prix;
+      }
+    }
+  } catch(e) {
+    document.getElementById('fFormation').innerHTML = '<option value="">Erreur de chargement — entrez manuellement</option>';
+  }
+}
+
+// Auto-remplir le montant quand formation sélectionnée
+document.addEventListener('DOMContentLoaded', () => {
+  loadFormations();
+  document.getElementById('fFormation').addEventListener('change', function() {
+    const opt = this.options[this.selectedIndex];
+    const prix = opt.dataset.prix?.replace('€','').replace(',','.').trim();
+    if (prix && !isNaN(prix)) document.getElementById('fMontant').value = prix;
+  });
+});
+
+// Upload screenshot
+async function handleScreenshot(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showError('Image trop lourde (max 5MB)'); return; }
+
+  document.getElementById('uploadZone').innerHTML = '<div style="font-size:13px;color:#888">⏳ Upload en cours...</div>';
+
+  try {
+    const ext = file.name.split('.').pop();
+    const fileName = `paypal_proof_${Date.now()}.${ext}`;
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/images/${fileName}`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': file.type, 'x-upsert': 'true' },
+      body: file
+    });
+    if (res.ok) {
+      screenshotUrl = `${SUPABASE_URL}/storage/v1/object/public/images/${fileName}`;
+      document.getElementById('screenshotImg').src = screenshotUrl;
+      document.getElementById('screenshotPreview').style.display = 'block';
+      document.getElementById('uploadZone').style.display = 'none';
+    }
+  } catch(e) {
+    document.getElementById('uploadZone').innerHTML = '<div style="font-size:13px;color:#e74c3c">❌ Erreur upload — réessayez</div>';
+  }
+}
+
+function removeScreenshot() {
+  screenshotUrl = null;
+  document.getElementById('screenshotPreview').style.display = 'none';
+  document.getElementById('uploadZone').style.display = 'block';
+  document.getElementById('uploadZone').innerHTML = `
+    <div style="font-size:28px;margin-bottom:8px">📸</div>
+    <div style="font-size:13px;color:#666;margin-bottom:4px">Cliquez pour uploader votre capture</div>
+    <div style="font-size:11px;color:#444">JPG, PNG — Max 5MB</div>
+    <input type="file" id="fScreenshot" accept="image/*" style="display:none" onchange="handleScreenshot(this)">`;
+}
+
+function showError(msg) {
+  const el = document.getElementById('formError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 4000);
+}
+
+async function submitForm() {
+  const nom = document.getElementById('fNom').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const formationSelect = document.getElementById('fFormation');
+  const formation_id = formationSelect.value;
+  const formation_titre = formationSelect.options[formationSelect.selectedIndex]?.dataset.titre || formationSelect.options[formationSelect.selectedIndex]?.text || '';
+  const montant = document.getElementById('fMontant').value.trim();
+  const transaction_id = document.getElementById('fTransaction').value.trim();
+
+  if (!nom) return showError('Veuillez entrer votre nom');
+  if (!email || !email.includes('@')) return showError('Veuillez entrer un email valide');
+  if (!formation_id) return showError('Veuillez sélectionner votre formation');
+  if (!montant) return showError('Veuillez entrer le montant payé');
+  if (!transaction_id) return showError('Veuillez entrer l\'ID de transaction PayPal');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Envoi en cours...';
+
+  try {
+    const res = await fetch('/api/paypal-confirmation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nom, email, formation_id, formation_titre, montant, transaction_id, screenshot_url: screenshotUrl })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success) {
+      document.getElementById('formState').style.display = 'none';
+      document.getElementById('successState').style.display = 'block';
+    } else {
+      showError(data.error || 'Erreur lors de l\'envoi — réessayez');
+      btn.disabled = false;
+      btn.textContent = '✅ Confirmer mon paiement PayPal';
+    }
+  } catch(e) {
+    showError('Erreur réseau — vérifiez votre connexion');
+    btn.disabled = false;
+    btn.textContent = '✅ Confirmer mon paiement PayPal';
+  }
+}
+
+function toggleMobileNav() {
+  const nav = document.getElementById('mobileNav');
+  nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

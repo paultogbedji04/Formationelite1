@@ -31,6 +31,10 @@
       "src": "/api/webhook-crypto",
       "dest": "/api/webhook-crypto.js"
     },
+{
+  "src": "/api/paypal-confirmation",
+  "dest": "/api/paypal-confirmation.js"
+},
     {
       "src": "/api/gratuit",
       "dest": "/api/gratuit.js"
