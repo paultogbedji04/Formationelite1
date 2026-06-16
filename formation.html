@@ -83,9 +83,9 @@
   .badge-cat{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2);margin-bottom:14px}
 
   /* ── SCREENSHOTS ── */
-  .screenshot-gallery{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;scrollbar-color:var(--gold-dark) transparent}
-  .screenshot-thumb{width:150px;height:100px;border-radius:6px;border:1px solid var(--border);object-fit:cover;flex-shrink:0;cursor:pointer;transition:all .2s}
-  .screenshot-thumb:hover{border-color:var(--gold);transform:scale(1.03)}
+  .screenshot-gallery{display:flex;flex-direction:column;gap:10px}
+.screenshot-thumb{width:100%;height:200px;border-radius:6px;border:1px solid var(--border);object-fit:cover;cursor:pointer;transition:all .2s}
+.screenshot-thumb:hover{border-color:var(--gold)}
 
   /* ── RELATED GRID ── */
   .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
@@ -198,8 +198,7 @@
     <div class="mobile-cta-price" id="mobileCtaPrice">—</div>
     <button class="mobile-cta-btn" id="mobileCtaBtn" onclick="mobileCtaAction()">🛒 Commander</button>
     <button id="mobilePanierBtn" onclick="mobilePanierAction()" style="background:none;border:1px solid var(--border);color:#888;border-radius:6px;padding:14px 12px;font-size:16px;cursor:pointer;flex-shrink:0;transition:all .2s" title="Ajouter au panier">🛒+</button>
-    <a href="https://t.me/CreativeagencyFr" target="_blank" class="mobile-cta-tg">📲</a>
-  </div>
+      </div>
 </div>
 
 <div id="footer-placeholder"></div>
@@ -502,10 +501,7 @@ function renderPage() {
             ${isFree ? '🎁 Obtenir gratuitement' : '🛒 Commander maintenant'}
           </button>
           ${!isFree ? `<button style="width:100%;background:none;border:1px solid var(--border);color:#888;border-radius:6px;padding:13px;font-family:inherit;font-size:13px;cursor:pointer;transition:all .3s;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="ajouterAuPanier(window._formation)" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">🛒 Ajouter au panier</button>` : ''}
-          <a href="https://t.me/CreativeagencyFr" target="_blank" class="btn-telegram">
-            📲 Commander via Telegram
-          </a>
-          <div style="border-top:1px solid var(--border);padding-top:14px">
+                                <div style="border-top:1px solid var(--border);padding-top:14px">
             ${inclus.slice(0,4).map(item => `<div class="include-item">${item}</div>`).join('')}
           </div>
           <div class="trust-mini">
