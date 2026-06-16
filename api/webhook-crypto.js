@@ -2,7 +2,7 @@ const crypto = require('crypto');
 
 const SUPABASE_URL = 'https://xrljfmrsrxyepdsysfan.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E';
-const IPN_SECRET = process.env.NOWPAYMENTS_IPN_SECRET || 'jvpuYE8Fkpe4mx9LFVXoUyVawjHssOZr';
+const IPN_SECRET = process.env.NOWPEMENT_API_KEY || 'jvpuYE8Fkpe4mx9LFVXoUyVawjHssOZr';
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
