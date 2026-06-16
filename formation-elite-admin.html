@@ -162,6 +162,7 @@
       <div class="nav-item" onclick="showPage('apercu',this)"><span class="nav-icon">👁️</span> Aperçu site</div>
       <div class="nav-item" onclick="showPage('preuves',this)"><span class="nav-icon">📸</span> Preuves</div>
       <div class="nav-item" onclick="showPage('commandes',this)"><span class="nav-icon">🛒</span> Commandes <span class="nav-badge" id="commandesBadge">0</span></div>
+<div class="nav-item" onclick="showPage('paypal',this)"><span class="nav-icon">🅿️</span> PayPal <span class="nav-badge" id="paypalBadge">0</span></div>
       <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Paramètres site</div>
     </nav>
     <div class="sidebar-footer">
@@ -297,7 +298,57 @@
       </div>
     </div>
 
-    <!-- SETTINGS PAGE -->
+    <!-- PAYPAL PAGE -->
+<div class="page" id="page-paypal">
+  <div class="topbar">
+    <div><h1 class="page-title">Demandes <em>PayPal</em></h1><div class="page-sub" id="paypalCount">0 demandes</div></div>
+    <button class="btn btn-outline" onclick="loadPaypal()">🔄 Actualiser</button>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px">
+    <div class="stat-card"><div class="stat-label">Total demandes</div><div class="stat-value" id="pStatTotal">0</div></div>
+    <div class="stat-card"><div class="stat-label">En attente</div><div class="stat-value" style="color:#f0a500" id="pStatAttente">0</div></div>
+    <div class="stat-card"><div class="stat-label">Validées</div><div class="stat-value" style="color:var(--green)" id="pStatValides">0</div></div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="table-wrap">
+    <div class="table-header">
+      <div class="table-title">Demandes de confirmation PayPal</div>
+      <div class="table-actions">
+        <select class="filter-select" id="paypalFilter" onchange="renderPaypal()">
+          <option value="">Tous les statuts</option>
+          <option value="paypal_pending">⏳ En attente</option>
+          <option value="livré">✅ Validées</option>
+          <option value="refusé">❌ Refusées</option>
+        </select>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Nom client</th>
+          <th>Email</th>
+          <th>Formation</th>
+          <th>Montant</th>
+          <th>ID Transaction</th>
+          <th>Preuve</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="paypalTable"></tbody>
+    </table>
+    <div id="paypalEmpty" class="empty-state" style="display:none">
+      <div class="empty-icon">🅿️</div>
+      <div class="empty-title">Aucune demande PayPal pour l'instant</div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS PAGE -->
     <div class="page" id="page-settings">
       <div class="topbar">
         <div><h1 class="page-title">Paramètres <em>du site</em></h1><div class="page-sub">Personnalisez la page d'accueil sans toucher au code</div></div>
@@ -529,9 +580,10 @@ function doLogin() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     loadFormations();
-    loadSettings();
-    loadPreuvesAdmin();
-    loadCommandes();
+loadSettings();
+loadPreuvesAdmin();
+loadCommandes();
+loadPaypal();
   } else {
     const err = document.getElementById('loginError');
     err.style.display = 'block';
@@ -1170,6 +1222,149 @@ function removeHeroImage() {
   document.getElementById('heroPreview').style.display = 'none';
   document.getElementById('heroPreviewImg').src = '';
   showToast('🗑️ Image supprimée', 'success');
+}
+
+// ── PAYPAL DEMANDES ──
+let paypalData = [];
+
+async function loadPaypal() {
+  try {
+    const data = await sbFetch('commandes?statut=eq.paypal_pending&order=created_at.desc&select=*');
+    // Charger aussi les validées et refusées
+    const all = await sbFetch('commandes?or=(statut.eq.paypal_pending,statut.eq.livré,statut.eq.refusé)&order=created_at.desc&select=*');
+    paypalData = Array.isArray(all) ? all.filter(c => 
+      c.statut === 'paypal_pending' || 
+      (c.transaction_id && c.statut !== 'payé' && c.statut !== 'crypto_en_attente')
+    ) : [];
+    updatePaypalStats();
+    renderPaypal();
+    const badge = document.getElementById('paypalBadge');
+    if (badge) badge.textContent = paypalData.filter(c => c.statut === 'paypal_pending').length;
+  } catch(e) {
+    console.error('Error loading paypal:', e);
+  }
+}
+
+function updatePaypalStats() {
+  const total = paypalData.length;
+  const attente = paypalData.filter(c => c.statut === 'paypal_pending').length;
+  const valides = paypalData.filter(c => c.livraison_statut === 'livré').length;
+  document.getElementById('pStatTotal').textContent = total;
+  document.getElementById('pStatAttente').textContent = attente;
+  document.getElementById('pStatValides').textContent = valides;
+  document.getElementById('paypalCount').textContent = total + ' demande' + (total > 1 ? 's' : '');
+}
+
+function renderPaypal() {
+  const filter = document.getElementById('paypalFilter')?.value || '';
+  const filtered = paypalData.filter(c => !filter || c.statut === filter);
+  const tbody = document.getElementById('paypalTable');
+  const empty = document.getElementById('paypalEmpty');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = filtered.map(c => {
+    const date = new Date(c.created_at).toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const isPending = c.statut === 'paypal_pending';
+    const isLivre = c.livraison_statut === 'livré';
+    const isRefuse = c.statut === 'refusé';
+    return `
+    <tr>
+      <td style="font-size:12px;color:var(--text-muted)">${date}</td>
+      <td style="font-size:13px;font-weight:500">${c.nom_client || '—'}</td>
+      <td style="font-size:13px">${c.email || '—'}</td>
+      <td style="font-size:13px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.formation_titre || '—'}</td>
+      <td style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light)">${c.montant || '—'}</td>
+      <td style="font-size:11px;color:#666;max-width:120px;overflow:hidden;text-overflow:ellipsis">${c.transaction_id || '—'}</td>
+      <td>
+        ${c.screenshot_url 
+          ? `<a href="${c.screenshot_url}" target="_blank" style="color:var(--gold);font-size:12px;text-decoration:none">📸 Voir</a>`
+          : '<span style="color:#444;font-size:12px">—</span>'}
+      </td>
+      <td>
+        <span class="badge ${isLivre ? 'badge-active' : isRefuse ? 'badge-inactive' : ''}" style="${isPending ? 'background:rgba(240,165,0,0.1);color:#f0a500;border:1px solid rgba(240,165,0,0.2)' : ''}">
+          ${isLivre ? '✅ Validé' : isRefuse ? '❌ Refusé' : '⏳ En attente'}
+        </span>
+      </td>
+      <td>
+        ${isPending ? `
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-gold btn-sm" onclick="validerPaypal('${c.id}','${(c.email||'').replace(/'/g,"\\'")}','${(c.formation_titre||'').replace(/'/g,"\\'")}','${c.formation_id||''}')">✅ Valider</button>
+          <button class="btn btn-danger btn-sm" onclick="refuserPaypal('${c.id}')">❌</button>
+        </div>` : 
+        `<span style="font-size:12px;color:#555">${isLivre ? '✓ Accès envoyé' : 'Traité'}</span>`}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function validerPaypal(id, email, titre, formationId) {
+  // Récupérer lien_acces depuis Supabase
+  let lienAcces = null;
+  if (formationId) {
+    const data = await sbFetch(`formations?id=eq.${formationId}&select=lien_acces`);
+    if (Array.isArray(data) && data.length > 0) lienAcces = data[0].lien_acces;
+  }
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)';
+  overlay.innerHTML = `
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:500px;width:100%;animation:fadeUp .3s ease">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px">✅ Valider la demande PayPal</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">${titre} → ${email}</p>
+      <div style="margin-bottom:16px">
+        <label style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:8px">Lien d'accès à envoyer</label>
+        <input type="text" id="paypalLienAcces" class="form-input" value="${lienAcces || ''}" placeholder="https://t.me/... ou https://drive.google.com/..." style="width:100%">
+        <span style="font-size:11px;color:#555;margin-top:6px;display:block">Ce lien sera envoyé automatiquement par email au client</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button class="btn btn-gold" style="flex:1" onclick="confirmerValidationPaypal('${id}','${email}','${titre.replace(/'/g,"\\'")}')">✅ Confirmer et envoyer</button>
+        <button class="btn btn-outline" onclick="this.closest('[style*=fixed]').remove()">Annuler</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+}
+
+async function confirmerValidationPaypal(id, email, titre) {
+  const lien = document.getElementById('paypalLienAcces').value.trim();
+  if (!lien) { showToast('⚠️ Entrez le lien d\'accès', 'error'); return; }
+
+  try {
+    // Mettre à jour la commande
+    await sbFetch(`commandes?id=eq.${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ statut: 'payé', livraison_statut: 'livré', lien_acces: lien })
+    });
+
+    // Envoyer email via Resend
+    await fetch('/api/paypal-livraison', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, email, titre, lien_acces: lien })
+    });
+
+    document.querySelector('[style*=fixed]')?.remove();
+    await loadPaypal();
+    showToast('✅ Demande validée ! Email envoyé au client.', 'success');
+  } catch(e) {
+    showToast('❌ Erreur lors de la validation', 'error');
+  }
+}
+
+async function refuserPaypal(id) {
+  if (!confirm('Refuser cette demande PayPal ?')) return;
+  await sbFetch(`commandes?id=eq.${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ statut: 'refusé', livraison_statut: 'refusé' })
+  });
+  await loadPaypal();
+  showToast('❌ Demande refusée', 'success');
 }
 </script>
 </body>
