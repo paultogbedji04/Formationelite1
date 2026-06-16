@@ -483,9 +483,14 @@
           <span class="form-hint">Crée un lien sur paypal.com/paymentlinks et colle-le ici</span>
         </div>
         <div class="form-group full">
-          <label class="form-label">₿ Binance Pay ID</label>
-          <input type="text" class="form-input" id="fBinanceId" placeholder="ex: ton @BinancePay ou ID numérique">
-          <span class="form-hint">Ton identifiant Binance Pay — le client te paiera directement</span>
+  <label class="form-label">🔗 Lien d'accès à la formation</label>
+  <input type="text" class="form-input" id="fLienAcces" placeholder="https://drive.google.com/... ou https://t.me/...">
+  <span class="form-hint">Ce lien sera envoyé automatiquement par email après paiement Stripe ou Crypto</span>
+</div>
+        <div class="form-group full">
+          <label class="form-label">🔗 Lien d'accès à la formation</label>
+          <input type="text" class="form-input" id="fLienAcces" placeholder="https://drive.google.com/... ou https://telegram.me/...">
+          <span class="form-hint">Ce lien sera envoyé automatiquement par email après paiement Stripe ou Crypto</span>
         </div>
         <div class="form-group full"><label class="form-label">Statut</label><div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="fActif" checked><span class="toggle-slider"></span></label><span class="toggle-label">Formation visible sur le site</span></div></div>
       </div>
@@ -638,7 +643,7 @@ function renderApercu() {
 function openAddModal() {
   editMode = false;
   document.getElementById('modalFormTitle').textContent = '➕ Nouvelle formation';
-  ['editId','fTitre','fAuteur','fPrix','fAncienPrix','fDesc','fInclus','fImage','fStripeLink','fPaypalLink','fBinanceId'].forEach(id => document.getElementById(id).value = '');
+['editId','fTitre','fAuteur','fPrix','fAncienPrix','fDesc','fInclus','fImage','fStripeLink','fPaypalLink','fLienAcces'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fScreenshots').value = '';
   document.getElementById('fImagePreview').style.display = 'none';
   resetScreenshotSlots();
@@ -663,7 +668,7 @@ function openEditModal(id) {
   document.getElementById('fAncienPrix').value = f.ancien_prix||'';
   document.getElementById('fStripeLink').value = f.stripe_link||'';
   document.getElementById('fPaypalLink').value = f.paypal_link||'';
-  document.getElementById('fBinanceId').value = f.binance_id||'';
+  document.getElementById('fLienAcces').value = f.lien_acces||'';
   document.getElementById('fDesc').value = f.description||'';
   document.getElementById('fInclus').value = Array.isArray(f.inclus) ? f.inclus.join('\n') : '';
   document.getElementById('fImage').value = f.image_principale||'';
@@ -703,7 +708,7 @@ async function saveFormation() {
     actif: document.getElementById('fActif').checked,
     stripe_link: document.getElementById('fStripeLink').value.trim()||null,
     paypal_link: document.getElementById('fPaypalLink').value.trim()||null,
-    binance_id: document.getElementById('fBinanceId').value.trim()||null
+    lien_acces: document.getElementById('fLienAcces').value.trim()||null
   };
   const editId = document.getElementById('editId').value;
   if (editMode && editId) {
