@@ -28,6 +28,10 @@
       "dest": "/api/webhook.js"
     },
     {
+      "src": "/api/webhook-crypto",
+      "dest": "/api/webhook-crypto.js"
+    },
+    {
       "src": "/api/gratuit",
       "dest": "/api/gratuit.js"
     },
