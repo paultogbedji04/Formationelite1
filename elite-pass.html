@@ -448,7 +448,7 @@ function buyElitePass() {
       </a>
 
       <!-- PAYPAL -->
-      <a href="https://www.paypal.me/paultogbedji" target="_blank" class="pay-option" style="border:1px solid rgba(0,112,240,0.2)">
+      <a href="#" onclick="payerPaypalElitePass();return false;" class="pay-option" style="border:1px solid rgba(0,112,240,0.2)">
         <span style="font-size:26px">🅿️</span>
         <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Envoyer 199€ — indiquer "Élite Pass" en note</div></div>
         <span style="margin-left:auto;color:#0070f0">→</span>
@@ -489,6 +489,13 @@ async function payerCryptoElitePass() {
   } catch(e) {
     alert('Erreur réseau. Contactez-nous sur Telegram @CreativeagencyFr');
   }
+}
+function payerPaypalElitePass() {
+  document.querySelector('[style*="position:fixed"]')?.remove();
+  window.open('https://www.paypal.me/paultogbedji/199', '_blank');
+  setTimeout(() => {
+    window.location.href = `paypal-confirmation.html?formation_id=43666279-e0c9-46fb-a2b0-81d14a3b0953&formation_titre=${encodeURIComponent("L'Élite Pass")}&montant=199`;
+  }, 1500);
 }
 // ── FAQ ──
 const faqs = [
