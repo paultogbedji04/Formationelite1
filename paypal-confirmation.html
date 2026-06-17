@@ -9,7 +9,7 @@
 <style>
   :root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
   /* NAV */
@@ -54,8 +54,10 @@
   @media(max-width:600px){
     nav{padding:14px 16px}
     .nav-mobile-btn{display:block}
-    .confirm-card{padding:28px 16px}
+    .page-wrap{padding:90px 12px 40px}
+    .confirm-card{padding:24px 16px;max-width:100%}
     footer{padding:24px 16px}
+    .confirm-card div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr;gap:0}
   }
 </style>
 </head>
