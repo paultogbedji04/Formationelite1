@@ -417,15 +417,7 @@ function renderPage() {
   const screenshots = Array.isArray(f.screenshots) ? f.screenshots.filter(Boolean) : [];
 
   // Hero breadcrumb
-  document.getElementById('heroSection').innerHTML = `
-    <div style="max-width:1100px;margin:0 auto">
-      <div class="breadcrumb">
-        <a href="index.html">Accueil</a><span>›</span>
-        <a href="formations.html">Formations</a><span>›</span>
-        <a href="formations.html?cat=${encodeURIComponent(f.categorie)}">${f.categorie}</a><span>›</span>
-        <span style="color:var(--text-muted);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:middle">${f.titre}</span>
-      </div>
-    </div>`;
+  document.getElementById('heroSection').innerHTML = '';
 
   // Main content
   document.getElementById('mainContent').innerHTML = `
