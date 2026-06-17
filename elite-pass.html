@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
 <title>L'Élite Pass — Accès illimité — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -357,7 +358,9 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 function navHtml() {
   const pages = [['index.html','Accueil'],['formations.html','Formations'],['elite-pass.html',"L'Élite Pass"],['preuves.html','Preuves'],['faq.html','FAQ']];
   return `<nav>
-    <a href="index.html" class="logo">Formation<span>Elite</span>.fr</a>
+    <a href="index.html" class="logo" style="display:flex;align-items:center">
+  <img src="logo.jpg" alt="FormationElite" style="height:52px;width:52px;border-radius:8px;object-fit:cover;mix-blend-mode:lighten">
+</a>
     <div class="nav-links">
       ${pages.map(([href,label]) => `<a href="${href}" class="${href==='elite-pass.html'?'active':''}">${label}</a>`).join('')}
       <a href="#" class="nav-cta">Mon Compte</a>
