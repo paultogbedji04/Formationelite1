@@ -408,7 +408,7 @@
     </div>
     <div class="stat-item">
       <div class="stat-number" id="statFormations">0</div>
-      <div class="stat-label">Formations dispo</div>
+      <div class="stat-label">Commandes livrées</div>
     </div>
     <div class="stat-item">
       <div class="stat-number" id="statSatisfaction">0</div>
@@ -1025,7 +1025,7 @@ function animateCounters() {
   const obs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
       count('statClients',2400,v=>v.toLocaleString('fr-FR')+'+');
-      count('statFormations',1000,v=>v+'+');
+      count('statFormations',3589,v=>v.toLocaleString('fr-FR')+'+');
       count('statSatisfaction',98,v=>v+'%');
       count('statLivraison',24,v=>v+'h');
       obs.disconnect();
