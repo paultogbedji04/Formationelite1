@@ -647,9 +647,8 @@ function navHtml(activePage) {
     ['faq.html','FAQ'],
   ];
   return `<nav>
-    <a href="index.html" class="logo" style="display:flex;align-items:center;gap:10px">
-  <img src="logo.jpg" alt="FormationElite" style="height:38px;width:38px;border-radius:6px;object-fit:cover">
-  <span style="display:flex;flex-direction:column;line-height:1">Formation<span style="color:var(--text-muted);font-size:0.9em">Elite</span>.fr</span>
+    <a href="index.html" class="logo" style="display:flex;align-items:center">
+  <img src="logo.jpg" alt="FormationElite" style="height:44px;width:44px;border-radius:8px;object-fit:cover">
 </a>
     <div class="nav-links">
       ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
@@ -677,10 +676,7 @@ function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-logo" style="display:flex;align-items:center;gap:10px">
-  <img src="logo.jpg" alt="FormationElite" style="height:32px;width:32px;border-radius:6px;object-fit:cover">
-  FormationElite.fr
-</a>
+        <a href="index.html" class="footer-logo">FormationElite.fr</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
         <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
       </div>
