@@ -10,8 +10,8 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { id, email, titre, lien_acces } = req.body;
-    if (!email || !lien_acces) {
+    const { id, email, titre, lien_acces, formations } = req.body;
+    if (!email || (!lien_acces && !formations)) {
       return res.status(400).json({ error: 'Email ou lien manquant' });
     }
 
@@ -40,15 +40,26 @@ module.exports = async (req, res) => {
       <h2 style="color:#fff;font-size:20px;margin:0 0 16px;">✅ Paiement PayPal validé !</h2>
       <p style="color:#ccc;font-size:15px;line-height:1.6;margin:0 0 24px;">
         Votre paiement PayPal a été vérifié et validé par notre équipe.<br>
-        Votre formation <strong style="color:#c9a84c;">${titre}</strong> est prête.
+        ${formations && formations.length > 1 ? `Vos <strong style="color:#c9a84c;">${formations.length} formations</strong> sont prêtes.` : `Votre formation <strong style="color:#c9a84c;">${titre}</strong> est prête.`}
       </p>
       <div style="text-align:center;margin:32px 0;">
-        <a href="${lien_acces}" 
-           style="background:linear-gradient(135deg,#c9a84c,#f0d080);color:#000;font-weight:bold;
-                  font-size:16px;padding:16px 40px;border-radius:8px;text-decoration:none;
-                  display:inline-block;letter-spacing:1px;">
-          🎓 ACCÉDER À MA FORMATION
-        </a>
+        ${formations && formations.length > 0
+          ? formations.map(f => `
+            <div style="margin-bottom:14px;text-align:left;background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:14px 18px;">
+              <div style="color:#fff;font-size:14px;font-weight:bold;margin-bottom:8px;">${f.titre}</div>
+              <a href="${f.lien_acces}"
+                 style="background:linear-gradient(135deg,#c9a84c,#f0d080);color:#000;font-weight:bold;
+                        font-size:14px;padding:10px 24px;border-radius:6px;text-decoration:none;
+                        display:inline-block;letter-spacing:.5px;">
+                🎓 Accéder
+              </a>
+            </div>`).join('')
+          : `<a href="${lien_acces}" 
+             style="background:linear-gradient(135deg,#c9a84c,#f0d080);color:#000;font-weight:bold;
+                    font-size:16px;padding:16px 40px;border-radius:8px;text-decoration:none;
+                    display:inline-block;letter-spacing:1px;">
+            🎓 ACCÉDER À MA FORMATION
+          </a>`}
       </div>
       <p style="color:#888;font-size:12px;text-align:center;">
         Conservez cet email — ce lien est votre accès permanent

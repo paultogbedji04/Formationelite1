@@ -68,7 +68,7 @@ module.exports = async (req, res) => {
       <h2 style="color:#fff;font-size:20px;margin:0 0 16px;">⏳ Paiement en cours de vérification</h2>
       <p style="color:#ccc;font-size:15px;line-height:1.6;margin:0 0 16px;">
         Bonjour <strong style="color:#c9a84c;">${nom}</strong>,<br><br>
-        Nous avons bien reçu votre demande pour la formation <strong style="color:#c9a84c;">${formation_titre}</strong>.
+        Nous avons bien reçu votre demande pour : <strong style="color:#c9a84c;">${formation_titre}</strong>.
       </p>
       <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:20px;margin-bottom:24px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:8px;">

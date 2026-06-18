@@ -1303,25 +1303,45 @@ function renderPaypal() {
   }).join('');
 }
 
+let validationFormations = []; // stocke {titre, lien_acces} pour la validation en cours
+
 async function validerPaypal(id, email, titre, formationId) {
-  // Récupérer lien_acces depuis Supabase
-  let lienAcces = null;
-  if (formationId) {
-    const data = await sbFetch(`formations?id=eq.${formationId}&select=lien_acces`);
-    if (Array.isArray(data) && data.length > 0) lienAcces = data[0].lien_acces;
+  validationFormations = [];
+  const ids = (formationId || '').split(',').map(s => s.trim()).filter(Boolean);
+
+  if (ids.length > 1) {
+    // MODE PANIER — récupérer toutes les formations
+    const data = await sbFetch(`formations?id=in.(${ids.join(',')})&select=id,titre,lien_acces`);
+    if (Array.isArray(data)) {
+      validationFormations = data.map(f => ({ titre: f.titre, lien_acces: f.lien_acces || '' }));
+    }
+  } else if (ids.length === 1) {
+    const data = await sbFetch(`formations?id=eq.${ids[0]}&select=titre,lien_acces`);
+    if (Array.isArray(data) && data.length > 0) {
+      validationFormations = [{ titre: data[0].titre, lien_acces: data[0].lien_acces || '' }];
+    }
   }
+
+  const isMulti = validationFormations.length > 1;
+  const fieldsHtml = isMulti
+    ? validationFormations.map((f, i) => `
+        <div style="margin-bottom:14px">
+          <label style="font-size:11px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px">${f.titre}</label>
+          <input type="text" class="form-input paypal-lien-multi" data-titre="${f.titre.replace(/"/g,'&quot;')}" value="${f.lien_acces || ''}" placeholder="https://..." style="width:100%">
+        </div>`).join('')
+    : `<div style="margin-bottom:16px">
+        <label style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:8px">Lien d'accès à envoyer</label>
+        <input type="text" id="paypalLienAcces" class="form-input" value="${validationFormations[0]?.lien_acces || ''}" placeholder="https://t.me/... ou https://drive.google.com/..." style="width:100%">
+      </div>`;
 
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)';
   overlay.innerHTML = `
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:500px;width:100%;animation:fadeUp .3s ease">
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;animation:fadeUp .3s ease">
       <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px">✅ Valider la demande PayPal</h3>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">${titre} → ${email}</p>
-      <div style="margin-bottom:16px">
-        <label style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:8px">Lien d'accès à envoyer</label>
-        <input type="text" id="paypalLienAcces" class="form-input" value="${lienAcces || ''}" placeholder="https://t.me/... ou https://drive.google.com/..." style="width:100%">
-        <span style="font-size:11px;color:#555;margin-top:6px;display:block">Ce lien sera envoyé automatiquement par email au client</span>
-      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">${isMulti ? `${validationFormations.length} formations` : titre} → ${email}</p>
+      ${fieldsHtml}
+      <span style="font-size:11px;color:#555;margin-top:-8px;margin-bottom:16px;display:block">Ces liens seront envoyés automatiquement par email au client</span>
       <div style="display:flex;gap:10px;margin-top:20px">
         <button class="btn btn-gold" style="flex:1" onclick="confirmerValidationPaypal('${id}','${email}','${titre.replace(/'/g,"\\'")}')">✅ Confirmer et envoyer</button>
         <button class="btn btn-outline" onclick="this.closest('[style*=fixed]').remove()">Annuler</button>
@@ -1330,23 +1350,41 @@ async function validerPaypal(id, email, titre, formationId) {
   document.body.appendChild(overlay);
   overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
 }
-
 async function confirmerValidationPaypal(id, email, titre) {
-  const lien = document.getElementById('paypalLienAcces').value.trim();
-  if (!lien) { showToast('⚠️ Entrez le lien d\'accès', 'error'); return; }
+  const isMulti = validationFormations.length > 1;
+  let lien = null;
+  let formationsPayload = null;
+
+  if (isMulti) {
+    const inputs = document.querySelectorAll('.paypal-lien-multi');
+    formationsPayload = Array.from(inputs).map(inp => ({
+      titre: inp.dataset.titre,
+      lien_acces: inp.value.trim()
+    }));
+    if (formationsPayload.some(f => !f.lien_acces)) {
+      showToast('⚠️ Remplissez tous les liens d\'accès', 'error');
+      return;
+    }
+    lien = formationsPayload.map(f => f.lien_acces).join(' | ');
+  } else {
+    lien = document.getElementById('paypalLienAcces').value.trim();
+    if (!lien) { showToast('⚠️ Entrez le lien d\'accès', 'error'); return; }
+  }
 
   try {
-    // Mettre à jour la commande
     await sbFetch(`commandes?id=eq.${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ statut: 'payé', livraison_statut: 'livré', lien_acces: lien })
     });
 
-    // Envoyer email via Resend
     await fetch('/api/paypal-livraison', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, email, titre, lien_acces: lien })
+      body: JSON.stringify(
+        isMulti
+          ? { id, email, titre, formations: formationsPayload }
+          : { id, email, titre, lien_acces: lien }
+      )
     });
 
     document.querySelector('[style*=fixed]')?.remove();
@@ -1356,7 +1394,6 @@ async function confirmerValidationPaypal(id, email, titre) {
     showToast('❌ Erreur lors de la validation', 'error');
   }
 }
-
 async function refuserPaypal(id) {
   if (!confirm('Refuser cette demande PayPal ?')) return;
   await sbFetch(`commandes?id=eq.${id}`, {
