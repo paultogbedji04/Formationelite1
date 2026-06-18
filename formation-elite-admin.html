@@ -163,7 +163,7 @@
       <div class="nav-item" onclick="showPage('preuves',this)"><span class="nav-icon">📸</span> Preuves</div>
       <div class="nav-item" onclick="showPage('commandes',this)"><span class="nav-icon">🛒</span> Commandes <span class="nav-badge" id="commandesBadge">0</span></div>
 <div class="nav-item" onclick="showPage('paypal',this)"><span class="nav-icon">🅿️</span> PayPal <span class="nav-badge" id="paypalBadge">0</span></div>
-      <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Paramètres site</div>
+      <div class="nav-item" onclick="showPage('avis',this)"><span class="nav-icon">⭐</span> Avis clients</div>      <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Paramètres site</div>
     </nav>
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="doLogout()">⎋ Se déconnecter</button>
@@ -344,6 +344,25 @@
     <div id="paypalEmpty" class="empty-state" style="display:none">
       <div class="empty-icon">🅿️</div>
       <div class="empty-title">Aucune demande PayPal pour l'instant</div>
+    </div>
+  </div>
+</div>
+
+<!-- AVIS PAGE -->
+<div class="page" id="page-avis">
+  <div class="topbar">
+    <div><h1 class="page-title">Gérer les <em>avis clients</em></h1><div class="page-sub" id="avisCount">0 avis</div></div>
+    <button class="btn btn-gold" onclick="openAvisModal()">+ Ajouter un avis</button>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header"><div class="table-title">Tous les avis</div></div>
+    <table>
+      <thead><tr><th>Ordre</th><th>Nom</th><th>Avis</th><th>Note</th><th>Contexte</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody id="avisTable"></tbody>
+    </table>
+    <div id="avisEmpty" class="empty-state" style="display:none">
+      <div class="empty-icon">⭐</div>
+      <div class="empty-title">Aucun avis pour l'instant</div>
     </div>
   </div>
 </div>
@@ -548,6 +567,34 @@
   </div>
 </div>
 
+<!-- AVIS MODAL -->
+<div class="modal-ov" id="avisModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-title" id="avisModalTitle">Nouvel avis</div>
+      <button class="modal-close-btn" onclick="closeAvisModal()">✕</button>
+    </div>
+    <div class="modal-body-form">
+      <input type="hidden" id="avisEditId">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Nom du client *</label><input type="text" class="form-input" id="aNom" placeholder="ex: Kévin M."></div>
+        <div class="form-group"><label class="form-label">Initiale (avatar)</label><input type="text" class="form-input" id="aInitiale" placeholder="K" maxlength="2"></div>
+        <div class="form-group full"><label class="form-label">Avis / Commentaire *</label><textarea class="form-input" id="aTexte" placeholder="Le commentaire du client..." style="min-height:90px"></textarea></div>
+        <div class="form-group"><label class="form-label">Note (1-5)</label>
+          <select class="form-input" id="aNote"><option value="5">5 ⭐</option><option value="4">4 ⭐</option><option value="3">3 ⭐</option><option value="2">2 ⭐</option><option value="1">1 ⭐</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Contexte</label><input type="text" class="form-input" id="aContexte" placeholder="ex: Formation Trading ✓"></div>
+        <div class="form-group"><label class="form-label">Ordre d'affichage</label><input type="number" class="form-input" id="aOrdre" placeholder="0"></div>
+        <div class="form-group"><div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="aActif" checked><span class="toggle-slider"></span></label><span class="toggle-label">Avis visible sur le site</span></div></div>
+      </div>
+    </div>
+    <div class="modal-footer-form">
+      <button class="btn btn-outline" onclick="closeAvisModal()">Annuler</button>
+      <button class="btn btn-gold" onclick="saveAvis()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM DELETE -->
 <div class="confirm-ov" id="confirmOv">
   <div class="confirm-box">
@@ -594,6 +641,7 @@ async function doLogin() {
       loadPreuvesAdmin();
       loadCommandes();
       loadPaypal();
+      loadAvisAdmin();
     } else {
       const err = document.getElementById('loginError');
       err.style.display = 'block';
@@ -1017,6 +1065,106 @@ async function confirmerLivraison(id) {
   } catch(e) {
     showToast('❌ Erreur lors de la livraison', 'error');
   }
+}
+
+// ── AVIS ──
+let avisData = [];
+
+async function loadAvisAdmin() {
+  try {
+    const data = await sbFetch('avis?select=*&order=ordre.asc');
+    avisData = Array.isArray(data) ? data : [];
+    renderAvisTable();
+  } catch(e) {}
+}
+
+function renderAvisTable() {
+  const tbody = document.getElementById('avisTable');
+  const empty = document.getElementById('avisEmpty');
+  document.getElementById('avisCount').textContent = avisData.length + ' avis';
+
+  if (avisData.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = avisData.map(a => `
+    <tr>
+      <td style="color:var(--text-muted)">${a.ordre ?? 0}</td>
+      <td style="font-weight:500">${a.nom}</td>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#888;font-size:12px">${a.texte}</td>
+      <td>${'⭐'.repeat(a.note||5)}</td>
+      <td style="font-size:12px;color:var(--text-muted)">${a.contexte||'—'}</td>
+      <td><span class="badge ${a.actif?'badge-active':'badge-inactive'}" style="cursor:pointer" onclick="toggleAvisActif('${a.id}',${a.actif})">${a.actif?'● Actif':'○ Masqué'}</span></td>
+      <td><div class="td-actions">
+        <button class="btn btn-outline btn-sm" onclick="openAvisModal('${a.id}')">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteAvis('${a.id}')">🗑️</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function openAvisModal(id) {
+  if (id) {
+    const a = avisData.find(x => x.id == id);
+    if (!a) return;
+    document.getElementById('avisModalTitle').textContent = '✏️ Modifier l\'avis';
+    document.getElementById('avisEditId').value = a.id;
+    document.getElementById('aNom').value = a.nom||'';
+    document.getElementById('aInitiale').value = a.initiale||'';
+    document.getElementById('aTexte').value = a.texte||'';
+    document.getElementById('aNote').value = a.note||5;
+    document.getElementById('aContexte').value = a.contexte||'';
+    document.getElementById('aOrdre').value = a.ordre||0;
+    document.getElementById('aActif').checked = a.actif !== false;
+  } else {
+    document.getElementById('avisModalTitle').textContent = '➕ Nouvel avis';
+    ['avisEditId','aNom','aInitiale','aTexte','aContexte'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('aNote').value = 5;
+    document.getElementById('aOrdre').value = avisData.length;
+    document.getElementById('aActif').checked = true;
+  }
+  document.getElementById('avisModal').classList.add('open');
+}
+
+function closeAvisModal() { document.getElementById('avisModal').classList.remove('open'); }
+
+async function saveAvis() {
+  const nom = document.getElementById('aNom').value.trim();
+  const texte = document.getElementById('aTexte').value.trim();
+  if (!nom || !texte) { showToast('❌ Nom et avis obligatoires', 'error'); return; }
+
+  const payload = {
+    nom, texte,
+    initiale: document.getElementById('aInitiale').value.trim() || nom[0].toUpperCase(),
+    note: parseInt(document.getElementById('aNote').value),
+    contexte: document.getElementById('aContexte').value.trim() || null,
+    ordre: parseInt(document.getElementById('aOrdre').value) || 0,
+    actif: document.getElementById('aActif').checked
+  };
+
+  const editId = document.getElementById('avisEditId').value;
+  if (editId) {
+    await sbFetch(`avis?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+  } else {
+    await sbFetch('avis', { method:'POST', body:JSON.stringify(payload) });
+  }
+  closeAvisModal();
+  await loadAvisAdmin();
+  showToast(editId ? '✅ Avis modifié !' : '✅ Avis ajouté !', 'success');
+}
+
+async function toggleAvisActif(id, current) {
+  await sbFetch(`avis?id=eq.${id}`, { method:'PATCH', body:JSON.stringify({actif:!current}) });
+  await loadAvisAdmin();
+}
+
+async function deleteAvis(id) {
+  if (!confirm('Supprimer cet avis ?')) return;
+  await sbFetch(`avis?id=eq.${id}`, { method:'DELETE', prefer:'return=minimal' });
+  await loadAvisAdmin();
+  showToast('🗑️ Avis supprimé', 'success');
 }
 
 function showToast(msg, type='success') {
