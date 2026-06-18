@@ -566,35 +566,67 @@
 <script>
 const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
-const ADMIN_EMAIL = "comlanpaul61@gmail.com";
-const ADMIN_PASS = "EliteAdmin2026!";
-
 let formations = [];
 let deleteTargetId = null;
 let editMode = false;
 
-function doLogin() {
+async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPass').value;
-  if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    loadFormations();
-loadSettings();
-loadPreuvesAdmin();
-loadCommandes();
-loadPaypal();
-  } else {
+  const btn = document.querySelector('.login-btn');
+  btn.textContent = 'Connexion...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      sessionStorage.setItem('fe_admin_token', data.token);
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      loadFormations();
+      loadSettings();
+      loadPreuvesAdmin();
+      loadCommandes();
+      loadPaypal();
+    } else {
+      const err = document.getElementById('loginError');
+      err.style.display = 'block';
+      setTimeout(() => err.style.display = 'none', 3000);
+    }
+  } catch(e) {
     const err = document.getElementById('loginError');
+    err.textContent = 'Erreur de connexion — réessayez';
     err.style.display = 'block';
-    setTimeout(() => err.style.display = 'none', 3000);
+  } finally {
+    btn.textContent = 'Accéder au panel';
+    btn.disabled = false;
   }
 }
 
 function doLogout() {
+  sessionStorage.removeItem('fe_admin_token');
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
 }
+
+// Auto-login si token valide en session (évite de se reconnecter à chaque rechargement)
+(function checkSession() {
+  if (sessionStorage.getItem('fe_admin_token')) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    loadFormations();
+    loadSettings();
+    loadPreuvesAdmin();
+    loadCommandes();
+    loadPaypal();
+  }
+})();
 
 async function sbFetch(path, options = {}) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
