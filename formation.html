@@ -298,7 +298,6 @@ function navHtml() {
 </a>
     <div class="nav-links">
       ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
-      <a href="#" class="nav-cta">Mon Compte</a>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <button onclick="ouvrirPanier()" class="panier-nav-btn" style="position:relative;background:none;border:1px solid var(--border);border-radius:4px;color:#888;cursor:pointer;padding:8px 12px;font-size:16px;transition:all .2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">
@@ -309,7 +308,6 @@ function navHtml() {
   </nav>
   <div id="mobileNav">
     ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
-    <a href="#">Mon Compte</a>
   </div>`;
 }
 

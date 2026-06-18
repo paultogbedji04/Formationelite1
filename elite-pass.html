@@ -363,13 +363,11 @@ function navHtml() {
 </a>
     <div class="nav-links">
       ${pages.map(([href,label]) => `<a href="${href}" class="${href==='elite-pass.html'?'active':''}">${label}</a>`).join('')}
-      <a href="#" class="nav-cta">Mon Compte</a>
     </div>
     <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
   </nav>
   <div id="mobileNav">
     ${pages.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}
-    <a href="#">Mon Compte</a>
   </div>`;
 }
 function toggleMobileNav() {

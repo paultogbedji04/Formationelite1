@@ -303,13 +303,11 @@ function navHtml(activePage) {
 </a>
     <div class="nav-links">
       ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
-      <a href="#" class="nav-cta">Mon Compte</a>
     </div>
     <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
   </nav>
   <div id="mobileNav">
     ${pages.map(([href,label]) => `<a href="${href}" class="${activePage===href?'active':''}">${label}</a>`).join('')}
-    <a href="#">Mon Compte</a>
   </div>`;
 }
 
