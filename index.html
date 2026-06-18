@@ -515,34 +515,10 @@
   <div class="section-label">Témoignages</div>
   <h2 class="section-title" style="margin-bottom:8px">Ce que disent <em>nos clients.</em></h2>
   <p class="section-sub" style="margin-bottom:40px">Des centaines de clients satisfaits chaque mois.</p>
-  <div class="avis-grid">
-    <div class="avis-card">
-      <div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div>
-      <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"J'ai acheté la formation trading via FormationElite. Livraison en moins de 10 minutes. Rapport qualité/prix imbattable !"</p>
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="avis-avatar">K</div>
-        <div><div style="font-size:14px;font-weight:600">Kévin M.</div><div style="font-size:11px;color:var(--text-muted)">Formation Trading ✓</div></div>
-      </div>
-    </div>
-    <div class="avis-card">
-      <div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div>
-      <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"L'Élite Pass vaut vraiment le coup. +1000 formations en un seul achat. Support réactif, livraison instantanée."</p>
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="avis-avatar">S</div>
-        <div><div style="font-size:14px;font-weight:600">Sofia T.</div><div style="font-size:11px;color:var(--text-muted)">Élite Pass ✓</div></div>
-      </div>
-    </div>
-    <div class="avis-card">
-      <div style="margin-bottom:14px">⭐⭐⭐⭐⭐</div>
-      <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"FormationElite c'est le meilleur site pour se former sans se ruiner. Contenu complet et à jour."</p>
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="avis-avatar">M</div>
-        <div><div style="font-size:14px;font-weight:600">Maxime D.</div><div style="font-size:11px;color:var(--text-muted)">Formation SEO ✓</div></div>
-      </div>
-    </div>
+  <div class="avis-grid" id="avisGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">⚡ Chargement...</div>
   </div>
 </section>
-
 <div id="footer-placeholder"></div>
 
 
@@ -719,8 +695,30 @@ async function loadIndex() {
       renderAccordion(data);
     }
   } catch(e) {}
+  loadAvis();
 }
 
+async function loadAvis() {
+  const grid = document.getElementById('avisGrid');
+  try {
+    const data = await sbGet('avis?select=*&actif=eq.true&order=ordre.asc');
+    if (Array.isArray(data) && data.length > 0) {
+      grid.innerHTML = data.map(a => `
+        <div class="avis-card">
+          <div style="margin-bottom:14px">${'⭐'.repeat(a.note || 5)}</div>
+          <p style="font-size:14px;color:#888;line-height:1.7;margin-bottom:20px;font-style:italic">"${a.texte}"</p>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="avis-avatar">${a.initiale || a.nom?.[0] || '?'}</div>
+            <div><div style="font-size:14px;font-weight:600">${a.nom}</div><div style="font-size:11px;color:var(--text-muted)">${a.contexte || ''}</div></div>
+          </div>
+        </div>`).join('');
+    } else {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">Pas encore d\'avis à afficher</div>';
+    }
+  } catch(e) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">Erreur de chargement</div>';
+  }
+}
 function isMobile() { return window.innerWidth <= 600; }
 
 function renderRecent(data) {
