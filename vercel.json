@@ -52,6 +52,10 @@
       "dest": "/api/gratuit.js"
     },
     {
+      "src": "/api/admin-login",
+      "dest": "/api/admin-login.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
