@@ -56,6 +56,10 @@
       "dest": "/api/admin-login.js"
     },
     {
+      "src": "/sitemap.xml",
+      "dest": "/api/sitemap.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
