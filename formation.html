@@ -373,7 +373,40 @@ async function init() {
     }
     formation = data[0];
     window._formation = formation;
+
+    // Titre dynamique
     document.title = formation.titre + ' — FormationElite.fr';
+
+    // Meta description dynamique
+    const desc = formation.description
+      ? formation.description.slice(0, 155) + (formation.description.length > 155 ? '...' : '')
+      : `Accédez à la formation ${formation.titre} sur FormationElite.fr. Livraison immédiate, accès à vie.`;
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = desc;
+
+    // Open Graph (pour partage sur réseaux sociaux)
+    const ogTags = {
+      'og:title': formation.titre + ' — FormationElite.fr',
+      'og:description': desc,
+      'og:type': 'product',
+      'og:url': `https://formationelite.vip/formation.html?id=${formation.id}`,
+      'og:image': formation.image_principale || 'https://formationelite.vip/logo.jpg'
+    };
+    Object.entries(ogTags).forEach(([property, content]) => {
+      let tag = document.querySelector(`meta[property="${property}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute('property', property);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    });
     const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=3&select=*`);
     allFormations = Array.isArray(related) ? related : [];
     renderPage();
