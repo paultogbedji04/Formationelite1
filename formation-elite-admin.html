@@ -482,7 +482,19 @@
         </div>
         <div class="form-group"><label class="form-label">Prix de vente</label><input type="text" class="form-input" id="fPrix" placeholder="ex: 29€ ou Gratuit"></div>
         <div class="form-group"><label class="form-label">Prix original (barré)</label><input type="text" class="form-input" id="fAncienPrix" placeholder="ex: 297€"><span class="form-hint">Laissez vide si pas de prix barré</span></div>
-        <div class="form-group full"><label class="form-label">Description</label><textarea class="form-input" id="fDesc" placeholder="Décrivez le contenu de la formation..."></textarea></div>
+        <div class="form-group full">
+  <label class="form-label">Description</label>
+  <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+    <button type="button" onclick="formatDesc('bold')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:32px;height:32px;border-radius:4px;cursor:pointer;font-weight:700;font-size:13px">B</button>
+    <button type="button" onclick="formatDesc('italic')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:32px;height:32px;border-radius:4px;cursor:pointer;font-style:italic;font-size:13px">I</button>
+    <button type="button" onclick="formatDesc('h3')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600">Titre</button>
+    <button type="button" onclick="formatDesc('br')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:12px">↵ Ligne</button>
+    <button type="button" onclick="formatDesc('clear')" style="background:var(--bg);border:1px solid rgba(231,76,60,0.3);color:var(--red);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:12px">Effacer mise en forme</button>
+  </div>
+  <div id="fDescEditor" contenteditable="true" class="form-input" style="min-height:140px;line-height:1.7;cursor:text" placeholder="Décrivez le contenu de la formation..."></div>
+  <input type="hidden" id="fDesc">
+  <span class="form-hint">Sélectionne du texte puis clique sur B ou I pour le mettre en forme</span>
+</div>
         <div class="form-group full"><label class="form-label">Ce qui est inclus</label><textarea class="form-input" id="fInclus" placeholder="Un élément par ligne :&#10;12 modules vidéo HD&#10;Stratégies avancées&#10;Accès à vie..." style="min-height:80px"></textarea><span class="form-hint">Un élément par ligne</span></div>
         <div class="form-group full">
           <label class="form-label">Image principale</label>
@@ -767,10 +779,38 @@ function renderApercu() {
     </div>`).join('') || '<div style="color:var(--text-muted);text-align:center;grid-column:1/-1;padding:60px">Aucune formation active</div>';
 }
 
+// ── ÉDITEUR DESCRIPTION RICHE ──
+function formatDesc(action) {
+  const editor = document.getElementById('fDescEditor');
+  editor.focus();
+  if (action === 'bold') document.execCommand('bold');
+  else if (action === 'italic') document.execCommand('italic');
+  else if (action === 'br') document.execCommand('insertHTML', false, '<br>');
+  else if (action === 'h3') {
+    const sel = window.getSelection();
+    if (sel.toString().length > 0) {
+      document.execCommand('formatBlock', false, 'h3');
+    }
+  } else if (action === 'clear') {
+    document.execCommand('removeFormat');
+  }
+  syncDescField();
+}
+
+function syncDescField() {
+  document.getElementById('fDesc').value = document.getElementById('fDescEditor').innerHTML.trim();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const editor = document.getElementById('fDescEditor');
+  if (editor) editor.addEventListener('input', syncDescField);
+});
+
 function openAddModal() {
   editMode = false;
   document.getElementById('modalFormTitle').textContent = '➕ Nouvelle formation';
 ['editId','fTitre','fAuteur','fPrix','fAncienPrix','fDesc','fInclus','fImage','fStripeLink','fPaypalLink','fLienAcces'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fDescEditor').innerHTML = '';
   document.getElementById('fScreenshots').value = '';
   document.getElementById('fImagePreview').style.display = 'none';
   resetScreenshotSlots();
@@ -796,7 +836,8 @@ function openEditModal(id) {
   document.getElementById('fStripeLink').value = f.stripe_link||'';
   document.getElementById('fPaypalLink').value = f.paypal_link||'';
   document.getElementById('fLienAcces').value = f.lien_acces||'';
-  document.getElementById('fDesc').value = f.description||'';
+ document.getElementById('fDesc').value = f.description||'';
+  document.getElementById('fDescEditor').innerHTML = f.description||'';
   document.getElementById('fInclus').value = Array.isArray(f.inclus) ? f.inclus.join('\n') : '';
   document.getElementById('fImage').value = f.image_principale||'';
   const ssUrls = Array.isArray(f.screenshots) ? f.screenshots : [];
@@ -820,6 +861,7 @@ function closeFormModal() { document.getElementById('formModal').classList.remov
 async function saveFormation() {
   const titre = document.getElementById('fTitre').value.trim();
   if (!titre) { showToast('❌ Le titre est obligatoire', 'error'); return; }
+  syncDescField();
   const inclus = document.getElementById('fInclus').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
   const screenshots = document.getElementById('fScreenshots').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
   const payload = {

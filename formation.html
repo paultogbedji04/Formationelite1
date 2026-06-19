@@ -90,6 +90,8 @@
   .detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:400;line-height:1.1;margin-bottom:14px}
   .detail-author{font-size:14px;color:var(--text-muted);margin-bottom:20px;display:flex;align-items:center;gap:8px}
   .detail-desc{font-size:15px;color:#888;line-height:1.8}
+.detail-desc h3{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light);margin:16px 0 8px;font-weight:500}
+.detail-desc strong{color:var(--text);font-weight:700}
   .badge-cat{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2);margin-bottom:14px}
 
   /* ── SCREENSHOTS ── */
@@ -490,10 +492,10 @@ function renderPage() {
         ${f.ancien_prix ? `<span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);color:#2ecc71;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">-${calcRemise(f.prix,f.ancien_prix)}%</span>` : ''}
       </div>
 
-      ${f.description ? `
+     ${f.description ? `
       <div class="section-block">
         <h3>À propos de cette formation</h3>
-        <p class="detail-desc">${f.description}</p>
+        <div class="detail-desc">${f.description}</div>
       </div>` : ''}
 
       ${screenshots.length > 0 ? `
