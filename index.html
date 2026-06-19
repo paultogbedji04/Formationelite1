@@ -585,6 +585,18 @@ function initTiltEffect() {
   });
 }
 
+function initParallax() {
+  const heroRight = document.querySelector('.hero-right');
+  if (!heroRight) return;
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (scrolled < 800) {
+      heroRight.style.transform = `translateY(${scrolled * 0.25}px)`;
+    }
+  });
+}
+
+function cardHtml(f) {
 function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
@@ -1078,6 +1090,7 @@ loadIndex();
 animateCounters();
 initScrollAnimations();
 initTiltEffect();
+initParallax();
 
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
