@@ -161,6 +161,10 @@
     .sticky-col{display:none} /* on cache la sidebar sur mobile */
     .mobile-cta-bar{display:block} /* on affiche la barre sticky bottom */
 
+    /* Image principale */
+    .content-col > div[style*="max-height:380px"] img,
+    .content-col img[style*="max-height:380px"]{max-height:220px}
+
     /* Titres */
     .detail-title{font-size:clamp(24px,7vw,34px)}
     .section-block h3{font-size:19px}
@@ -463,10 +467,15 @@ function renderPage() {
   document.getElementById('mainContent').innerHTML = `
   <div class="detail-grid">
 
-    <!-- LEFT: Contenu -->
+   <!-- LEFT: Contenu -->
     <div class="content-col">
       <span class="badge-cat">${f.categorie}</span>
       ${f.badge ? `<span style="margin-left:8px;display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:var(--gold);color:var(--bg);letter-spacing:1px;text-transform:uppercase">${f.badge}</span>` : ''}
+
+      ${f.image_principale ? `
+      <div style="margin-top:18px;margin-bottom:18px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+        <img src="${f.image_principale}" style="width:100%;max-height:380px;object-fit:cover;display:block" onerror="this.closest('div').style.display='none'" alt="${f.titre}">
+      </div>` : ''}
 
       <h1 class="detail-title">${f.titre}</h1>
 
