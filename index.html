@@ -30,6 +30,8 @@
 .scroll-fade{opacity:0;transform:translateY(30px);transition:opacity .7s ease, transform .7s ease}
 .scroll-fade.visible{opacity:1;transform:translateY(0)}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
+.btn-glow{animation:glowPulse 2.5s ease-in-out infinite}
 
   /* NAV */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:padding .3s}
@@ -325,7 +327,7 @@
     <h1>Apprenez plus,<br><em>dépensez moins.</em></h1>
     <p>Accédez aux meilleures formations business à prix imbattables. Trading, SEO, Dropshipping, IA — développez vos compétences dès aujourd'hui.</p>
     <div class="hero-btns">
-      <a href="formations.html" class="btn-primary">Voir les formations</a>
+      <a href="formations.html" class="btn-primary btn-glow">Voir les formations</a>
       <a href="elite-pass.html" class="btn-secondary">L'Élite Pass →</a>
     </div>
   </div>
@@ -500,7 +502,7 @@
       <h2 class="section-title" style="margin-bottom:10px">L'Élite Pass</h2>
       <p style="font-size:16px;color:var(--gold-light);font-weight:500;margin-bottom:18px">Votre accès à vie.</p>
       <p style="color:#666;font-size:15px;line-height:1.7;margin-bottom:28px">+1000 formations dès aujourd'hui, et toutes les futures formations incluses automatiquement.</p>
-      <a href="elite-pass.html" class="btn-primary">Découvrir l'Élite Pass →</a>
+      <a href="elite-pass.html" class="btn-primary btn-glow">Découvrir l'Élite Pass →</a>
     </div>
     <div class="elite-card">
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);margin-bottom:8px">L'Élite Pass</div>
