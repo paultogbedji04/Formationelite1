@@ -57,8 +57,8 @@
   .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
 
   /* CARDS */
-  .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:transform .15s ease,border-color .3s,box-shadow .3s;cursor:pointer;position:relative;will-change:transform;transform-style:preserve-3d}
-.formation-card:hover{border-color:rgba(201,168,76,.4);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
+.formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
  .card-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:2px;z-index:2}
 .card-badge.new{background:rgba(8,8,8,0.85);border:1px solid var(--gold);color:var(--gold-light)}
 .card-badge.free{background:#3498db}
@@ -560,31 +560,8 @@ async function sbGet(path) {
 }
 
 function initTiltEffect() {
-  document.addEventListener('mousemove', (e) => {
-    const card = e.target.closest('.formation-card');
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -12;
-    const rotateY = ((x - centerX) / centerX) * 12;
-    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.02)`;
-  });
-
-  document.addEventListener('mouseleave', (e) => {
-    const card = e.target.closest && e.target.closest('.formation-card');
-    if (card) card.style.transform = '';
-  }, true);
-
-  document.addEventListener('mouseout', (e) => {
-    if (e.target.classList && e.target.classList.contains('formation-card') && !e.relatedTarget?.closest('.formation-card')) {
-      e.target.style.transform = '';
-    }
-  });
+  // Effet désactivé
 }
-
 function initParallax() {
   const heroRight = document.querySelector('.hero-right');
   if (!heroRight) return;
