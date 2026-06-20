@@ -60,10 +60,10 @@
   .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:transform .15s ease,border-color .3s,box-shadow .3s;cursor:pointer;position:relative;will-change:transform;transform-style:preserve-3d}
 .formation-card:hover{border-color:rgba(201,168,76,.4);box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
-  .card-badge.new{background:#2ecc71}
-  .card-badge.free{background:#3498db}
-  .card-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
-  .card-body{padding:20px}
+.card-badge.new{background:rgba(8,8,8,0.85);border:1px solid var(--gold);color:var(--gold-light)}
+.card-badge.free{background:#3498db}
+  .card-img-placeholder{width:100%;height:154px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
+  .card-body{padding:16px}
   .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
   .card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.3;margin-bottom:8px;color:var(--text)}
   .card-author{font-size:12px;color:var(--text-muted);margin-bottom:14px}
@@ -600,7 +600,7 @@ function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
   const imgHtml = f.image_principale
-    ? `<img src="${f.image_principale}" style="width:100%;height:180px;object-fit:cover;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    ? `<img src="${f.image_principale}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
     : `<div class="card-img-placeholder">${emoji}</div>`;
   const desc = f.description || '';
   const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
@@ -612,13 +612,13 @@ function cardHtml(f) {
       <div class="card-category">${f.categorie||''}</div>
       <div class="card-title">${f.titre}</div>
       <div class="card-author">Par ${f.auteur||''}</div>
-      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">5.0</span></div>
+      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">4.9 (avis)</span></div>
       <div class="card-footer">
-        <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-        <div style="display:flex;gap:6px">
-          ${!isFree ? `<button class="btn-card" style="background:none;border:1px solid var(--border);color:#888;padding:10px 10px" onclick="event.stopPropagation();ajouterFormationAuPanier('${f.id}')" title="Ajouter au panier">🛒</button>` : ''}
-          <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}',window._formations||[])">${isFree?'Obtenir':'Acheter'}</button>
+        <div>
+          ${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}
+          <div style="font-size:10px;color:var(--text-muted);letter-spacing:.5px;margin-top:2px">Accès à vie</div>
         </div>
+        <button class="btn-card" onclick="event.stopPropagation();window.location='formation.html?id=${f.id}'">Découvrir →</button>
       </div>
     </div>
   </div>`;
