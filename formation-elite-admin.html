@@ -477,7 +477,7 @@
         <div class="form-group"><label class="form-label">Auteur / Formateur</label><input type="text" class="form-input" id="fAuteur" placeholder="ex: Yomi Denzel"></div>
         <div class="form-group"><label class="form-label">Catégorie</label>
           <select class="form-input" id="fCategorie">
-            <option>Trading</option><option>SEO</option><option>Dropshipping</option><option>IA</option><option>Business</option><option>Marketing</option><option>Réseaux Sociaux</option><option>Immobilier</option><option>Crypto</option><option>Développement Personnel</option><option>Copywriting</option><option>SMMA</option>
+            <option>Ecommerce/Dropshipping</option><option>Trading/Crypto</option><option>IA</option><option>Immobilier/Location</option><option>Marketing/Réseaux Sociaux</option><option>Vente/Closing/Affiliation</option><option>Business/SMMA</option><option>Entreprise/Fiscalité</option><option>Informatique/Tech</option><option>Développement Personnel</option><option>Séduction/Relations</option><option>Sport/Santé</option><option>No Limits</option><option>OFM</option>
           </select>
         </div>
         <div class="form-group"><label class="form-label">Prix de vente</label><input type="text" class="form-input" id="fPrix" placeholder="ex: 29€ ou Gratuit"></div>
@@ -751,7 +751,7 @@ function renderTable() {
 function renderCategories() {
   const catMap = {};
   formations.forEach(f => { if (!f.categorie) return; if (!catMap[f.categorie]) catMap[f.categorie]={total:0,actif:0}; catMap[f.categorie].total++; if(f.actif) catMap[f.categorie].actif++; });
-  const emojis = {Trading:'📈',SEO:'🔍',Dropshipping:'📦',IA:'🤖',Business:'💼',Marketing:'📣','Réseaux Sociaux':'📱',Immobilier:'🏠',Crypto:'💎','Développement Personnel':'🧠',Copywriting:'✍️',SMMA:'🚀'};
+  const emojis = {'Ecommerce/Dropshipping':'📦','Trading/Crypto':'📈',IA:'🤖','Immobilier/Location':'🏠','Marketing/Réseaux Sociaux':'📣','Vente/Closing/Affiliation':'💰','Business/SMMA':'🚀','Entreprise/Fiscalité':'🏛️','Informatique/Tech':'💻','Développement Personnel':'🧠','Séduction/Relations':'❤️','Sport/Santé':'💪','No Limits':'⚡',OFM:'💎',Trading:'📈',Dropshipping:'📦',Immobilier:'🏠',SMMA:'🚀','Réseaux Sociaux':'📱'};
   document.getElementById('catsGrid').innerHTML = Object.entries(catMap).map(([cat,data]) => `
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:24px">
       <div style="font-size:32px;margin-bottom:12px">${emojis[cat]||'📚'}</div>
@@ -816,7 +816,7 @@ function openAddModal() {
   resetScreenshotSlots();
   document.getElementById('fEmoji').value = '📚';
   document.getElementById('fBadge').value = '';
-  document.getElementById('fCategorie').value = 'Trading';
+ document.getElementById('fCategorie').value = 'Ecommerce/Dropshipping';
   document.getElementById('fActif').checked = true;
   document.getElementById('formModal').classList.add('open');
 }
