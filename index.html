@@ -84,6 +84,8 @@
   /* SECTIONS */
   .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
   .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-dark)}
+  .section-label.framed{display:block;text-align:center;border:1px solid var(--border);border-radius:8px;padding:14px 20px;margin-bottom:24px}
+  .section-label.framed::after{display:none}
   .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.1;margin-bottom:16px}
   .section-title em{font-style:italic;color:var(--gold-light)}
   .section-sub{color:#666;font-size:15px;max-width:480px;line-height:1.7;margin-bottom:48px}
@@ -530,7 +532,7 @@
 
 <!-- CATALOGUE ACCORDION -->
 <section class="accordion-section scroll-fade">
-  <div class="section-label">Catalogue complet</div>
+  <div class="section-label framed">Catalogue complet</div>
   <h2 class="section-title" style="margin-bottom:8px">Toutes les <em>catégories</em></h2>
   <p class="section-sub">Cliquez sur une catégorie pour voir toutes ses formations</p>
   <div id="accordionContainer"></div>
@@ -538,7 +540,7 @@
 
 <!-- AVIS -->
 <section class="avis-section scroll-fade">
-  <div class="section-label">Témoignages</div>
+  <div class="section-label framed">Témoignages</div>
   <h2 class="section-title" style="margin-bottom:8px">Ce que disent <em>nos clients.</em></h2>
   <p class="section-sub" style="margin-bottom:40px">Des centaines de clients satisfaits chaque mois.</p>
   <div class="avis-grid" id="avisGrid">
