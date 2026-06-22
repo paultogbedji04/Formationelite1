@@ -54,7 +54,9 @@
   .btn-primary{background:var(--gold);color:var(--bg);padding:16px 36px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
   .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
   .btn-secondary{background:transparent;color:var(--text);padding:16px 36px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
-  .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+ .btn-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+  .btn-elite{background:transparent;color:var(--gold-light);padding:16px 36px;border:1.5px solid var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+  .btn-elite:hover{background:rgba(201,168,76,0.08);box-shadow:0 4px 20px rgba(201,168,76,0.2);transform:translateY(-2px)}
 
   /* CARDS */
   .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
@@ -335,10 +337,10 @@
   <div class="hero-left">
     <div class="hero-badge">⚡ +1000 formations disponibles</div>
     <h1>Apprenez plus,<br><em>dépensez moins.</em></h1>
-    <p>Accédez aux meilleures formations business à prix imbattables. Trading, SEO, Dropshipping, IA — développez vos compétences dès aujourd'hui.</p>
+    <p>Investissez dans votre avenir. Les meilleures formations business, accessibles immédiatement, à prix imbattables.</p>
     <div class="hero-btns">
       <a href="formations.html" class="btn-primary btn-glow">Voir les formations</a>
-      <a href="elite-pass.html" class="btn-secondary">L'Élite Pass →</a>
+      <a href="elite-pass.html" class="btn-elite">👑 L'Élite Pass →</a>
     </div>
   </div>
   <div class="hero-right">
@@ -417,16 +419,6 @@
   </div>
 </section>
 
-<!-- TELEGRAM BANNER -->
-<div class="tg-banner">
-  <div class="tg-title">Le N°1 Dans La Revente<br>De <span style="color:#c9a84c">Formations</span> !</div>
-  <div class="tg-sub">Notre Canal Telegram</div>
-  <a href="https://t.me/formation05" target="_blank" class="tg-btn">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.834.95l-.536-.861z"/></svg>
-    Rejoins Notre Telegram ici
-  </a>
-</div>
-
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stats-inner">
@@ -436,19 +428,28 @@
     </div>
     <div class="stat-item">
       <div class="stat-number" id="statFormations">0</div>
-      <div class="stat-label">Commandes livrées</div>
+      <div class="stat-label">Accès délivrés</div>
     </div>
     <div class="stat-item">
       <div class="stat-number" id="statSatisfaction">0</div>
       <div class="stat-label">Taux de satisfaction</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number" id="statLivraison">0h</div>
-      <div class="stat-label">Livraison garantie</div>
+      <div class="stat-number" id="statLivraison">0</div>
+      <div class="stat-label">Accès disponible</div>
     </div>
   </div>
 </div>
 
+<!-- TELEGRAM BANNER -->
+<div class="tg-banner">
+  <div class="tg-title">Le N°1 Dans La Revente<br>De <span style="color:#c9a84c">Formations</span> !</div>
+  <div class="tg-sub">Notre Canal Telegram</div>
+  <a href="https://t.me/formation05" target="_blank" class="tg-btn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.47l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.834.95l-.536-.861z"/></svg>
+    Rejoins Notre Telegram ici
+  </a>
+</div>
 
 
 <!-- SEARCH -->
@@ -1065,7 +1066,7 @@ function animateCounters() {
       count('statClients',2400,v=>v.toLocaleString('fr-FR')+'+');
       count('statFormations',3589,v=>v.toLocaleString('fr-FR')+'+');
       count('statSatisfaction',98,v=>v+'%');
-      count('statLivraison',24,v=>v+'h');
+      count('statLivraison',24,v=>v+'/7');
       obs.disconnect();
     }
   },{threshold:0.3});
