@@ -104,7 +104,10 @@
 .screenshot-thumb:hover{border-color:var(--gold)}
 
   /* ── RELATED GRID ── */
-  .related-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+  .related-section{padding:0 60px 60px}
+  .related-section .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .related-section h3{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,34px);font-weight:300;margin-bottom:20px}
+  .related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 
   /* ── GARANTIE ── */
   .garantie-box{background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
@@ -183,6 +186,9 @@
 
     /* Garantie */
     .garantie-box{padding:14px 16px;gap:10px}
+
+    /* Related section pleine largeur */
+    .related-section{padding:0 16px 36px}
 
     /* Footer */
     footer{padding:32px 16px}
@@ -532,14 +538,7 @@ function renderPage() {
         </div>
       </div>
 
-      ${allFormations.length > 0 ? `
-      <div class="section-block">
-        <h3>📚 Formations similaires</h3>
-        <div class="related-grid">
-          ${allFormations.slice(0,4).map(cardHtml).join('')}
-        </div>
-      </div>` : ''}
-    </div>
+      </div>
 
     <!-- RIGHT: Sticky card (cachée sur mobile) -->
     <div class="sticky-col">
@@ -566,7 +565,16 @@ function renderPage() {
         </div>
       </div>
     </div>
-  </div>`;
+  </div>
+
+  ${allFormations.length > 0 ? `
+  <section class="related-section">
+    <div class="section-label">Vous aimerez aussi</div>
+    <h3>📚 Formations <em style="color:var(--gold-light);font-style:italic">similaires</em></h3>
+    <div class="related-grid">
+      ${allFormations.slice(0,4).map(cardHtml).join('')}
+    </div>
+  </section>` : ''}`;
 }
 
 function calcRemise(prix, ancien) {
