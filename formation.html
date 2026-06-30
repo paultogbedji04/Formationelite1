@@ -104,7 +104,7 @@
 .screenshot-thumb:hover{border-color:var(--gold)}
 
   /* ── RELATED GRID ── */
-  .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:16px}
+  .related-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
 
   /* ── GARANTIE ── */
   .garantie-box{background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
@@ -423,7 +423,7 @@ async function init() {
       }
       tag.setAttribute('content', content);
     });
-    const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=3&select=*`);
+    const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=4&select=*`);
     allFormations = Array.isArray(related) ? related : [];
     renderPage();
     initMobileCta();
@@ -536,7 +536,7 @@ function renderPage() {
       <div class="section-block">
         <h3>📚 Formations similaires</h3>
         <div class="related-grid">
-          ${allFormations.slice(0,3).map(cardHtml).join('')}
+          ${allFormations.slice(0,4).map(cardHtml).join('')}
         </div>
       </div>` : ''}
     </div>
