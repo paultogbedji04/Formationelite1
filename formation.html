@@ -110,7 +110,7 @@
   .related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 
   /* ── GARANTIE ── */
-  .garantie-box{background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
+  .g.garantie-box{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
 
   /* ── FOOTER ── */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
@@ -524,7 +524,7 @@ function renderPage() {
       </div>` : ''}
 
       <div class="section-block">
-        <h3>✅ Ce qui est inclus</h3>
+        <h3><span style="color:var(--gold)">✦</span> Ce qui est inclus</h3>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px">
           ${inclus.map(item => `<div class="include-item">${item}</div>`).join('')}
         </div>
@@ -556,10 +556,7 @@ function renderPage() {
             ${isFree ? '🎁 Obtenir gratuitement' : '🛒 Commander maintenant'}
           </button>
           ${!isFree ? `<button style="width:100%;background:none;border:1px solid var(--border);color:#888;border-radius:6px;padding:13px;font-family:inherit;font-size:13px;cursor:pointer;transition:all .3s;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="ajouterAuPanier(window._formation)" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">🛒 Ajouter au panier</button>` : ''}
-                                <div style="border-top:1px solid var(--border);padding-top:14px">
-            ${inclus.slice(0,4).map(item => `<div class="include-item">${item}</div>`).join('')}
-          </div>
-          <div class="trust-mini">
+                                <div class="trust-mini">
             🔒 Paiement sécurisé · ⚡ Accès immédiat · 📦 Produit numérique
           </div>
         </div>
