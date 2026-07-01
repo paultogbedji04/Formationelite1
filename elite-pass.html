@@ -72,8 +72,8 @@
   .feature-card:hover{border-color:rgba(201,168,76,0.3)}
 
   /* ── PRICE + INCLUDES ── */
-  .price-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1000px;margin:0 auto}
-  .price-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden}
+  .price-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:stretch;max-width:1000px;margin:0 auto}
+  .price-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden;height:100%;display:flex;flex-direction:column;justify-content:center;gap:6px}
   .price-card::before{content:'OFFRE LIMITÉE';position:absolute;top:22px;right:-32px;background:var(--gold);color:var(--bg);font-size:9px;font-weight:700;letter-spacing:2px;padding:6px 48px;transform:rotate(45deg)}
   .price-big{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:6px}
   .include-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px;color:#888}
