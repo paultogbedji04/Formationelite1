@@ -41,14 +41,18 @@
   /* ── CARDS ── */
   .formation-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
   .formation-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .card-badge{position:absolute;top:14px;left:14px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;z-index:2}
-  .card-badge.new{background:#2ecc71}.card-badge.free{background:#3498db}
-  .card-img-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
-  .card-body{padding:18px}
-  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-  .card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;line-height:1.3;margin-bottom:6px;color:var(--text)}
-  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:12px}
-  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border)}
+  .card-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--bg);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:2px;z-index:2}
+  .card-badge.new{background:rgba(8,8,8,0.85);border:1px solid var(--gold);color:var(--gold-light)}
+  .card-badge.free{background:#3498db}
+  .card-img-placeholder{width:100%;height:154px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#1a1508,#2a2010);border-bottom:1px solid var(--border)}
+  .card-body{padding:16px}
+  .card-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;line-height:1.3;margin-bottom:8px;color:var(--text)}
+  .card-author{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+  .card-stars{display:flex;align-items:center;gap:4px;margin-bottom:14px}
+  .star{color:var(--gold);font-size:12px}
+  .rating-count{font-size:11px;color:var(--text-muted);margin-left:4px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border);gap:10px;flex-wrap:wrap}
   .card-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold-light)}
   .card-price-old{font-size:12px;color:var(--text-muted);text-decoration:line-through;margin-left:4px}
   .card-price-free{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#2ecc71}
@@ -64,13 +68,13 @@
   .breadcrumb span{color:#333}
 
   /* ── DETAIL HERO ── */
-  .detail-hero{padding:90px 60px 24px;background:var(--bg2);border-bottom:1px solid var(--border)}
+  .detail-hero{padding:96px 60px 0}
 
   /* ── DETAIL GRID ── */
   .detail-grid{display:grid;grid-template-columns:1fr 360px;gap:48px;max-width:1100px;margin:0 auto;padding:48px 60px;align-items:start}
 
   /* ── STICKY CARD (desktop) ── */
-  .sticky-card{position:sticky;top:80px;background:var(--bg3);border:1px solid rgba(201,168,76,0.25);border-radius:12px;overflow:hidden}
+  .sticky-card{position:sticky;top:110px;background:var(--bg3);border:1px solid rgba(201,168,76,0.25);border-radius:12px;overflow:hidden}
   .sticky-card-header{padding:24px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#1a1508,#0f0f0f);text-align:center}
   .sticky-price{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold-light);line-height:1}
   .sticky-price-old{font-size:14px;color:var(--text-muted);text-decoration:line-through;margin-top:4px}
@@ -100,10 +104,13 @@
 .screenshot-thumb:hover{border-color:var(--gold)}
 
   /* ── RELATED GRID ── */
-  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+  .related-section{padding:0 60px 60px}
+  .related-section .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .related-section h3{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,34px);font-weight:300;margin-bottom:20px}
+  .related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 
   /* ── GARANTIE ── */
-  .garantie-box{background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
+  .g.garantie-box{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.18);border-radius:8px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:36px}
 
   /* ── FOOTER ── */
   footer{background:var(--bg);border-top:1px solid var(--border);padding:60px}
@@ -180,6 +187,9 @@
     /* Garantie */
     .garantie-box{padding:14px 16px;gap:10px}
 
+    /* Related section pleine largeur */
+    .related-section{padding:0 16px 36px}
+
     /* Footer */
     footer{padding:32px 16px}
     .footer-grid{grid-template-columns:1fr;gap:20px}
@@ -224,11 +234,12 @@ const SUPABASE_URL = "https://xrljfmrsrxyepdsysfan.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E";
 
 const CAT_EMOJIS = {
-  'Ecommerce/Dropshipping':'📦','Trading':'📈','IA':'🤖','Immobilier':'🏠',
+  'Ecommerce/Dropshipping':'📦','Trading/Crypto':'📈','IA':'🤖','Immobilier/Location':'🏠',
   'Marketing/Réseaux Sociaux':'📣','Vente/Closing/Affiliation':'💰',
   'Business/SMMA':'💼','Entreprise/Fiscalité':'🏛️','Informatique/Tech':'💻',
   'Développement Personnel':'🧠','Séduction/Relations':'❤️',
-  'Sport/Santé':'💪','No Limits':'⚡','OFM':'💎'
+  'Sport/Santé':'💪','No Limits':'⚡','OFM':'💎',
+  'Trading':'📈','Dropshipping':'📦','Immobilier':'🏠','SMMA':'💼','Réseaux Sociaux':'📣'
 };
 
 async function sbGet(path) {
@@ -242,7 +253,7 @@ function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
   const imgHtml = f.image_principale
-    ? `<img src="${f.image_principale}" style="width:100%;height:160px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    ? `<img src="${f.image_principale}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
     : `<div class="card-img-placeholder">${emoji}</div>`;
   return `
   <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
@@ -252,9 +263,13 @@ function cardHtml(f) {
       <div class="card-category">${f.categorie||''}</div>
       <div class="card-title">${f.titre}</div>
       <div class="card-author">Par ${f.auteur||''}</div>
+      <div class="card-stars"><span class="star">★★★★★</span><span class="rating-count">4.9 (avis)</span></div>
       <div class="card-footer">
-        <div>${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}</div>
-        <button class="btn-card ${isFree?'free-btn':''}" onclick="event.stopPropagation();handleBuy('${f.id}')">${isFree?'Obtenir':'Acheter'}</button>
+        <div>
+          ${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}
+          <div style="font-size:10px;color:var(--text-muted);letter-spacing:.5px;margin-top:2px">Accès à vie</div>
+        </div>
+        <button class="btn-card" onclick="event.stopPropagation();window.location='formation.html?id=${f.id}'">Découvrir →</button>
       </div>
     </div>
   </div>`;
@@ -414,7 +429,7 @@ async function init() {
       }
       tag.setAttribute('content', content);
     });
-    const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=3&select=*`);
+    const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=4&select=*`);
     allFormations = Array.isArray(related) ? related : [];
     renderPage();
     initMobileCta();
@@ -509,7 +524,7 @@ function renderPage() {
       </div>` : ''}
 
       <div class="section-block">
-        <h3>✅ Ce qui est inclus</h3>
+        <h3><span style="color:var(--gold)">✦</span> Ce qui est inclus</h3>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px">
           ${inclus.map(item => `<div class="include-item">${item}</div>`).join('')}
         </div>
@@ -523,14 +538,7 @@ function renderPage() {
         </div>
       </div>
 
-      ${allFormations.length > 0 ? `
-      <div class="section-block">
-        <h3>📚 Formations similaires</h3>
-        <div class="related-grid">
-          ${allFormations.slice(0,3).map(cardHtml).join('')}
-        </div>
-      </div>` : ''}
-    </div>
+      </div>
 
     <!-- RIGHT: Sticky card (cachée sur mobile) -->
     <div class="sticky-col">
@@ -548,16 +556,22 @@ function renderPage() {
             ${isFree ? '🎁 Obtenir gratuitement' : '🛒 Commander maintenant'}
           </button>
           ${!isFree ? `<button style="width:100%;background:none;border:1px solid var(--border);color:#888;border-radius:6px;padding:13px;font-family:inherit;font-size:13px;cursor:pointer;transition:all .3s;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="ajouterAuPanier(window._formation)" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='#888'">🛒 Ajouter au panier</button>` : ''}
-                                <div style="border-top:1px solid var(--border);padding-top:14px">
-            ${inclus.slice(0,4).map(item => `<div class="include-item">${item}</div>`).join('')}
-          </div>
-          <div class="trust-mini">
+                                <div class="trust-mini">
             🔒 Paiement sécurisé · ⚡ Accès immédiat · 📦 Produit numérique
           </div>
         </div>
       </div>
     </div>
-  </div>`;
+  </div>
+
+  ${allFormations.length > 0 ? `
+  <section class="related-section">
+    <div class="section-label">Vous aimerez aussi</div>
+    <h3>📚 Formations <em style="color:var(--gold-light);font-style:italic">similaires</em></h3>
+    <div class="related-grid">
+      ${allFormations.slice(0,4).map(cardHtml).join('')}
+    </div>
+  </section>` : ''}`;
 }
 
 function calcRemise(prix, ancien) {
