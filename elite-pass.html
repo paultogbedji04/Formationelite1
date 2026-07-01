@@ -102,6 +102,14 @@
   .faq-a{display:none;font-size:14px;color:#777;line-height:1.8;padding-bottom:18px}
   .faq-item.open .faq-a{display:block}
 
+  /* ── BONUS ── */
+  .bonus-section{padding:0 60px 20px}
+  .bonus-wrap{max-width:900px;margin:0 auto;background:linear-gradient(135deg,#161206,#0f0f0f);border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:44px 40px;text-align:center}
+  .bonus-value-badge{display:inline-block;background:var(--gold);color:var(--bg);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 18px;border-radius:20px;margin-bottom:18px}
+  .bonus-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-top:28px}
+  .bonus-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:14px 16px;font-size:13px;color:#ccc;line-height:1.5}
+  .bonus-item .ic{font-size:18px;flex-shrink:0}
+
   /* ── CTA FINAL ── */
   .cta-final{padding:80px 60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
   .cta-final::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none}
@@ -140,6 +148,7 @@
     .std-section{padding:56px 32px}
     .features-grid{grid-template-columns:1fr 1fr}
     .price-section-grid{grid-template-columns:1fr;gap:40px}
+    .bonus-wrap{padding:32px 24px}
     .cta-final{padding:60px 32px}
     footer{padding:40px 24px}
     .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
@@ -173,6 +182,11 @@
     .price-card{padding:28px 20px}
     .price-big{font-size:56px}
     .price-card::before{font-size:8px;padding:5px 40px}
+
+    /* Bonus */
+    .bonus-section{padding:0 16px 16px}
+    .bonus-wrap{padding:28px 18px}
+    .bonus-grid{grid-template-columns:1fr}
 
     /* Compare table — simplifiée */
     .compare-wrap{overflow-x:auto}
@@ -345,6 +359,31 @@
     <div id="faqElite"></div>
     <div style="text-align:center;margin-top:28px">
       <a href="faq.html" style="color:var(--gold);text-decoration:none;font-size:14px">Voir toutes les questions →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BONUS EXCLUSIFS -->
+<section class="bonus-section">
+  <div class="bonus-wrap">
+    <div class="bonus-value-badge">+500€ de bonus offerts</div>
+    <h2 class="section-title" style="margin-bottom:10px">Des bonus <em>exclusifs</em> inclus</h2>
+    <p style="color:#888;font-size:14px;max-width:520px;margin:0 auto">En plus de l'accès complet au catalogue, chaque Élite Pass débloque ces ressources bonus, offertes gratuitement.</p>
+    <div class="bonus-grid">
+      <div class="bonus-item"><span class="ic">💻</span><span>1000 prompts pour créer des logiciels en tant que service (SaaS)</span></div>
+      <div class="bonus-item"><span class="ic">🌐</span><span>Un business sur le Blog Machine</span></div>
+      <div class="bonus-item"><span class="ic">📸</span><span>300 templates Instagram</span></div>
+      <div class="bonus-item"><span class="ic">🤖</span><span>159 prompts ChatGPT surpuissants pour ton business</span></div>
+      <div class="bonus-item"><span class="ic">🛠️</span><span>Les 249 meilleurs outils à utiliser avec l'intelligence artificielle</span></div>
+      <div class="bonus-item"><span class="ic">🎯</span><span>+1000 Landing Pages</span></div>
+      <div class="bonus-item"><span class="ic">📝</span><span>1100+ prompts ChatGPT d'expert en marketing de contenu</span></div>
+      <div class="bonus-item"><span class="ic">📧</span><span>1000 Email Marketing Prompts</span></div>
+      <div class="bonus-item"><span class="ic">✍️</span><span>1000 prompts pour rédiger le copywriting d'une page de vente</span></div>
+      <div class="bonus-item"><span class="ic">📢</span><span>1000 prompts pour vos publicités Facebook Ads</span></div>
+      <div class="bonus-item"><span class="ic">🔍</span><span>1000 SEO Prompts</span></div>
+      <div class="bonus-item"><span class="ic">🛒</span><span>1000 prompts pour l'E-commerce</span></div>
+      <div class="bonus-item"><span class="ic">💰</span><span>160 prompts ChatGPT/Claude pour vendre des produits high ticket</span></div>
+      <div class="bonus-item"><span class="ic">📁</span><span>15 Go de Drive offerts gratuitement</span></div>
     </div>
   </div>
 </section>
