@@ -164,3 +164,9 @@ async function getRawBody(req) {
     req.on('error', reject);
   });
 }
+
+module.exports.config = {
+  api: {
+    bodyParser: false
+  }
+};
