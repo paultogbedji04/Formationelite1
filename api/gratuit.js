@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'FormationElite <contact@formationelite.fr>',
+        from: 'FormationElite <contact@formationelite.vip>',
         to: [email],
         subject: lien_acces ? `🎁 Votre formation gratuite — ${formation_titre}` : `✅ Demande reçue — ${formation_titre}`,
         html: html
