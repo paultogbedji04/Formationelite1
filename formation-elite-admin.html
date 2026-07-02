@@ -815,16 +815,24 @@ document.addEventListener('DOMContentLoaded', () => {
 function openAddModal() {
   editMode = false;
   document.getElementById('modalFormTitle').textContent = '➕ Nouvelle formation';
-['editId','fTitre','fAuteur','fPrix','fAncienPrix','fDesc','fInclus','fImage','fStripeLink','fPaypalLink','fLienAcces'].forEach(id => document.getElementById(id).value = '');
+  ['editId','fTitre','fAuteur','fPrix','fAncienPrix','fDesc','fInclus','fImage','fStripeLink','fPaypalLink','fLienAcces'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fDescEditor').innerHTML = '';
   document.getElementById('fScreenshots').value = '';
   document.getElementById('fImagePreview').style.display = 'none';
   resetScreenshotSlots();
   document.getElementById('fEmoji').value = '📚';
   document.getElementById('fBadge').value = '';
- document.getElementById('fCategorie').value = 'Ecommerce/Dropshipping';
+  document.getElementById('fCategorie').value = 'Ecommerce/Dropshipping';
   document.getElementById('fActif').checked = true;
   document.getElementById('formModal').classList.add('open');
+}
+
+function openAddFreeModal() {
+  openAddModal();
+  document.getElementById('modalFormTitle').textContent = '🎁 Nouvelle formation gratuite';
+  document.getElementById('fEmoji').value = '🎁';
+  document.getElementById('fBadge').value = 'Gratuit';
+  document.getElementById('fPrix').value = 'Gratuit';
 }
 
 function openEditModal(id) {
