@@ -25,6 +25,14 @@
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
+  .btn-glow{animation:glowPulse 2.5s ease-in-out infinite}
+
+  #bgCanvas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55}
+  @media(prefers-reduced-motion:reduce){#bgCanvas{display:none}}
+
+  .scroll-fade{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .scroll-fade.visible{opacity:1;transform:translateY(0)}
 
   /* ── NAV ── */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
@@ -217,6 +225,7 @@
 </style>
 </head>
 <body>
+<canvas id="bgCanvas"></canvas>
 <div id="nav-placeholder"></div>
 
 <!-- IMAGE HERO (depuis admin — cachée si pas d'image) -->
@@ -241,13 +250,13 @@
         <div>✓ Paiement unique</div>
       </div>
     </div>
-    <button onclick="buyElitePass()" class="btn-hero">Obtenir l'Élite Pass — 249€</button>
+    <button onclick="buyElitePass()" class="btn-hero btn-glow">Obtenir l'Élite Pass — 249€</button>
     <div class="hero-trust">🔒 Paiement sécurisé · 📦 Produit numérique</div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section class="std-section bg2">
+<section class="std-section bg2 scroll-fade">
   <div style="text-align:center;margin-bottom:40px">
     <div class="section-label center">Pourquoi choisir l'Élite Pass</div>
     <h2 class="section-title" style="text-align:center">Ce que votre accès <em>débloque</em></h2>
@@ -287,7 +296,7 @@
 </section>
 
 <!-- PRICE + INCLUDES -->
-<section class="std-section">
+<section class="std-section scroll-fade">
   <div class="price-section-grid">
     <div>
       <div class="section-label">Ce qui est inclus</div>
@@ -317,7 +326,7 @@
 </section>
 
 <!-- COMPARAISON -->
-<section class="std-section bg2">
+<section class="std-section bg2 scroll-fade">
   <div style="max-width:800px;margin:0 auto">
     <div style="text-align:center;margin-bottom:32px">
       <div class="section-label center">Comparaison</div>
@@ -350,7 +359,7 @@
 </section>
 
 <!-- BONUS EXCLUSIFS -->
-<section class="bonus-section">
+<section class="bonus-section scroll-fade">
   <div class="bonus-wrap">
     <div class="bonus-value-badge">+500€ de bonus offerts</div>
     <h2 class="section-title" style="margin-bottom:10px">Des bonus <em>exclusifs</em> inclus</h2>
@@ -375,7 +384,7 @@
 </section>
 
 <!-- FAQ RAPIDE -->
-<section class="std-section">
+<section class="std-section scroll-fade">
   <div style="max-width:700px;margin:0 auto">
     <div style="text-align:center;margin-bottom:36px">
       <div class="section-label center">Questions fréquentes</div>
@@ -389,13 +398,13 @@
 </section>
 
 <!-- CTA FINAL -->
-<section class="cta-final">
+<section class="cta-final scroll-fade">
   <div style="position:relative;z-index:1">
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,58px);font-weight:300;margin-bottom:14px">
       Prêt à tout <em style="color:var(--gold-light)">débloquer ?</em>
     </h2>
     <p style="color:#666;font-size:15px;margin-bottom:32px">Rejoignez les 2400+ membres qui ont déjà fait confiance à FormationElite</p>
-    <button onclick="buyElitePass()" class="btn-hero">Obtenir l'Élite Pass — 249€ →</button>
+    <button onclick="buyElitePass()" class="btn-hero btn-glow">Obtenir l'Élite Pass — 249€ →</button>
   </div>
 </section>
 
@@ -572,6 +581,66 @@ document.getElementById('faqElite').innerHTML = faqs.map((f, i) => {
     <div class="faq-a">${f[1]}</div>
   </div>`;
 }).join('');
+</script>
+
+<script>
+// ── FOND ANIMÉ : réseau de particules dorées ──
+(function(){
+  const canvas = document.getElementById('bgCanvas');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+  const isMobile = window.innerWidth <= 600;
+  const COUNT = isMobile ? 20 : 45;
+  const LINK_DIST = isMobile ? 100 : 150;
+
+  function resize(){ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+  function initNodes(){
+    nodes = Array.from({length: COUNT}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
+      r: Math.random()*1.4+0.8
+    }));
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for (const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    }
+    for (let i=0;i<nodes.length;i++){
+      for (let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dist = Math.hypot(a.x-b.x, a.y-b.y);
+        if (dist < LINK_DIST){
+          ctx.strokeStyle = `rgba(201,168,76,${(1-dist/LINK_DIST)*0.35})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for (const n of nodes){
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = 'rgba(232,201,122,0.7)'; ctx.fill();
+    }
+    requestAnimationFrame(step);
+  }
+  resize(); initNodes(); step();
+  window.addEventListener('resize', () => { resize(); initNodes(); });
+})();
+
+// ── ANIMATIONS D'APPARITION AU SCROLL ──
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+}
+initScrollAnimations();
 </script>
 </body>
 </html>
