@@ -31,6 +31,8 @@
 .scroll-fade.visible{opacity:1;transform:translateY(0)}
 #heroCanvas{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5}
 @media(prefers-reduced-motion:reduce){#heroCanvas{display:none}}
+#eliteCanvas{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.35}
+@media(prefers-reduced-motion:reduce){#eliteCanvas{display:none}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
 .btn-glow{animation:glowPulse 2.5s ease-in-out infinite}
@@ -511,6 +513,7 @@
 
 <!-- ELITE PASS TEASER -->
 <section class="elite-section scroll-fade">
+  <canvas id="eliteCanvas"></canvas>
   <div class="elite-grid">
     <div>
       <h2 class="section-title" style="margin-bottom:10px">L'Élite Pass</h2>
@@ -1081,20 +1084,21 @@ function animateCounters() {
 loadIndex();
 animateCounters();
 initScrollAnimations();
-initHeroParticles();
+initParticleField('heroCanvas', '.hero', { mobileCount: 18, desktopCount: 38, mobileLink: 90, desktopLink: 140 });
+initParticleField('eliteCanvas', '.elite-section', { mobileCount: 12, desktopCount: 24, mobileLink: 80, desktopLink: 120 });
 
-function initHeroParticles() {
-  const canvas = document.getElementById('heroCanvas');
-  const hero = document.querySelector('.hero');
-  if (!canvas || !hero) return;
+function initParticleField(canvasId, containerSelector, opts) {
+  const canvas = document.getElementById(canvasId);
+  const container = document.querySelector(containerSelector);
+  if (!canvas || !container) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const ctx = canvas.getContext('2d');
   let w, h, nodes = [];
   const isMobile = window.innerWidth <= 600;
-  const COUNT = isMobile ? 18 : 38;
-  const LINK_DIST = isMobile ? 90 : 140;
+  const COUNT = isMobile ? opts.mobileCount : opts.desktopCount;
+  const LINK_DIST = isMobile ? opts.mobileLink : opts.desktopLink;
 
-  function resize(){ w = canvas.width = hero.offsetWidth; h = canvas.height = hero.offsetHeight; }
+  function resize(){ w = canvas.width = container.offsetWidth; h = canvas.height = container.offsetHeight; }
   function initNodes(){
     nodes = Array.from({length: COUNT}, () => ({
       x: Math.random()*w, y: Math.random()*h,
