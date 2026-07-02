@@ -174,7 +174,10 @@
     <div class="page active" id="page-dashboard">
       <div class="topbar">
         <div><h1 class="page-title">Bon retour, <em>Admin</em></h1><div class="page-sub">Aperçu de votre catalogue</div></div>
-        <button class="btn btn-gold" onclick="openAddModal()">+ Ajouter une formation</button>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-gold" onclick="openAddModal()">+ Ajouter une formation</button>
+          <button class="btn btn-outline" onclick="openAddFreeModal()">🎁 Ajouter une formation gratuite</button>
+        </div>
       </div>
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-label">Total formations</div><div class="stat-value" id="statTotal">0</div><div class="stat-sub">dans le catalogue</div></div>
@@ -191,8 +194,11 @@
 
     <div class="page" id="page-formations">
       <div class="topbar">
-        <div><h1 class="page-title">Gérer les <em>formations</em></h1><div class="page-sub" id="formationCount">0 formations</div></div>
-        <button class="btn btn-gold" onclick="openAddModal()">+ Ajouter une formation</button>
+       <div><h1 class="page-title">Gérer les <em>formations</em></h1><div class="page-sub" id="formationCount">0 formations</div></div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-gold" onclick="openAddModal()">+ Ajouter une formation</button>
+          <button class="btn btn-outline" onclick="openAddFreeModal()">🎁 Ajouter une formation gratuite</button>
+        </div>
       </div>
       <div class="table-wrap">
         <div class="table-header">
