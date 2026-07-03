@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 
   try {
     // Enregistrer dans Supabase
-    await fetch(`${SUPABASE_URL}/rest/v1/commandes`, {
+    const supaInsertRes = await fetch(`${SUPABASE_URL}/rest/v1/commandes`, {
       method: 'POST',
       headers: {
         'apikey': SUPABASE_KEY,
@@ -37,6 +37,13 @@ module.exports = async (req, res) => {
         created_at: new Date().toISOString()
       })
     });
+
+    if (!supaInsertRes.ok) {
+      const supaErrText = await supaInsertRes.text();
+      console.error('❌ Erreur insertion Supabase (commandes):', supaInsertRes.status, supaErrText);
+    } else {
+      console.log('✅ Commande gratuite enregistrée dans Supabase');
+    }
 
     // Envoyer email
     const html = lien_acces 
