@@ -20,11 +20,17 @@ module.exports = async (req, res) => {
       const rawBody = await getRawBody(req);
       event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
     } else {
-      event = req.body;
+      const rawBody = await getRawBody(req);
+      event = rawBody.length ? JSON.parse(rawBody.toString()) : null;
     }
   } catch (err) {
     console.error('Webhook signature error:', err.message);
     return res.status(400).json({ error: `Webhook Error: ${err.message}` });
+  }
+
+  if (!event || !event.type) {
+    console.error('Webhook: événement vide ou invalide');
+    return res.status(400).json({ error: 'Invalid event' });
   }
 
   if (event.type === 'checkout.session.completed') {
