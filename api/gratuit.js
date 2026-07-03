@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         email,
-        nom: nom || null,
+        nom_client: nom || null,
         formation_id: formation_id || null,
         formation_titre,
         montant: '0€',
