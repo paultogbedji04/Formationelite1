@@ -93,9 +93,19 @@
   .section-block h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;margin-bottom:18px;color:var(--text);padding-bottom:10px;border-bottom:2px solid var(--gold);display:inline-block}
   .detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:400;line-height:1.1;margin-bottom:14px}
   .detail-author{font-size:14px;color:var(--text-muted);margin-bottom:20px;display:flex;align-items:center;gap:8px}
-  .detail-desc{font-size:15.5px;color:#b8b3a8;line-height:1.85;max-width:680px}
+ .detail-desc{font-size:15.5px;color:#b8b3a8;line-height:1.85;max-width:680px}
 .detail-desc h3{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light);margin:16px 0 8px;font-weight:500}
 .detail-desc strong{color:var(--text);font-weight:700}
+
+  /* ── DESCRIPTION FRAME ── */
+  .scroll-fade{opacity:0;transform:translateY(30px);transition:opacity .7s ease, transform .7s ease}
+  .scroll-fade.visible{opacity:1;transform:translateY(0)}
+  .desc-frame{background:linear-gradient(135deg,#161206,#0f0f0f);border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:40px 36px;margin:0 auto 36px}
+  .desc-kicker{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .desc-kicker::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+  .desc-frame h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--text);margin-bottom:18px;line-height:1.25}
+  .desc-frame .detail-desc{max-width:none}
+  @media(max-width:600px){ .desc-frame{padding:28px 22px} }
   .badge-cat{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2);margin-bottom:14px}
 
   /* ── SCREENSHOTS CAROUSEL ── */
@@ -439,10 +449,23 @@ async function init() {
     });
     const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=4&select=*`);
     allFormations = Array.isArray(related) ? related : [];
-    renderPage();
+   renderPage();
     initMobileCta();
     initScreenshotCarousel();
+    initScrollAnimations();
   } catch(e) { console.error(e); }
+}
+
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
 }
 
 function initMobileCta() {
@@ -517,7 +540,8 @@ function renderPage() {
       </div>
 
      ${f.description ? `
-      <div class="section-block">
+      <div class="desc-frame scroll-fade">
+        <div class="desc-kicker">Pourquoi cette formation</div>
         <h3>À propos de cette formation</h3>
         <div class="detail-desc">${f.description}</div>
       </div>` : ''}
