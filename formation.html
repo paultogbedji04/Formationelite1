@@ -121,6 +121,8 @@
   .ss-dot.active{background:var(--gold);width:20px;border-radius:4px}
   .ss-frame .desc-kicker{justify-content:center}
   .ss-frame .ss-caption{text-align:center;font-size:13px;color:#666;margin-bottom:16px}
+  .inclus-frame .desc-kicker{justify-content:center}
+  .inclus-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px}
 
   /* ── RELATED GRID ── */
   .related-section{padding:0 60px 60px}
@@ -563,9 +565,9 @@ function renderPage() {
         </div>
       </div>` : ''}
 
-      <div class="section-block">
-        <h3><span style="color:var(--gold)">✦</span> Ce qui est inclus</h3>
-        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px">
+      <div class="desc-frame inclus-frame scroll-fade">
+        <div class="desc-kicker">Ce qui est inclus</div>
+        <div class="inclus-box">
           ${inclus.map(item => `<div class="include-item">${item}</div>`).join('')}
         </div>
       </div>
