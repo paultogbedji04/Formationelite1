@@ -775,7 +775,8 @@ function renderRecent(data) {
   const el = document.getElementById('recentGrid');
   const limit = isMobile() ? 3 : 8;
   const nonGratuit = data.filter(f => f.prix?.toString().trim().toLowerCase() !== 'gratuit');
-  if (el) el.innerHTML = nonGratuit.slice(0,limit).map(cardHtml).join('');
+  const trie = [...nonGratuit].sort((a,b) => (b.badge === 'Nouveau') - (a.badge === 'Nouveau'));
+  if (el) el.innerHTML = trie.slice(0,limit).map(cardHtml).join('');
 }
 
 function renderBestsellers(data) {
