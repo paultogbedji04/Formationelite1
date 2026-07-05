@@ -77,7 +77,7 @@ async function sendAccessEmail(commande, lienAcces) {
 <body style="font-family:Arial,sans-serif;background:#080808;color:#f0ece0;margin:0;padding:0">
 <div style="max-width:560px;margin:0 auto;padding:40px 20px">
   <div style="text-align:center;margin-bottom:32px">
-    <div style="font-family:Georgia,serif;font-size:26px;color:#e8c97a">FormationElite.fr</div>
+    <div style="font-family:Georgia,serif;font-size:26px;color:#e8c97a">FormationElite.vip</div>
     <div style="height:1px;background:rgba(201,168,76,0.3);margin:14px 0"></div>
   </div>
   <div style="text-align:center;margin-bottom:24px">
@@ -101,7 +101,7 @@ async function sendAccessEmail(commande, lienAcces) {
     <a href="https://t.me/CreativeagencyFr" style="display:inline-block;background:#229ED9;color:#fff;text-decoration:none;padding:12px 24px;border-radius:6px;font-weight:700;font-size:13px">Support Telegram @CreativeagencyFr</a>
   </div>
   <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:18px;text-align:center">
-    <p style="font-size:11px;color:#444">FormationElite.fr - Montant paye : ${commande.montant}</p>
+    <p style="font-size:11px;color:#444">FormationElite.vip - Montant paye : ${commande.montant}</p>
   </div>
 </div>
 </body></html>`
