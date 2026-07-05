@@ -127,6 +127,18 @@
   .related-frame .desc-kicker{justify-content:center}
   .related-frame h3{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,34px);font-weight:300;margin:0}
 
+  /* ── REORGANISATION COLONNE DROITE (PC uniquement, >900px) ── */
+  @media(min-width:901px){
+    .content-col{display:contents}
+    .detail-grid{grid-template-rows:auto auto auto auto}
+    .fc-header{grid-column:1/-1;grid-row:1}
+    .about-frame{grid-column:1;grid-row:2/5;margin-bottom:0}
+    .sticky-col{grid-column:2;grid-row:2/5}
+    .ss-frame{grid-column:2;grid-row:3;margin-bottom:0}
+    .inclus-frame{grid-column:2;grid-row:4;margin-bottom:0}
+    .garantie-box{grid-column:1/-1;grid-row:5}
+  }
+
   /* ── RELATED GRID ── */
   .related-section{padding:0 60px 60px}
   .related-section .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
@@ -523,7 +535,8 @@ function renderPage() {
   <div class="detail-grid">
 
    <!-- LEFT: Contenu -->
-    <div class="content-col">
+   <div class="content-col">
+      <div class="fc-header">
       <span class="badge-cat">${f.categorie}</span>
       ${f.badge ? `<span style="margin-left:8px;display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:var(--gold);color:var(--bg);letter-spacing:1px;text-transform:uppercase">${f.badge}</span>` : ''}
 
@@ -544,9 +557,10 @@ function renderPage() {
         <span style="font-size:13px;color:#888">5.0 · Accès immédiat</span>
         ${f.ancien_prix ? `<span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);color:#2ecc71;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">-${calcRemise(f.prix,f.ancien_prix)}%</span>` : ''}
       </div>
+      </div>
 
      ${f.description ? `
-      <div class="desc-frame scroll-fade">
+      <div class="desc-frame about-frame scroll-fade">
         <div class="desc-kicker">À propos de cette formation</div>
         <div class="detail-desc">${f.description}</div>
       </div>` : ''}
