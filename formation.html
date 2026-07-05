@@ -123,6 +123,9 @@
   .ss-frame .ss-caption{text-align:center;font-size:13px;color:#666;margin-bottom:16px}
   .inclus-frame .desc-kicker{justify-content:center}
   .inclus-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 20px}
+  .related-frame{max-width:420px;margin:0 auto 32px;text-align:center}
+  .related-frame .desc-kicker{justify-content:center}
+  .related-frame h3{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,34px);font-weight:300;margin:0}
 
   /* ── RELATED GRID ── */
   .related-section{padding:0 60px 60px}
@@ -608,8 +611,10 @@ function renderPage() {
 
   ${allFormations.length > 0 ? `
   <section class="related-section">
-    <div class="section-label">Vous aimerez aussi</div>
-    <h3>📚 Formations <em style="color:var(--gold-light);font-style:italic">similaires</em></h3>
+    <div class="desc-frame related-frame scroll-fade">
+      <div class="desc-kicker">Vous aimerez aussi</div>
+      <h3>📚 Formations <em style="color:var(--gold-light);font-style:italic">similaires</em></h3>
+    </div>
     <div class="related-grid">
       ${allFormations.slice(0,4).map(cardHtml).join('')}
     </div>
