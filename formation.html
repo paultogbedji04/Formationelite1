@@ -542,7 +542,7 @@ function renderPage() {
 
       ${f.image_principale ? `
       <div style="margin-top:18px;margin-bottom:18px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
-        <img src="${f.image_principale}" style="width:100%;max-height:380px;object-fit:cover;display:block" onerror="this.closest('div').style.display='none'" alt="${f.titre}">
+       <img src="${f.image_principale}" style="width:100%;aspect-ratio:16/9;object-fit:contain;background:#000;display:block" onerror="this.closest('div').style.display='none'" alt="${f.titre}">
       </div>` : ''}
 
       <h1 class="detail-title">${f.titre}</h1>
