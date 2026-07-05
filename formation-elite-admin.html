@@ -495,6 +495,7 @@
     <button type="button" onclick="formatDesc('italic')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:32px;height:32px;border-radius:4px;cursor:pointer;font-style:italic;font-size:13px">I</button>
     <button type="button" onclick="formatDesc('h3')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600">Titre</button>
     <button type="button" onclick="formatDesc('br')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:12px">↵ Ligne</button>
+    <button type="button" onclick="formatDesc('bigger')" style="background:var(--bg);border:1px solid var(--border2);color:var(--text);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600">A+</button>
     <button type="button" onclick="formatDesc('clear')" style="background:var(--bg);border:1px solid rgba(231,76,60,0.3);color:var(--red);width:auto;padding:0 10px;height:32px;border-radius:4px;cursor:pointer;font-size:12px">Effacer mise en forme</button>
   </div>
   <div id="fDescEditor" contenteditable="true" class="form-input" style="min-height:140px;line-height:1.7;cursor:text" placeholder="Décrivez le contenu de la formation..."></div>
@@ -796,6 +797,17 @@ function formatDesc(action) {
     const sel = window.getSelection();
     if (sel.toString().length > 0) {
       document.execCommand('formatBlock', false, 'h3');
+    }
+ } else if (action === 'bigger') {
+    const sel = window.getSelection();
+    if (sel.rangeCount > 0 && !sel.isCollapsed) {
+      const range = sel.getRangeAt(0);
+      const frag = range.extractContents();
+      const span = document.createElement('span');
+      span.style.fontSize = '1.3em';
+      span.appendChild(frag);
+      range.insertNode(span);
+      sel.removeAllRanges();
     }
   } else if (action === 'clear') {
     document.execCommand('removeFormat');
