@@ -428,9 +428,9 @@ async function init() {
   try {
     const data = await sbGet('formations?select=*&actif=eq.true&order=created_at.desc');
     if (Array.isArray(data)) {
-      allFormations = data;
-      window._formations = data;
-      buildFilters(data);
+      allFormations = data.filter(f => f.badge !== 'Gratuit' && f.prix !== 'Gratuit');
+      window._formations = allFormations;
+      buildFilters(allFormations);
       checkUrlParams();
       // Show sort on mobile
       if (window.innerWidth <= 600) {

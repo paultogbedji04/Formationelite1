@@ -465,8 +465,8 @@ async function init() {
       }
       tag.setAttribute('content', content);
     });
-    const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=4&select=*`);
-    allFormations = Array.isArray(related) ? related : [];
+    const related = await sbGet(`formations?categorie=eq.${encodeURIComponent(formation.categorie)}&actif=eq.true&id=neq.${id}&limit=8&select=*`);
+    allFormations = Array.isArray(related) ? related.filter(f => f.badge !== 'Gratuit' && f.prix !== 'Gratuit').slice(0,4) : [];
    renderPage();
     initMobileCta();
     initScreenshotCarousel();
