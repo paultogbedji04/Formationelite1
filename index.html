@@ -148,7 +148,15 @@
   .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:fadeUp .8s .1s ease both}
   .hero p{font-size:16px;color:#888;line-height:1.7;font-weight:300;margin-bottom:36px;animation:fadeUp .8s .2s ease both}
   .hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
-
+  .hero-floating{display:none}
+  .floating-badge{position:absolute;display:flex;align-items:center;gap:8px;background:rgba(20,18,12,0.7);border:1px solid rgba(201,168,76,.25);padding:10px 18px;border-radius:100px;font-size:13px;font-weight:600;color:var(--text);backdrop-filter:blur(6px);white-space:nowrap;z-index:1;animation:floatBadge 4.5s ease-in-out infinite}
+  @keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  @media(min-width:901px){
+    .hero-right{display:none}
+    .hero-left{text-align:center;margin:0 auto}
+    .hero-btns{justify-content:center}
+    .hero-floating{display:block}
+  }
   /* ========== STATS BAR ========== */
   .stats-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
   .stats-inner{display:flex;justify-content:center;align-items:stretch;flex-wrap:wrap;width:100%}
@@ -339,6 +347,14 @@
   <canvas id="heroCanvas"></canvas>
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
+  <div class="hero-floating">
+    <div class="floating-badge" style="top:8%;left:6%;animation-delay:0s">📦 Dropshipping</div>
+    <div class="floating-badge" style="top:62%;left:3%;animation-delay:.8s">🤖 IA</div>
+    <div class="floating-badge" style="top:32%;left:11%;animation-delay:1.6s">🎯 Closing</div>
+    <div class="floating-badge" style="top:10%;right:6%;animation-delay:.4s">📈 Trading</div>
+    <div class="floating-badge" style="top:62%;right:3%;animation-delay:1.2s">🚀 Business/SMMA</div>
+    <div class="floating-badge" style="top:32%;right:11%;animation-delay:2s">📱 Marketing</div>
+  </div>
   <div class="hero-left">
     <div class="hero-badge">⚡ +1000 formations disponibles</div>
     <h1>Apprenez plus,<br><em>dépensez moins.</em></h1>
