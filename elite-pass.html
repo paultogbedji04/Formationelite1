@@ -64,6 +64,12 @@
   .btn-hero{background:var(--gold);color:var(--bg);padding:18px 44px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;display:inline-block}
   .btn-hero:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
   .hero-trust{margin-top:16px;font-size:12px;color:#555}
+  .hero-floating{display:none}
+  .floating-badge{position:absolute;display:flex;align-items:center;gap:10px;background:rgba(20,18,12,0.7);border:1px solid rgba(201,168,76,.25);padding:16px 26px;border-radius:100px;font-size:16px;font-weight:600;color:var(--text);backdrop-filter:blur(6px);white-space:nowrap;z-index:1;animation:floatBadge 4.5s ease-in-out infinite}
+  @keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  @media(min-width:901px){
+    .hero-floating{display:block}
+  }
 
   /* ── SECTIONS ── */
   .std-section{padding:80px 60px}
@@ -237,6 +243,14 @@
 <section class="elite-hero">
   <div class="elite-hero-bg"></div>
   <div class="elite-hero-lines"></div>
+  <div class="hero-floating">
+    <div class="floating-badge" style="top:150px;left:5%;animation-delay:0s">🔥 -80% aujourd'hui</div>
+    <div class="floating-badge" style="bottom:15%;left:6%;animation-delay:.8s">🎁 +500€ de bonus</div>
+    <div class="floating-badge" style="top:50%;left:9%;transform:translateY(-50%);animation-delay:1.6s">♾️ Accès à vie</div>
+    <div class="floating-badge" style="top:150px;right:5%;animation-delay:.4s">👑 +1000 formations</div>
+    <div class="floating-badge" style="bottom:15%;right:6%;animation-delay:1.2s">⚡ Livraison immédiate</div>
+    <div class="floating-badge" style="top:50%;right:9%;transform:translateY(-50%);animation-delay:2s">🔒 Paiement sécurisé</div>
+  </div>
   <div class="elite-hero-inner">
     <div class="elite-badge">👑 Accès Élite à vie</div>
     <h1>L'Élite Pass —<br><em>Votre accès à vie.</em></h1>
