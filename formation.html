@@ -432,13 +432,15 @@ async function init() {
     formation = data[0];
     window._formation = formation;
 
-    // Titre dynamique
-    document.title = formation.titre + ' — FormationElite.fr';
+    // Titre dynamique (nom formation + auteur = ce que les gens tapent dans Google)
+    const auteurTag = formation.auteur ? ` par ${formation.auteur}` : '';
+    document.title = `${formation.titre}${auteurTag} — Formation pas chère | FormationElite`;
 
-    // Meta description dynamique
-    const desc = formation.description
-      ? formation.description.slice(0, 155) + (formation.description.length > 155 ? '...' : '')
-      : `Accédez à la formation ${formation.titre} sur FormationElite.fr. Livraison immédiate, accès à vie.`;
+    // Meta description dynamique (texte propre, sans HTML brut)
+    const descPlain = (formation.description || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const desc = descPlain
+      ? descPlain.slice(0, 155) + (descPlain.length > 155 ? '...' : '')
+      : `Accédez à la formation ${formation.titre}${auteurTag} sur FormationElite. Livraison immédiate, accès à vie, prix imbattable.`;
 
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
@@ -450,7 +452,7 @@ async function init() {
 
     // Open Graph (pour partage sur réseaux sociaux)
     const ogTags = {
-      'og:title': formation.titre + ' — FormationElite.fr',
+      'og:title': `${formation.titre}${auteurTag} | FormationElite`,
       'og:description': desc,
       'og:type': 'product',
       'og:url': `https://formationelite.vip/formation.html?id=${formation.id}`,
