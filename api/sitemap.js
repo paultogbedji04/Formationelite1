@@ -22,9 +22,7 @@ module.exports = async (req, res) => {
     const formations = await response.json();
 
     if (!Array.isArray(formations)) {
-      debugInfo = `<!-- DEBUG sitemap: status=${response.status} reponse=${JSON.stringify(formations).replace(/--/g,'—').slice(0,500)} -->`;
-    } else {
-      debugInfo = `<!-- DEBUG sitemap: ${formations.length} formations trouvees -->`;
+      debugInfo = `<!-- sitemap: erreur recuperation formations -->`;
     }
 
     const today = new Date().toISOString().split('T')[0];
