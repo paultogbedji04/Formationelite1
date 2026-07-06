@@ -30,6 +30,7 @@
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideUpOnly{from{transform:translateY(20px)}to{transform:translateY(0)}}
 .scroll-fade{opacity:0;transform:translateY(30px);transition:opacity .7s ease, transform .7s ease}
 .scroll-fade.visible{opacity:1;transform:translateY(0)}
 #heroCanvas{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5}
@@ -148,7 +149,7 @@
   .hero-right{flex:1;position:relative;z-index:1;display:flex;justify-content:center}
   .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:8px 20px;border-radius:100px;font-size:12px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .8s ease both}
   .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2s infinite}
-  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:fadeUp .8s .1s ease both}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:slideUpOnly .6s ease}
   .hero p{font-size:16px;color:#888;line-height:1.7;font-weight:300;margin-bottom:36px;animation:fadeUp .8s .2s ease both}
   .hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
   .hero-floating{display:none}
