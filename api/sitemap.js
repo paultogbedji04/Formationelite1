@@ -12,6 +12,7 @@ const STATIC_PAGES = [
 ];
 
 module.exports = async (req, res) => {
+  let debugInfo = '';
   try {
     // Récupérer toutes les formations actives
     const response = await fetch(
@@ -19,6 +20,12 @@ module.exports = async (req, res) => {
       { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
     );
     const formations = await response.json();
+
+    if (!Array.isArray(formations)) {
+      debugInfo = `<!-- DEBUG sitemap: status=${response.status} reponse=${JSON.stringify(formations).replace(/--/g,'—').slice(0,500)} -->`;
+    } else {
+      debugInfo = `<!-- DEBUG sitemap: ${formations.length} formations trouvees -->`;
+    }
 
     const today = new Date().toISOString().split('T')[0];
 
@@ -39,6 +46,7 @@ module.exports = async (req, res) => {
   </url>`).join('') : '';
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
+${debugInfo}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticUrls}
 ${formationUrls}
@@ -50,6 +58,8 @@ ${formationUrls}
 
   } catch (err) {
     console.error('sitemap error:', err);
-    return res.status(500).send('Error generating sitemap');
+    return res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?>
+<!-- DEBUG sitemap CATCH: ${String(err.message || err).replace(/--/g,'—')} -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`);
   }
 };
