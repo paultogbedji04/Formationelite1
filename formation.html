@@ -471,7 +471,33 @@ async function init() {
     initMobileCta();
     initScreenshotCarousel();
     initScrollAnimations();
+    injectSchema(formation);
   } catch(e) { console.error(e); }
+}
+
+function injectSchema(f) {
+  const desc = (f.description || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g,' ').trim().slice(0, 300);
+  const priceNum = parseFloat((f.prix||'0').toString().replace('€','').replace(',','.').trim()) || 0;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": f.titre,
+    "description": desc,
+    "image": f.image_principale || "https://www.formationelite.vip/logo.jpg",
+    "brand": { "@type": "Brand", "name": f.auteur || "FormationElite" },
+    "offers": {
+      "@type": "Offer",
+      "url": window.location.href,
+      "priceCurrency": "EUR",
+      "price": priceNum,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(schema);
+  document.head.appendChild(script);
 }
 
 function initScrollAnimations() {
