@@ -13,7 +13,7 @@
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 </script>
 <link rel="icon" type="image/jpeg" href="logo.jpg">
-<title>Formation — FormationElite.vip</title>
+<title>Formation — FormationElite.fr</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
@@ -387,7 +387,7 @@ function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-logo">FormationElite.vip</a>
+        <a href="index.html" class="footer-logo">FormationElite.fr</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
         <a href="https://t.me/formation05" target="_blank" style="display:inline-block;background:transparent;color:var(--text);padding:10px 20px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:inherit;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s">Rejoindre le Telegram →</a>
       </div>
@@ -401,7 +401,7 @@ function footerHtml() {
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 FormationElite.vip — Tous droits réservés</div>
+      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
@@ -433,12 +433,12 @@ async function init() {
     window._formation = formation;
 
     // Titre dynamique
-    document.title = formation.titre + ' — FormationElite.vip';
+    document.title = formation.titre + ' — FormationElite.fr';
 
     // Meta description dynamique
     const desc = formation.description
       ? formation.description.slice(0, 155) + (formation.description.length > 155 ? '...' : '')
-      : `Accédez à la formation ${formation.titre} sur FormationElite.vip. Livraison immédiate, accès à vie.`;
+      : `Accédez à la formation ${formation.titre} sur FormationElite.fr. Livraison immédiate, accès à vie.`;
 
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
@@ -450,7 +450,7 @@ async function init() {
 
     // Open Graph (pour partage sur réseaux sociaux)
     const ogTags = {
-      'og:title': formation.titre + ' — FormationElite.vip',
+      'og:title': formation.titre + ' — FormationElite.fr',
       'og:description': desc,
       'og:type': 'product',
       'og:url': `https://formationelite.vip/formation.html?id=${formation.id}`,
