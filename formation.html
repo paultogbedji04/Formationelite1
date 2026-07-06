@@ -450,6 +450,14 @@ async function init() {
     }
     metaDesc.content = desc;
 
+    let canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (!canonicalTag) {
+      canonicalTag = document.createElement('link');
+      canonicalTag.rel = 'canonical';
+      document.head.appendChild(canonicalTag);
+    }
+    canonicalTag.href = `https://www.formationelite.vip/formation.html?id=${id}`;
+
     // Open Graph (pour partage sur réseaux sociaux)
     const ogTags = {
       'og:title': `${formation.titre}${auteurTag} | FormationElite`,
