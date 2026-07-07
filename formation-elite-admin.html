@@ -711,7 +711,7 @@ async function adminFetch(url, options = {}) {
 }
 
 async function loadFormations() {
-  const data = await sbFetch('formations?select=*&order=created_at.desc');
+  const data = await adminFetch('/api/admin-formations?select=*&order=created_at.desc');
   formations = Array.isArray(data) ? data : [];
   updateStats(); renderTable(); renderDashRecent(); renderCategories(); renderApercu();
   document.getElementById('navCount').textContent = formations.length;
@@ -913,9 +913,9 @@ async function saveFormation() {
   };
   const editId = document.getElementById('editId').value;
   if (editMode && editId) {
-    await sbFetch(`formations?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+    await adminFetch(`/api/admin-formations?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
   } else {
-    await sbFetch('formations', { method:'POST', body:JSON.stringify(payload) });
+    await adminFetch('/api/admin-formations', { method:'POST', body:JSON.stringify(payload) });
   }
   closeFormModal();
   await loadFormations();
@@ -923,7 +923,7 @@ async function saveFormation() {
 }
 
 async function toggleActif(id, current) {
-  await sbFetch(`formations?id=eq.${id}`, { method:'PATCH', body:JSON.stringify({actif:!current}) });
+ await adminFetch(`/api/admin-formations?id=eq.${id}`, { method:'PATCH', body:JSON.stringify({actif:!current}) });
   await loadFormations();
   showToast(!current ? '✅ Formation activée' : '⚠️ Formation désactivée', 'success');
 }
@@ -932,7 +932,7 @@ function askDelete(id) { deleteTargetId = id; document.getElementById('confirmOv
 function closeConfirm() { document.getElementById('confirmOv').classList.remove('open'); deleteTargetId = null; }
 async function confirmDelete() {
   if (!deleteTargetId) return;
-  await sbFetch(`formations?id=eq.${deleteTargetId}`, { method:'DELETE', prefer:'return=minimal' });
+  await adminFetch(`/api/admin-formations?id=eq.${deleteTargetId}`, { method:'DELETE' });
   closeConfirm(); await loadFormations();
   showToast('🗑️ Formation supprimée', 'success');
 }
@@ -1563,12 +1563,12 @@ async function validerPaypal(id, email, titre, formationId) {
 
   if (ids.length > 1) {
     // MODE PANIER — récupérer toutes les formations
-    const data = await sbFetch(`formations?id=in.(${ids.join(',')})&select=id,titre,lien_acces`);
+    const data = await adminFetch(`/api/admin-formations?id=in.(${ids.join(',')})&select=id,titre,lien_acces`);
     if (Array.isArray(data)) {
       validationFormations = data.map(f => ({ titre: f.titre, lien_acces: f.lien_acces || '' }));
     }
   } else if (ids.length === 1) {
-    const data = await sbFetch(`formations?id=eq.${ids[0]}&select=titre,lien_acces`);
+    const data = await adminFetch(`/api/admin-formations?id=eq.${ids[0]}&select=titre,lien_acces`);
     if (Array.isArray(data) && data.length > 0) {
       validationFormations = [{ titre: data[0].titre, lien_acces: data[0].lien_acces || '' }];
     }
