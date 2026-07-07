@@ -951,7 +951,7 @@ async function loadPreuvesAdmin() {
   const grid = document.getElementById('preuvesAdminGrid');
   if (!grid) return;
   try {
-    const data = await sbFetch('preuves?select=*&order=ordre.asc,created_at.desc');
+    const data = await adminFetch('/api/admin-content?table=preuves&select=*&order=ordre.asc,created_at.desc');
     preuvesData = Array.isArray(data) ? data : [];
     renderPreuvesAdmin();
   } catch(e) {}
@@ -998,7 +998,7 @@ async function uploadPreuves(input) {
       });
       if (res.ok) {
         const url = `${SUPABASE_URL}/storage/v1/object/public/images/${fileName}`;
-        await sbFetch('preuves', { method: 'POST', body: JSON.stringify({ image_url: url, actif: true, ordre: done }) });
+        await adminFetch('/api/admin-content?table=preuves', { method: 'POST', body: JSON.stringify({ image_url: url, actif: true, ordre: done }) });
       }
     } catch(e) {}
     done++;
@@ -1015,12 +1015,12 @@ async function uploadPreuves(input) {
 }
 
 async function togglePreuveActif(id, current) {
-  await sbFetch(`preuves?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ actif: !current }) });
+ await adminFetch(`/api/admin-content?table=preuves&id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ actif: !current }) });
   await loadPreuvesAdmin();
 }
 
 async function deletePreuve(id) {
-  await sbFetch(`preuves?id=eq.${id}`, { method: 'DELETE', prefer: 'return=minimal' });
+  await adminFetch(`/api/admin-content?table=preuves&id=eq.${id}`, { method: 'DELETE' });
   await loadPreuvesAdmin();
   showToast('🗑️ Preuve supprimée', 'success');
 }
@@ -1144,7 +1144,7 @@ let avisData = [];
 
 async function loadAvisAdmin() {
   try {
-    const data = await sbFetch('avis?select=*&order=ordre.asc');
+    const data = await adminFetch('/api/admin-content?table=avis&select=*&order=ordre.asc');
     avisData = Array.isArray(data) ? data : [];
     renderAvisTable();
   } catch(e) {}
@@ -1218,9 +1218,9 @@ async function saveAvis() {
 
   const editId = document.getElementById('avisEditId').value;
   if (editId) {
-    await sbFetch(`avis?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+    await adminFetch(`/api/admin-content?table=avis&id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
   } else {
-    await sbFetch('avis', { method:'POST', body:JSON.stringify(payload) });
+    await adminFetch('/api/admin-content?table=avis', { method:'POST', body:JSON.stringify(payload) });
   }
   closeAvisModal();
   await loadAvisAdmin();
@@ -1228,13 +1228,13 @@ async function saveAvis() {
 }
 
 async function toggleAvisActif(id, current) {
-  await sbFetch(`avis?id=eq.${id}`, { method:'PATCH', body:JSON.stringify({actif:!current}) });
+  await adminFetch(`/api/admin-content?table=avis&id=eq.${id}`, { method:'PATCH', body:JSON.stringify({actif:!current}) });
   await loadAvisAdmin();
 }
 
 async function deleteAvis(id) {
   if (!confirm('Supprimer cet avis ?')) return;
-  await sbFetch(`avis?id=eq.${id}`, { method:'DELETE', prefer:'return=minimal' });
+  await adminFetch(`/api/admin-content?table=avis&id=eq.${id}`, { method:'DELETE' });
   await loadAvisAdmin();
   showToast('🗑️ Avis supprimé', 'success');
 }
@@ -1248,7 +1248,7 @@ function showToast(msg, type='success') {
 // ── SETTINGS ──
 async function loadSettings() {
   try {
-    const res = await sbFetch('site_settings?select=*&limit=1');
+    const res = await adminFetch('/api/admin-content?table=site_settings&select=*&limit=1');
     if (Array.isArray(res) && res.length > 0) {
       const s = res[0];
       document.getElementById('sHeroImage').value = s.hero_image_url || '';
@@ -1279,11 +1279,11 @@ async function saveSettings() {
     stat_livraison: document.getElementById('sStatLivraison').value.trim() || null,
   };
   try {
-    const existing = await sbFetch('site_settings?select=id&limit=1');
+    const existing = await adminFetch('/api/admin-content?table=site_settings&select=id&limit=1');
     if (Array.isArray(existing) && existing.length > 0) {
-      await sbFetch(`site_settings?id=eq.${existing[0].id}`, { method: 'PATCH', body: JSON.stringify(payload) });
+      await adminFetch(`/api/admin-content?table=site_settings&id=eq.${existing[0].id}`, { method: 'PATCH', body: JSON.stringify(payload) });
     } else {
-      await sbFetch('site_settings', { method: 'POST', body: JSON.stringify(payload) });
+      await adminFetch('/api/admin-content?table=site_settings', { method: 'POST', body: JSON.stringify(payload) });
     }
     showToast('✅ Paramètres sauvegardés !', 'success');
   } catch(e) {

@@ -64,6 +64,10 @@
       "dest": "/api/admin-formations.js"
     },
     {
+      "src": "/api/admin-content",
+      "dest": "/api/admin-content.js"
+    },
+    {
       "src": "/sitemap.xml",
       "dest": "/api/sitemap.js"
     },
