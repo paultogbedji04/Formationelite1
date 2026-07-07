@@ -703,6 +703,12 @@ async function sbFetch(path, options = {}) {
   if (res.status === 204) return [];
   return res.json();
 }
+async function adminFetch(url, options = {}) {
+  const token = sessionStorage.getItem('fe_admin_token') || '';
+  const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, ...(options.headers || {}) };
+  const res = await fetch(url, { ...options, headers });
+  return res.json();
+}
 
 async function loadFormations() {
   const data = await sbFetch('formations?select=*&order=created_at.desc');
@@ -1024,8 +1030,7 @@ let commandesData = [];
 
 async function loadCommandes() {
   try {
-    const res = await fetch('/api/commandes');
-    const data = await res.json();
+    const data = await adminFetch('/api/commandes');
     commandesData = Array.isArray(data) ? data : [];
     updateCommandesStats();
     renderCommandes();
@@ -1120,12 +1125,11 @@ async function confirmerLivraison(id) {
   if (!lien) { showToast('⚠️ Entrez le lien d accès', 'error'); return; }
 
   try {
-    const res = await fetch('/api/commandes', {
+    const data = await adminFetch('/api/commandes', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, livraison_statut: 'livre', lien_acces: lien })
     });
-    if (res.ok) {
+    if (data && !data.error) {
       document.querySelector('[style*=fixed]')?.remove();
       await loadCommandes();
       showToast('✅ Commande livrée ! Email envoyé au client.', 'success');
@@ -1477,9 +1481,9 @@ let paypalData = [];
 
 async function loadPaypal() {
   try {
-    const data = await sbFetch('commandes?statut=eq.paypal_pending&order=created_at.desc&select=*');
+    const data = await adminFetch('/api/commandes?statut=eq.paypal_pending&order=created_at.desc&select=*');
     // Charger aussi les validées et refusées
-    const all = await sbFetch('commandes?or=(statut.eq.paypal_pending,statut.eq.livré,statut.eq.refusé)&order=created_at.desc&select=*');
+    const all = await adminFetch('/api/commandes?or=(statut.eq.paypal_pending,statut.eq.livré,statut.eq.refusé)&order=created_at.desc&select=*');
     paypalData = Array.isArray(all) ? all.filter(c => 
       c.statut === 'paypal_pending' || 
       (c.transaction_id && c.statut !== 'payé' && c.statut !== 'crypto_en_attente')
@@ -1620,9 +1624,9 @@ async function confirmerValidationPaypal(id, email, titre) {
   }
 
   try {
-    await sbFetch(`commandes?id=eq.${id}`, {
+    await adminFetch('/api/commandes', {
       method: 'PATCH',
-      body: JSON.stringify({ statut: 'payé', livraison_statut: 'livré', lien_acces: lien })
+      body: JSON.stringify({ id, statut: 'payé', livraison_statut: 'livré', lien_acces: lien })
     });
 
     await fetch('/api/paypal-livraison', {
@@ -1644,9 +1648,9 @@ async function confirmerValidationPaypal(id, email, titre) {
 }
 async function refuserPaypal(id) {
   if (!confirm('Refuser cette demande PayPal ?')) return;
-  await sbFetch(`commandes?id=eq.${id}`, {
+ await adminFetch('/api/commandes', {
     method: 'PATCH',
-    body: JSON.stringify({ statut: 'refusé', livraison_statut: 'refusé' })
+    body: JSON.stringify({ id, statut: 'refusé', livraison_statut: 'refusé' })
   });
   await loadPaypal();
   showToast('❌ Demande refusée', 'success');
