@@ -225,6 +225,17 @@
 
   /* ========== AVIS ========== */
   .avis-section{padding:60px;background:var(--bg2);border-top:1px solid var(--border)}
+
+  /* MISSION */
+  .mission-section{padding:60px;text-align:center}
+  .mission-text{max-width:720px;margin:0 auto 40px;font-size:15px;line-height:1.9;color:#999;text-align:left}
+  .mission-cards-viewport{overflow:hidden;max-width:1100px;margin:0 auto}
+  .mission-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .mission-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:32px 26px;text-align:center;transition:border-color .3s}
+  .mission-card:hover{border-color:rgba(201,168,76,0.4)}
+  .mission-icon{font-size:32px;display:block;margin-bottom:14px}
+  .mission-card-title{font-size:15px;font-weight:700;color:var(--gold-light);margin-bottom:8px}
+  .mission-card-desc{font-size:13px;color:#888;line-height:1.6}
   .avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   .avis-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px}
   .avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)}
@@ -244,6 +255,7 @@
     .gratuit-section{padding:48px 32px}
     .accordion-section{padding:48px 32px}
     .avis-section{padding:48px 32px}
+  .mission-section{padding:48px 32px}
     .avis-grid{grid-template-columns:1fr 1fr}
     .std-section{padding:36px 32px 16px}
     .search-section{padding:48px 32px 16px}
@@ -324,6 +336,11 @@
 
     /* AVIS */
     .avis-section{padding:36px 16px}
+
+    /* MISSION - mode carrousel mobile */
+    .mission-section{padding:36px 16px}
+    .mission-cards{display:flex;transition:transform .6s ease}
+    .mission-card{flex:0 0 100%;min-width:0}
     .avis-grid{grid-template-columns:1fr}
 
     /* FOOTER */
@@ -568,6 +585,38 @@
 </section>
 
 <!-- AVIS -->
+<!-- NOTRE MISSION -->
+<section class="mission-section scroll-fade">
+  <div class="section-label framed">Notre mission</div>
+  <h2 class="section-title" style="margin-bottom:8px">Rendre les meilleures formations <em>accessibles au plus grand nombre.</em></h2>
+  <p class="mission-text">
+    Chez FormationElite, nous croyons que le savoir est l'un des meilleurs investissements que l'on puisse faire. Pourtant, de nombreuses formations de qualité restent hors de portée de nombreux entrepreneurs en raison de leur coût.<br><br>
+    Notre mission est de rendre ces ressources plus accessibles afin que chacun puisse apprendre, développer de nouvelles compétences et avancer dans ses projets sans que le prix soit un obstacle.<br><br>
+    Chaque formation présente sur notre plateforme est sélectionnée avec soin pour offrir une véritable valeur pédagogique dans des domaines tels que le business, l'intelligence artificielle, le marketing digital, le trading, le développement personnel ou encore le e-commerce.<br><br>
+    Nous voulons permettre à chacun d'investir avant tout dans ses connaissances, car ce sont elles qui ouvrent les meilleures opportunités.<br><br>
+    <strong style="color:var(--gold-light)">FormationElite, c'est la conviction que l'apprentissage de qualité doit être accessible à tous.</strong>
+  </p>
+  <div class="mission-cards-viewport">
+    <div class="mission-cards" id="missionCards">
+      <div class="mission-card">
+        <span class="mission-icon">🎓</span>
+        <div class="mission-card-title">Des formations sélectionnées</div>
+        <div class="mission-card-desc">Un catalogue enrichi en continu avec des contenus recherchés par les entrepreneurs.</div>
+      </div>
+      <div class="mission-card">
+        <span class="mission-icon">💎</span>
+        <div class="mission-card-title">Des prix accessibles</div>
+        <div class="mission-card-desc">Développez vos compétences sans que le budget soit un frein.</div>
+      </div>
+      <div class="mission-card">
+        <span class="mission-icon">🚀</span>
+        <div class="mission-card-title">Progressez à votre rythme</div>
+        <div class="mission-card-desc">Apprenez où vous voulez, quand vous voulez, et construisez vos compétences pas à pas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="avis-section scroll-fade">
   <div class="section-label framed">Témoignages</div>
   <h2 class="section-title" style="margin-bottom:8px">Ce que disent <em>nos clients.</em></h2>
@@ -1110,6 +1159,29 @@ function animateCounters() {
 
 loadIndex();
 animateCounters();
+function initMissionCarousel() {
+  const track = document.getElementById('missionCards');
+  if (!track || window.innerWidth > 600) return;
+  const cards = Array.from(track.children);
+  if (cards.length < 2) return;
+  const firstClone = cards[0].cloneNode(true);
+  track.appendChild(firstClone);
+  let index = 0;
+  const total = cards.length;
+  setInterval(() => {
+    index++;
+    track.style.transition = 'transform .6s ease';
+    track.style.transform = `translateX(-${index * 100}%)`;
+    if (index === total) {
+      setTimeout(() => {
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+        index = 0;
+      }, 620);
+    }
+  }, 3500);
+}
+initMissionCarousel();
 initScrollAnimations();
 initParticleField('heroCanvas', '.hero', { mobileCount: 18, desktopCount: 38, mobileLink: 90, desktopLink: 140 });
 initParticleField('eliteCanvas', '.elite-section', { mobileCount: 12, desktopCount: 24, mobileLink: 80, desktopLink: 120 });
