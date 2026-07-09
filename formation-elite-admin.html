@@ -1036,7 +1036,7 @@ async function loadCommandes() {
     updateCommandesStats();
     renderCommandes();
     const badge = document.getElementById('commandesBadge');
-    if (badge) badge.textContent = commandesData.filter(c => c.livraison_statut === 'en_attente').length;
+    if (badge) badge.textContent = commandesData.length;
   } catch(e) {
     console.error('Error loading commandes:', e);
   }
