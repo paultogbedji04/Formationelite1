@@ -235,6 +235,12 @@
   .mission-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:32px 26px;text-align:center;transition:border-color .3s}
   .mission-card:hover{border-color:rgba(201,168,76,0.4)}
   .mission-icon{font-size:32px;display:block;margin-bottom:14px}
+
+  /* SUPPORT FLOTTANT */
+  .support-fab{position:fixed;bottom:24px;right:24px;z-index:150;display:flex;align-items:center;gap:8px;background:#0f0f0f;border:1px solid var(--gold);color:var(--text);text-decoration:none;padding:13px 20px;border-radius:100px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.5);opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease,border-color .2s}
+  .support-fab.show{opacity:1;transform:translateY(0)}
+  .support-fab:hover{border-color:var(--gold-light);background:#161206}
+  @media(max-width:600px){ .support-fab{bottom:16px;right:16px;padding:12px 18px;font-size:12.5px} }
   .mission-card-title{font-size:15px;font-weight:700;color:var(--gold-light);margin-bottom:8px}
   .mission-card-desc{font-size:13px;color:#888;line-height:1.6}
   .avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -631,6 +637,10 @@
 </section>
 </main>
 <div id="footer-placeholder"></div>
+
+<a href="https://t.me/CreativeagencyFr" target="_blank" id="supportFab" class="support-fab">
+  <span style="font-size:16px">💬</span> Support
+</a>
 
 
 <script>
@@ -1187,6 +1197,10 @@ function initMissionCarousel() {
 }
 initMissionCarousel();
 initScrollAnimations();
+setTimeout(() => {
+  const fab = document.getElementById('supportFab');
+  if (fab) fab.classList.add('show');
+}, 2500);
 initParticleField('heroCanvas', '.hero', { mobileCount: 18, desktopCount: 38, mobileLink: 90, desktopLink: 140 });
 initParticleField('eliteCanvas', '.elite-section', { mobileCount: 12, desktopCount: 24, mobileLink: 80, desktopLink: 120 });
 
