@@ -428,9 +428,12 @@ let allFormations = [];
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  if (!id) { window.location.href = 'formations.html'; return; }
+  const slug = params.get('slug');
+  if (!id && !slug) { window.location.href = 'formations.html'; return; }
   try {
-    const data = await sbGet(`formations?id=eq.${id}&select=*`);
+    const data = slug
+      ? await sbGet(`formations?slug=eq.${slug}&select=*`)
+      : await sbGet(`formations?id=eq.${id}&select=*`);
     if (!Array.isArray(data) || data.length === 0) {
       document.getElementById('mainContent').innerHTML = `<div style="text-align:center;padding:80px 20px;color:#555"><div style="font-size:40px;margin-bottom:16px">😕</div><div>Formation introuvable</div><a href="formations.html" style="color:var(--gold);text-decoration:none;margin-top:16px;display:inline-block">← Retour au catalogue</a></div>`;
       return;
