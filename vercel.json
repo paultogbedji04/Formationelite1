@@ -76,6 +76,10 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/formation/([^/]+)",
+      "dest": "/formation.html?slug=$1"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     },
