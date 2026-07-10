@@ -13,7 +13,7 @@
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 </script>
 <link rel="icon" type="image/jpeg" href="logo.jpg">
-<title>Toutes les Formations — FormationElite.fr</title>
+<title>Toutes les Formations — FormationElite.vip</title>
 <meta name="description" content="Découvrez +1000 formations premium : Trading, Dropshipping, IA, SEO, Immobilier. Prix imbattables, livraison immédiate, accès à vie.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -73,8 +73,7 @@
   .drawer-cats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;width:100%}
 .drawer-cat-btn{padding:12px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;color:#888;cursor:pointer;background:none;font-family:inherit;transition:all .2s;text-align:left;display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden}
 .drawer-cat-btn span,.drawer-cat-btn{white-space:normal;word-break:break-word;line-height:1.3}
-888;cursor:pointer;background:none;font-family:inherit;transition:all .2s;text-align:left;display:flex;align-items:center;gap:8px}
-  .drawer-cat-btn.active{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,.06)}
+  .drawer-cat-btn.active{border-color:var(--gold);color:var(--bg);background:var(--gold);font-weight:700}
   .drawer-sort{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:13px 16px;color:var(--text);font-family:inherit;font-size:14px;outline:none;cursor:pointer;margin-bottom:16px}
   .drawer-apply{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:15px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer}
 
@@ -309,7 +308,7 @@ function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-logo">FormationElite.fr</a>
+        <a href="index.html" class="footer-logo">FormationElite.vip</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
         <a href="https://t.me/formation05" target="_blank" style="display:inline-block;background:transparent;color:var(--text);padding:10px 20px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:inherit;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s">Rejoindre le Telegram →</a>
       </div>
@@ -323,7 +322,7 @@ function footerHtml() {
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
+      <div>© 2026 FormationElite.vip — Tous droits réservés</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
@@ -342,7 +341,7 @@ function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
   const imgHtml = f.image_principale
-    ? `<img src="${f.image_principale}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    ? `<img src="${f.image_principale}" alt="${f.titre}${f.auteur ? ' - '+f.auteur : ''}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
     : `<div class="card-img-placeholder">${emoji}</div>`;
   const desc = f.description || '';
   const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
@@ -429,9 +428,9 @@ async function init() {
   try {
     const data = await sbGet('formations?select=*&actif=eq.true&order=created_at.desc');
     if (Array.isArray(data)) {
-      allFormations = data;
-      window._formations = data;
-      buildFilters(data);
+      allFormations = data.filter(f => f.badge !== 'Gratuit' && f.prix !== 'Gratuit');
+      window._formations = allFormations;
+      buildFilters(allFormations);
       checkUrlParams();
       // Show sort on mobile
       if (window.innerWidth <= 600) {

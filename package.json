@@ -1,7 +1,7 @@
 {
   "name": "formationelite",
   "version": "1.0.0",
-  "description": "FormationElite.fr - Site de revente de formations",
+  "description": "FormationElite.vip - Site de revente de formations",
   "dependencies": {
     "stripe": "^14.0.0"
   }

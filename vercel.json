@@ -16,6 +16,10 @@
     {
       "src": "*.png",
       "use": "@vercel/static"
+    },
+    {
+      "src": "*.txt",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -54,6 +58,14 @@
     {
       "src": "/api/admin-login",
       "dest": "/api/admin-login.js"
+    },
+    {
+      "src": "/api/admin-formations",
+      "dest": "/api/admin-formations.js"
+    },
+    {
+      "src": "/api/admin-content",
+      "dest": "/api/admin-content.js"
     },
     {
       "src": "/sitemap.xml",

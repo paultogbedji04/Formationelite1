@@ -12,13 +12,18 @@ const STATIC_PAGES = [
 ];
 
 module.exports = async (req, res) => {
+  let debugInfo = '';
   try {
     // Récupérer toutes les formations actives
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/formations?select=id,updated_at&actif=eq.true`,
+      `${SUPABASE_URL}/rest/v1/formations?select=id,created_at&actif=eq.true`,
       { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
     );
     const formations = await response.json();
+
+    if (!Array.isArray(formations)) {
+      debugInfo = `<!-- sitemap: erreur recuperation formations -->`;
+    }
 
     const today = new Date().toISOString().split('T')[0];
 
@@ -33,12 +38,13 @@ module.exports = async (req, res) => {
     const formationUrls = Array.isArray(formations) ? formations.map(f => `
   <url>
     <loc>https://formationelite.vip/formation.html?id=${f.id}</loc>
-    <lastmod>${f.updated_at ? f.updated_at.split('T')[0] : today}</lastmod>
+    <lastmod>${f.created_at ? f.created_at.split('T')[0] : today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`).join('') : '';
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
+${debugInfo}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticUrls}
 ${formationUrls}
@@ -50,6 +56,8 @@ ${formationUrls}
 
   } catch (err) {
     console.error('sitemap error:', err);
-    return res.status(500).send('Error generating sitemap');
+    return res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?>
+<!-- DEBUG sitemap CATCH: ${String(err.message || err).replace(/--/g,'—')} -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`);
   }
 };

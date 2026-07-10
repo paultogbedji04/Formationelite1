@@ -1,0 +1,17 @@
+
+User-agent: *
+
+Allow: /
+
+Disallow: /formation-elite-admin.html
+
+Disallow: /checkout.html
+
+Disallow: /success.html
+
+Disallow: /paypal-confirmation.html
+
+Disallow: /api/
+
+Sitemap: https://www.formationelite.vip/sitemap.xml
+

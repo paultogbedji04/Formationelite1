@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-P784Z0RMLV"></script>
 <script>
@@ -13,12 +13,15 @@
 </script>
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
-<title>FormationElite.fr — +1000 Formations Premium à Prix Imbattables</title>
+<title>FormationElite.vip — +1000 Formations Premium à Prix Imbattables</title>
+<link rel="canonical" href="https://www.formationelite.vip/">
 <meta name="description" content="Accédez aux meilleures formations business à prix réduits : Trading, Dropshipping, IA, SEO, Immobilier. Livraison immédiate, accès à vie. Élite Pass dès 199€.">
-<meta property="og:title" content="FormationElite.fr — +1000 Formations Premium">
+<meta property="og:title" content="FormationElite.vip — +1000 Formations Premium">
 <meta property="og:description" content="Accédez aux meilleures formations business à prix réduits. Trading, IA, Dropshipping et plus.">
 <meta property="og:url" content="https://formationelite.vip">
 <meta property="og:image" content="https://formationelite.vip/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
@@ -27,8 +30,13 @@
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideUpOnly{from{transform:translateY(20px)}to{transform:translateY(0)}}
 .scroll-fade{opacity:0;transform:translateY(30px);transition:opacity .7s ease, transform .7s ease}
 .scroll-fade.visible{opacity:1;transform:translateY(0)}
+#heroCanvas{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5}
+@media(prefers-reduced-motion:reduce){#heroCanvas{display:none}}
+#eliteCanvas{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.35}
+@media(prefers-reduced-motion:reduce){#eliteCanvas{display:none}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
 .btn-glow{animation:glowPulse 2.5s ease-in-out infinite}
@@ -141,10 +149,18 @@
   .hero-right{flex:1;position:relative;z-index:1;display:flex;justify-content:center}
   .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:8px 20px;border-radius:100px;font-size:12px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .8s ease both}
   .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2s infinite}
-  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:fadeUp .8s .1s ease both}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;animation:slideUpOnly .6s ease}
   .hero p{font-size:16px;color:#888;line-height:1.7;font-weight:300;margin-bottom:36px;animation:fadeUp .8s .2s ease both}
   .hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
-
+  .hero-floating{display:none}
+  .floating-badge{position:absolute;display:flex;align-items:center;gap:10px;background:rgba(20,18,12,0.7);border:1px solid rgba(201,168,76,.25);padding:16px 26px;border-radius:100px;font-size:16px;font-weight:600;color:var(--text);backdrop-filter:blur(6px);white-space:nowrap;z-index:1;animation:floatBadge 4.5s ease-in-out infinite}
+  @keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  @media(min-width:901px){
+    .hero-right{display:none}
+    .hero-left{text-align:center;margin:0 auto}
+    .hero-btns{justify-content:center}
+    .hero-floating{display:block}
+  }
   /* ========== STATS BAR ========== */
   .stats-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
   .stats-inner{display:flex;justify-content:center;align-items:stretch;flex-wrap:wrap;width:100%}
@@ -209,6 +225,24 @@
 
   /* ========== AVIS ========== */
   .avis-section{padding:60px;background:var(--bg2);border-top:1px solid var(--border)}
+
+  /* MISSION */
+  .mission-section{padding:60px;text-align:center}
+  .mission-frame{max-width:960px;margin:0 auto;background:linear-gradient(135deg,#161206,#0f0f0f);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:50px 44px}
+  .mission-text{max-width:720px;margin:0 auto 40px;font-size:15px;line-height:1.9;color:#999;text-align:left}
+  .mission-cards-viewport{overflow:hidden;max-width:1100px;margin:0 auto}
+  .mission-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .mission-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:32px 26px;text-align:center;transition:border-color .3s}
+  .mission-card:hover{border-color:rgba(201,168,76,0.4)}
+  .mission-icon{font-size:32px;display:block;margin-bottom:14px}
+
+  /* SUPPORT FLOTTANT */
+  .support-fab{position:fixed;bottom:24px;right:24px;z-index:150;display:flex;align-items:center;gap:8px;background:#0f0f0f;border:1px solid var(--gold);color:var(--text);text-decoration:none;padding:13px 20px;border-radius:100px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.5);opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease,border-color .2s}
+  .support-fab.show{opacity:1;transform:translateY(0)}
+  .support-fab:hover{border-color:var(--gold-light);background:#161206}
+  @media(max-width:600px){ .support-fab{bottom:16px;right:16px;padding:12px 18px;font-size:12.5px} }
+  .mission-card-title{font-size:15px;font-weight:700;color:var(--gold-light);margin-bottom:8px}
+  .mission-card-desc{font-size:13px;color:#888;line-height:1.6}
   .avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   .avis-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:28px}
   .avis-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--bg)}
@@ -228,6 +262,7 @@
     .gratuit-section{padding:48px 32px}
     .accordion-section{padding:48px 32px}
     .avis-section{padding:48px 32px}
+  .mission-section{padding:48px 32px}
     .avis-grid{grid-template-columns:1fr 1fr}
     .std-section{padding:36px 32px 16px}
     .search-section{padding:48px 32px 16px}
@@ -308,6 +343,12 @@
 
     /* AVIS */
     .avis-section{padding:36px 16px}
+
+    /* MISSION - mode carrousel mobile */
+    .mission-section{padding:36px 16px}
+    .mission-frame{padding:32px 22px;border-radius:16px}
+    .mission-cards{display:flex;gap:0;transition:transform .6s ease}
+    .mission-card{flex:0 0 100%;width:100%;min-width:0;box-sizing:border-box}
     .avis-grid{grid-template-columns:1fr}
 
     /* FOOTER */
@@ -330,10 +371,20 @@
 <body>
 <div id="nav-placeholder"></div>
 
+<main>
 <!-- HERO -->
 <section class="hero">
+  <canvas id="heroCanvas"></canvas>
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
+  <div class="hero-floating">
+    <div class="floating-badge" style="top:150px;left:5%;animation-delay:0s">📦 Dropshipping</div>
+    <div class="floating-badge" style="bottom:12%;left:6%;animation-delay:.8s">🤖 IA</div>
+    <div class="floating-badge" style="top:50%;left:9%;transform:translateY(-50%);animation-delay:1.6s">🎯 Closing</div>
+    <div class="floating-badge" style="top:150px;right:5%;animation-delay:.4s">📈 Trading</div>
+    <div class="floating-badge" style="bottom:12%;right:6%;animation-delay:1.2s">🚀 Business/SMMA</div>
+    <div class="floating-badge" style="top:50%;right:9%;transform:translateY(-50%);animation-delay:2s">📱 Marketing</div>
+  </div>
   <div class="hero-left">
     <div class="hero-badge">⚡ +1000 formations disponibles</div>
     <h1>Apprenez plus,<br><em>dépensez moins.</em></h1>
@@ -508,6 +559,7 @@
 
 <!-- ELITE PASS TEASER -->
 <section class="elite-section scroll-fade">
+  <canvas id="eliteCanvas"></canvas>
   <div class="elite-grid">
     <div>
       <h2 class="section-title" style="margin-bottom:10px">L'Élite Pass</h2>
@@ -517,13 +569,14 @@
     </div>
     <div class="elite-card">
       <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);margin-bottom:8px">L'Élite Pass</div>
-      <div class="elite-price">199€</div>
+      <div class="elite-price">249€</div>
       <div style="font-size:13px;color:#555;margin-bottom:28px">Paiement unique — à vie</div>
       <div style="text-align:left">
         <div class="elite-feat">✦ <span><span style="color:var(--gold)">+1000</span> formations incluses</span></div>
         <div class="elite-feat">✦ Nouvelles formations chaque semaine</div>
         <div class="elite-feat">✦ Accès immédiat après paiement</div>
         <div class="elite-feat">✦ Garantie remboursée 7 jours</div>
+        <div class="elite-feat">✦ <span style="color:var(--gold)">+500€</span> de bonus exclusifs offerts</div>
       </div>
     </div>
   </div>
@@ -540,6 +593,40 @@
 </section>
 
 <!-- AVIS -->
+<!-- NOTRE MISSION -->
+<section class="mission-section scroll-fade">
+  <div class="mission-frame">
+  <div class="section-label framed">Notre mission</div>
+  <h2 class="section-title" style="margin-bottom:8px">Rendre les meilleures formations <em>accessibles au plus grand nombre.</em></h2>
+  <p class="mission-text">
+    Chez FormationElite, nous croyons que le savoir est l'un des meilleurs investissements que l'on puisse faire. Pourtant, de nombreuses formations de qualité restent hors de portée de nombreux entrepreneurs en raison de leur coût.<br><br>
+    Notre mission est de rendre ces ressources plus accessibles afin que chacun puisse apprendre, développer de nouvelles compétences et avancer dans ses projets sans que le prix soit un obstacle.<br><br>
+    Chaque formation présente sur notre plateforme est sélectionnée avec soin pour offrir une véritable valeur pédagogique dans des domaines tels que le business, l'intelligence artificielle, le marketing digital, le trading, le développement personnel ou encore le e-commerce.<br><br>
+    Nous voulons permettre à chacun d'investir avant tout dans ses connaissances, car ce sont elles qui ouvrent les meilleures opportunités.<br><br>
+    <strong style="color:var(--gold-light)">FormationElite, c'est la conviction que l'apprentissage de qualité doit être accessible à tous.</strong>
+  </p>
+  <div class="mission-cards-viewport">
+    <div class="mission-cards" id="missionCards">
+      <div class="mission-card">
+        <span class="mission-icon">🎓</span>
+        <div class="mission-card-title">Des formations sélectionnées</div>
+        <div class="mission-card-desc">Un catalogue enrichi en continu avec des contenus recherchés par les entrepreneurs.</div>
+      </div>
+      <div class="mission-card">
+        <span class="mission-icon">💎</span>
+        <div class="mission-card-title">Des prix accessibles</div>
+        <div class="mission-card-desc">Développez vos compétences sans que le budget soit un frein.</div>
+      </div>
+      <div class="mission-card">
+        <span class="mission-icon">🚀</span>
+        <div class="mission-card-title">Progressez à votre rythme</div>
+        <div class="mission-card-desc">Apprenez où vous voulez, quand vous voulez, et construisez vos compétences pas à pas.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
 <section class="avis-section scroll-fade">
   <div class="section-label framed">Témoignages</div>
   <h2 class="section-title" style="margin-bottom:8px">Ce que disent <em>nos clients.</em></h2>
@@ -548,7 +635,12 @@
     <div style="grid-column:1/-1;text-align:center;padding:40px;color:#555">⚡ Chargement...</div>
   </div>
 </section>
+</main>
 <div id="footer-placeholder"></div>
+
+<a href="https://t.me/CreativeagencyFr" target="_blank" id="supportFab" class="support-fab">
+  <span style="font-size:16px">💬</span> Support
+</a>
 
 
 <script>
@@ -589,7 +681,7 @@ function cardHtml(f) {
   const isFree = f.prix?.toLowerCase() === 'gratuit';
   const emoji = f.emoji || CAT_EMOJIS[f.categorie] || '📚';
   const imgHtml = f.image_principale
-    ? `<img src="${f.image_principale}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    ? `<img src="${f.image_principale}" alt="${f.titre}${f.auteur ? ' - '+f.auteur : ''}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
     : `<div class="card-img-placeholder">${emoji}</div>`;
   const desc = f.description || '';
   const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
@@ -696,7 +788,7 @@ function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-logo">FormationElite.fr</a>
+        <a href="index.html" class="footer-logo">FormationElite.vip</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
         <a href="https://t.me/formation05" target="_blank" class="btn-secondary" style="font-size:11px;padding:10px 20px">Rejoindre le Telegram →</a>
       </div>
@@ -710,7 +802,7 @@ function footerHtml() {
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
+      <div>© 2026 FormationElite.vip — Tous droits réservés</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
@@ -767,7 +859,9 @@ function isMobile() { return window.innerWidth <= 600; }
 function renderRecent(data) {
   const el = document.getElementById('recentGrid');
   const limit = isMobile() ? 3 : 8;
-  if (el) el.innerHTML = data.slice(0,limit).map(cardHtml).join('');
+  const nonGratuit = data.filter(f => f.prix?.toString().trim().toLowerCase() !== 'gratuit');
+  const trie = [...nonGratuit].sort((a,b) => (b.badge === 'Nouveau') - (a.badge === 'Nouveau'));
+  if (el) el.innerHTML = trie.slice(0,limit).map(cardHtml).join('');
 }
 
 function renderBestsellers(data) {
@@ -889,10 +983,13 @@ function renderGratuit(data) {
       categorie: f.categorie, emoji, ancien_prix: ancien,
       lien_acces: f.lien_acces || ''
     }));
+    const imgHtml = f.image_principale
+      ? `<img src="${f.image_principale}" alt="${f.titre}${f.auteur ? ' - '+f.auteur : ''}" style="width:100%;height:154px;object-fit:cover;object-position:center 25%;display:block" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+      : `<div class="card-img-placeholder">${emoji}</div>`;
     return `
     <div class="formation-card" onclick="openGratuitModal('${dataF}')">
       <div class="card-badge free">Gratuit</div>
-      <div class="card-img-placeholder">${emoji}</div>
+      ${imgHtml}
       <div class="card-body">
         <div class="card-category">${f.categorie||''}</div>
         <div class="card-title">${f.titre}</div>
@@ -1076,7 +1173,83 @@ function animateCounters() {
 
 loadIndex();
 animateCounters();
+function initMissionCarousel() {
+  const track = document.getElementById('missionCards');
+  if (!track || window.innerWidth > 600) return;
+  const cards = Array.from(track.children);
+  if (cards.length < 2) return;
+  const firstClone = cards[0].cloneNode(true);
+  track.appendChild(firstClone);
+  let index = 0;
+  const total = cards.length;
+  setInterval(() => {
+    index++;
+    track.style.transition = 'transform .6s ease';
+    track.style.transform = `translateX(-${index * 100}%)`;
+    if (index === total) {
+      setTimeout(() => {
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+        index = 0;
+      }, 620);
+    }
+  }, 3500);
+}
+initMissionCarousel();
 initScrollAnimations();
+setTimeout(() => {
+  const fab = document.getElementById('supportFab');
+  if (fab) fab.classList.add('show');
+}, 2500);
+initParticleField('heroCanvas', '.hero', { mobileCount: 18, desktopCount: 38, mobileLink: 90, desktopLink: 140 });
+initParticleField('eliteCanvas', '.elite-section', { mobileCount: 12, desktopCount: 24, mobileLink: 80, desktopLink: 120 });
+
+function initParticleField(canvasId, containerSelector, opts) {
+  const canvas = document.getElementById(canvasId);
+  const container = document.querySelector(containerSelector);
+  if (!canvas || !container) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+  const isMobile = window.innerWidth <= 600;
+  const COUNT = isMobile ? opts.mobileCount : opts.desktopCount;
+  const LINK_DIST = isMobile ? opts.mobileLink : opts.desktopLink;
+
+  function resize(){ w = canvas.width = container.offsetWidth; h = canvas.height = container.offsetHeight; }
+  function initNodes(){
+    nodes = Array.from({length: COUNT}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-0.5)*0.22, vy: (Math.random()-0.5)*0.22,
+      r: Math.random()*1.3+0.7
+    }));
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for (const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    }
+    for (let i=0;i<nodes.length;i++){
+      for (let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dist = Math.hypot(a.x-b.x, a.y-b.y);
+        if (dist < LINK_DIST){
+          ctx.strokeStyle = `rgba(201,168,76,${(1-dist/LINK_DIST)*0.3})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for (const n of nodes){
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = 'rgba(232,201,122,0.65)'; ctx.fill();
+    }
+    requestAnimationFrame(step);
+  }
+  resize(); initNodes(); step();
+  window.addEventListener('resize', () => { resize(); initNodes(); });
+}
 initTiltEffect();
 initParallax();
 function initScrollAnimations() {

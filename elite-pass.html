@@ -13,8 +13,9 @@
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 </script>
 <link rel="icon" type="image/jpeg" href="logo.jpg">
-<title>L'Élite Pass — Accès Illimité à +1000 Formations — 199€</title>
-<meta name="description" content="Un seul paiement de 199€ pour accéder à vie à toutes nos formations présentes et futures. Trading, IA, Dropshipping, SEO et bien plus.">
+<title>L'Élite Pass — Accès Illimité à +1000 Formations — 249€</title>
+<link rel="canonical" href="https://www.formationelite.vip/elite-pass.html">
+<meta name="description" content="Un seul paiement de 249€ pour accéder à vie à toutes nos formations présentes et futures. Trading, IA, Dropshipping, SEO et bien plus.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root { --gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#8a6e2f;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556;--green:#2ecc71; }
@@ -25,6 +26,14 @@
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
+  .btn-glow{animation:glowPulse 2.5s ease-in-out infinite}
+
+  #bgCanvas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55}
+  @media(prefers-reduced-motion:reduce){#bgCanvas{display:none}}
+
+  .scroll-fade{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .scroll-fade.visible{opacity:1;transform:translateY(0)}
 
   /* ── NAV ── */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
@@ -56,6 +65,12 @@
   .btn-hero{background:var(--gold);color:var(--bg);padding:18px 44px;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;display:inline-block}
   .btn-hero:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
   .hero-trust{margin-top:16px;font-size:12px;color:#555}
+  .hero-floating{display:none}
+  .floating-badge{position:absolute;display:flex;align-items:center;gap:10px;background:rgba(20,18,12,0.7);border:1px solid rgba(201,168,76,.25);padding:16px 26px;border-radius:100px;font-size:16px;font-weight:600;color:var(--text);backdrop-filter:blur(6px);white-space:nowrap;z-index:1;animation:floatBadge 4.5s ease-in-out infinite}
+  @keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  @media(min-width:901px){
+    .hero-floating{display:block}
+  }
 
   /* ── SECTIONS ── */
   .std-section{padding:80px 60px}
@@ -72,8 +87,8 @@
   .feature-card:hover{border-color:rgba(201,168,76,0.3)}
 
   /* ── PRICE + INCLUDES ── */
-  .price-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1000px;margin:0 auto}
-  .price-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden}
+  .price-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:stretch;max-width:1000px;margin:0 auto}
+  .price-card{background:var(--bg3);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden;height:100%;display:flex;flex-direction:column;justify-content:center;gap:6px}
   .price-card::before{content:'OFFRE LIMITÉE';position:absolute;top:22px;right:-32px;background:var(--gold);color:var(--bg);font-size:9px;font-weight:700;letter-spacing:2px;padding:6px 48px;transform:rotate(45deg)}
   .price-big{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:6px}
   .include-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px;color:#888}
@@ -101,6 +116,14 @@
   .faq-item.open .faq-icon{transform:rotate(45deg)}
   .faq-a{display:none;font-size:14px;color:#777;line-height:1.8;padding-bottom:18px}
   .faq-item.open .faq-a{display:block}
+
+  /* ── BONUS ── */
+  .bonus-section{padding:0 60px 20px}
+  .bonus-wrap{max-width:900px;margin:0 auto;background:linear-gradient(135deg,#161206,#0f0f0f);border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:44px 40px;text-align:center}
+  .bonus-value-badge{display:inline-block;background:var(--gold);color:var(--bg);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 18px;border-radius:20px;margin-bottom:18px}
+  .bonus-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-top:28px}
+  .bonus-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:14px 16px;font-size:13px;color:#ccc;line-height:1.5}
+  .bonus-item .ic{font-size:18px;flex-shrink:0}
 
   /* ── CTA FINAL ── */
   .cta-final{padding:80px 60px;background:linear-gradient(135deg,#0a0800,#080808,#0a0800);border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
@@ -140,6 +163,7 @@
     .std-section{padding:56px 32px}
     .features-grid{grid-template-columns:1fr 1fr}
     .price-section-grid{grid-template-columns:1fr;gap:40px}
+    .bonus-wrap{padding:32px 24px}
     .cta-final{padding:60px 32px}
     footer{padding:40px 24px}
     .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
@@ -174,6 +198,11 @@
     .price-big{font-size:56px}
     .price-card::before{font-size:8px;padding:5px 40px}
 
+    /* Bonus */
+    .bonus-section{padding:0 16px 16px}
+    .bonus-wrap{padding:28px 18px}
+    .bonus-grid{grid-template-columns:1fr}
+
     /* Compare table — simplifiée */
     .compare-wrap{overflow-x:auto}
     .compare-table th,.compare-table td{padding:10px 12px;font-size:12px}
@@ -203,6 +232,7 @@
 </style>
 </head>
 <body>
+<canvas id="bgCanvas"></canvas>
 <div id="nav-placeholder"></div>
 
 <!-- IMAGE HERO (depuis admin — cachée si pas d'image) -->
@@ -214,6 +244,14 @@
 <section class="elite-hero">
   <div class="elite-hero-bg"></div>
   <div class="elite-hero-lines"></div>
+  <div class="hero-floating">
+    <div class="floating-badge" style="top:150px;left:5%;animation-delay:0s">🔥 -80% aujourd'hui</div>
+    <div class="floating-badge" style="bottom:15%;left:6%;animation-delay:.8s">🎁 +500€ de bonus</div>
+    <div class="floating-badge" style="top:50%;left:9%;transform:translateY(-50%);animation-delay:1.6s">♾️ Accès à vie</div>
+    <div class="floating-badge" style="top:150px;right:5%;animation-delay:.4s">👑 +1000 formations</div>
+    <div class="floating-badge" style="bottom:15%;right:6%;animation-delay:1.2s">⚡ Livraison immédiate</div>
+    <div class="floating-badge" style="top:50%;right:9%;transform:translateY(-50%);animation-delay:2s">🔒 Paiement sécurisé</div>
+  </div>
   <div class="elite-hero-inner">
     <div class="elite-badge">👑 Accès Élite à vie</div>
     <h1>L'Élite Pass —<br><em>Votre accès à vie.</em></h1>
@@ -227,13 +265,13 @@
         <div>✓ Paiement unique</div>
       </div>
     </div>
-    <button onclick="buyElitePass()" class="btn-hero">Obtenir l'Élite Pass — 199€</button>
+    <button onclick="buyElitePass()" class="btn-hero btn-glow">Obtenir l'Élite Pass — 249€</button>
     <div class="hero-trust">🔒 Paiement sécurisé · 📦 Produit numérique</div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section class="std-section bg2">
+<section class="std-section bg2 scroll-fade">
   <div style="text-align:center;margin-bottom:40px">
     <div class="section-label center">Pourquoi choisir l'Élite Pass</div>
     <h2 class="section-title" style="text-align:center">Ce que votre accès <em>débloque</em></h2>
@@ -273,7 +311,7 @@
 </section>
 
 <!-- PRICE + INCLUDES -->
-<section class="std-section">
+<section class="std-section scroll-fade">
   <div class="price-section-grid">
     <div>
       <div class="section-label">Ce qui est inclus</div>
@@ -293,7 +331,7 @@
         <div style="font-size:11px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:14px">Accès complet</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--gold-light);margin-bottom:6px">L'Élite Pass</div>
         <div style="font-size:13px;color:#555;margin-bottom:20px">Tout le catalogue · À vie · Sans limite</div>
-        <div class="price-big">199€</div>
+        <div class="price-big">249€</div>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:28px">Paiement unique — plus jamais rien à payer</div>
         <button onclick="buyElitePass()" class="btn-buy">Obtenir l'Élite Pass →</button>
         <div style="font-size:11px;color:#555;text-align:center">🔒 Paiement sécurisé · 📦 Produit numérique</div>
@@ -303,7 +341,7 @@
 </section>
 
 <!-- COMPARAISON -->
-<section class="std-section bg2">
+<section class="std-section bg2 scroll-fade">
   <div style="max-width:800px;margin:0 auto">
     <div style="text-align:center;margin-bottom:32px">
       <div class="section-label center">Comparaison</div>
@@ -326,7 +364,7 @@
           <tr><td>Livraison immédiate</td><td class="check-green">✓</td><td class="check-green">✓</td></tr>
           <tr style="background:rgba(201,168,76,0.04)">
             <td style="font-weight:600;color:var(--text)">Prix</td>
-            <td style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);font-weight:600">199€</td>
+            <td style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);font-weight:600">249€</td>
             <td style="text-align:center;color:#888;font-size:13px">20€ – 45€ / formation</td>
           </tr>
         </tbody>
@@ -335,8 +373,33 @@
   </div>
 </section>
 
+<!-- BONUS EXCLUSIFS -->
+<section class="bonus-section scroll-fade">
+  <div class="bonus-wrap">
+    <div class="bonus-value-badge">+500€ de bonus offerts</div>
+    <h2 class="section-title" style="margin-bottom:10px">Des bonus <em>exclusifs</em> inclus</h2>
+    <p style="color:#888;font-size:14px;max-width:520px;margin:0 auto">En plus de l'accès complet au catalogue, chaque Élite Pass débloque ces ressources bonus, offertes gratuitement.</p>
+    <div class="bonus-grid">
+      <div class="bonus-item"><span class="ic">💻</span><span>1000 prompts pour créer des logiciels en tant que service (SaaS)</span></div>
+      <div class="bonus-item"><span class="ic">🌐</span><span>Un business sur le Blog Machine</span></div>
+      <div class="bonus-item"><span class="ic">📸</span><span>300 templates Instagram</span></div>
+      <div class="bonus-item"><span class="ic">🤖</span><span>159 prompts ChatGPT surpuissants pour ton business</span></div>
+      <div class="bonus-item"><span class="ic">🛠️</span><span>Les 249 meilleurs outils à utiliser avec l'intelligence artificielle</span></div>
+      <div class="bonus-item"><span class="ic">🎯</span><span>+1000 Landing Pages</span></div>
+      <div class="bonus-item"><span class="ic">📝</span><span>1100+ prompts ChatGPT d'expert en marketing de contenu</span></div>
+      <div class="bonus-item"><span class="ic">📧</span><span>1000 Email Marketing Prompts</span></div>
+      <div class="bonus-item"><span class="ic">✍️</span><span>1000 prompts pour rédiger le copywriting d'une page de vente</span></div>
+      <div class="bonus-item"><span class="ic">📢</span><span>1000 prompts pour vos publicités Facebook Ads</span></div>
+      <div class="bonus-item"><span class="ic">🔍</span><span>1000 SEO Prompts</span></div>
+      <div class="bonus-item"><span class="ic">🛒</span><span>1000 prompts pour l'E-commerce</span></div>
+      <div class="bonus-item"><span class="ic">💰</span><span>160 prompts ChatGPT/Claude pour vendre des produits high ticket</span></div>
+      <div class="bonus-item"><span class="ic">📁</span><span>15 Go de Drive offerts gratuitement</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ RAPIDE -->
-<section class="std-section">
+<section class="std-section scroll-fade">
   <div style="max-width:700px;margin:0 auto">
     <div style="text-align:center;margin-bottom:36px">
       <div class="section-label center">Questions fréquentes</div>
@@ -350,20 +413,20 @@
 </section>
 
 <!-- CTA FINAL -->
-<section class="cta-final">
+<section class="cta-final scroll-fade">
   <div style="position:relative;z-index:1">
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,58px);font-weight:300;margin-bottom:14px">
       Prêt à tout <em style="color:var(--gold-light)">débloquer ?</em>
     </h2>
     <p style="color:#666;font-size:15px;margin-bottom:32px">Rejoignez les 2400+ membres qui ont déjà fait confiance à FormationElite</p>
-    <button onclick="buyElitePass()" class="btn-hero">Obtenir l'Élite Pass — 199€ →</button>
+    <button onclick="buyElitePass()" class="btn-hero btn-glow">Obtenir l'Élite Pass — 249€ →</button>
   </div>
 </section>
 
 <!-- MOBILE CTA BAR -->
 <div class="mobile-cta-bar">
   <div class="mobile-cta-inner">
-    <div class="mobile-cta-price">199€</div>
+    <div class="mobile-cta-price">249€</div>
     <button class="mobile-cta-btn" onclick="buyElitePass()">💎 Obtenir l'Élite Pass</button>
   </div>
 </div>
@@ -399,7 +462,7 @@ function footerHtml() {
   return `<footer>
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-logo">FormationElite.fr</a>
+        <a href="index.html" class="footer-logo">FormationElite.vip</a>
         <p class="footer-desc">Le spécialiste de la revente de formations business premium en France.</p>
         <a href="https://t.me/formation05" target="_blank" style="display:inline-block;background:transparent;color:var(--text);padding:10px 20px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;font-family:inherit;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s">Rejoindre le Telegram →</a>
       </div>
@@ -413,7 +476,7 @@ function footerHtml() {
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 FormationElite.fr — Tous droits réservés</div>
+      <div>© 2026 FormationElite.vip — Tous droits réservés</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <span class="payment-icon">VISA</span>
         <span class="payment-icon">MC</span>
@@ -455,22 +518,17 @@ function buyElitePass() {
       <div style="text-align:center;margin-bottom:24px">
         <div style="font-size:36px;margin-bottom:8px">💎</div>
         <div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;color:#f0ece0;margin-bottom:4px">L'Élite Pass</div>
-        <div style="font-family:\'Cormorant Garamond\',serif;font-size:38px;color:#e8c97a;font-weight:300">199€</div>
+        <div style="font-family:\'Cormorant Garamond\',serif;font-size:38px;color:#e8c97a;font-weight:300">249€</div>
         <div style="font-size:12px;color:#555;margin-top:4px">Paiement unique — accès à vie</div>
       </div>
       <div style="font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>
 
-      <!-- STRIPE -->
-      <a href="https://buy.stripe.com/00w28rcSGdZG7QG1NHgIo01" target="_blank" class="pay-option" style="border:1px solid rgba(201,168,76,0.2)">
-        <span style="font-size:26px">💳</span>
-        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par carte / Stripe</div><div style="color:#666;font-size:12px">Visa, Mastercard — paiement sécurisé</div></div>
-        <span style="margin-left:auto;color:#c9a84c">→</span>
-      </a>
+      <!-- STRIPE désactivé temporairement -->
 
       <!-- PAYPAL -->
       <a href="#" onclick="payerPaypalElitePass();return false;" class="pay-option" style="border:1px solid rgba(0,112,240,0.2)">
         <span style="font-size:26px">🅿️</span>
-        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Envoyer 199€ — indiquer "Élite Pass" en note</div></div>
+        <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer par PayPal</div><div style="color:#666;font-size:12px">Envoyer 249€ — indiquer "Élite Pass" en note</div></div>
         <span style="margin-left:auto;color:#0070f0">→</span>
       </a>
 
@@ -496,7 +554,7 @@ async function payerCryptoElitePass() {
       body: JSON.stringify({
         formation_id: 'elite-pass',
         formation_titre: "L'Élite Pass",
-        prix: 199,
+        prix: 249,
         email: null
       })
     });
@@ -512,9 +570,9 @@ async function payerCryptoElitePass() {
 }
 function payerPaypalElitePass() {
   document.querySelector('[style*="position:fixed"]')?.remove();
-  window.open('https://www.paypal.me/paultogbedji/199', '_blank');
+  window.open('https://www.paypal.me/paultogbedji/249', '_blank');
   setTimeout(() => {
-    window.location.href = `paypal-confirmation.html?formation_id=43666279-e0c9-46fb-a2b0-81d14a3b0953&formation_titre=${encodeURIComponent("L'Élite Pass")}&montant=199`;
+    window.location.href = `paypal-confirmation.html?formation_id=43666279-e0c9-46fb-a2b0-81d14a3b0953&formation_titre=${encodeURIComponent("L'Élite Pass")}&montant=249`;
   }, 1500);
 }
 // ── FAQ ──
@@ -533,6 +591,66 @@ document.getElementById('faqElite').innerHTML = faqs.map((f, i) => {
     <div class="faq-a">${f[1]}</div>
   </div>`;
 }).join('');
+</script>
+
+<script>
+// ── FOND ANIMÉ : réseau de particules dorées ──
+(function(){
+  const canvas = document.getElementById('bgCanvas');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+  const isMobile = window.innerWidth <= 600;
+  const COUNT = isMobile ? 20 : 45;
+  const LINK_DIST = isMobile ? 100 : 150;
+
+  function resize(){ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+  function initNodes(){
+    nodes = Array.from({length: COUNT}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
+      r: Math.random()*1.4+0.8
+    }));
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for (const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    }
+    for (let i=0;i<nodes.length;i++){
+      for (let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dist = Math.hypot(a.x-b.x, a.y-b.y);
+        if (dist < LINK_DIST){
+          ctx.strokeStyle = `rgba(201,168,76,${(1-dist/LINK_DIST)*0.35})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for (const n of nodes){
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = 'rgba(232,201,122,0.7)'; ctx.fill();
+    }
+    requestAnimationFrame(step);
+  }
+  resize(); initNodes(); step();
+  window.addEventListener('resize', () => { resize(); initNodes(); });
+})();
+
+// ── ANIMATIONS D'APPARITION AU SCROLL ──
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+}
+initScrollAnimations();
 </script>
 </body>
 </html>
