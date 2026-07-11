@@ -476,7 +476,7 @@ async function init() {
       canonicalTag.rel = 'canonical';
       document.head.appendChild(canonicalTag);
     }
-    canonicalTag.href = `https://www.formationelite.vip/formation.html?id=${id}`;
+    canonicalTag.href = `https://www.formationelite.vip/formation/${formation.slug}`;
 
     // Open Graph (pour partage sur réseaux sociaux)
     const ogTags = {
