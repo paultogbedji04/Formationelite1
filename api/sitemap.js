@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   try {
     // Récupérer toutes les formations actives
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/formations?select=id,created_at&actif=eq.true`,
+      `${SUPABASE_URL}/rest/v1/formations?select=id,slug,created_at&actif=eq.true`,
       { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
     );
     const formations = await response.json();
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
     const formationUrls = Array.isArray(formations) ? formations.map(f => `
   <url>
-    <loc>https://formationelite.vip/formation.html?id=${f.id}</loc>
+    <loc>https://www.formationelite.vip/formation/${f.slug}</loc>
     <lastmod>${f.created_at ? f.created_at.split('T')[0] : today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
