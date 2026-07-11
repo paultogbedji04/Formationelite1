@@ -686,7 +686,7 @@ function cardHtml(f) {
   const desc = f.description || '';
   const shortDesc = desc.length > 90 ? desc.slice(0,90)+'...' : desc;
   return `
-  <div class="formation-card" onclick="window.location='formation.html?id=${f.id}'">
+  <div class="formation-card" onclick="window.location='/formation/${f.slug}'">
     ${f.badge ? `<div class="card-badge ${f.badge==='Gratuit'?'free':f.badge==='Nouveau'?'new':''}">${f.badge}</div>` : ''}
     ${imgHtml}
     <div class="card-body">
@@ -699,7 +699,7 @@ function cardHtml(f) {
           ${isFree ? '<span class="card-price-free">Gratuit</span>' : `<span class="card-price">${f.prix}</span>${f.ancien_prix ? `<span class="card-price-old">${f.ancien_prix}</span>` : ''}`}
           <div style="font-size:10px;color:var(--text-muted);letter-spacing:.5px;margin-top:2px">Accès à vie</div>
         </div>
-        <button class="btn-card" onclick="event.stopPropagation();window.location='formation.html?id=${f.id}'">Découvrir →</button>
+        <button class="btn-card" onclick="event.stopPropagation();window.location='/formation/${f.slug}'">Découvrir →</button>
       </div>
     </div>
   </div>`;
