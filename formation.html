@@ -443,6 +443,12 @@ async function init() {
       document.getElementById('mainContent').innerHTML = `<div style="text-align:center;padding:80px 20px;color:#555"><div style="font-size:40px;margin-bottom:16px">😕</div><div>Formation introuvable</div><a href="formations.html" style="color:var(--gold);text-decoration:none;margin-top:16px;display:inline-block">← Retour au catalogue</a></div>`;
       return;
     }
+
+    // Redirection des anciens liens (?id=) vers la nouvelle URL propre (/formation/slug)
+    if (id && data[0].slug) {
+      window.location.replace(`/formation/${data[0].slug}`);
+      return;
+    }
     formation = data[0];
     window._formation = formation;
 
