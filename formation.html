@@ -429,7 +429,11 @@ let allFormations = [];
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const slug = params.get('slug');
+  let slug = params.get('slug');
+  if (!id && !slug) {
+    const pathMatch = window.location.pathname.match(/^\/formation\/([^/]+)\/?$/);
+    if (pathMatch) slug = pathMatch[1];
+  }
   if (!id && !slug) { window.location.href = 'formations.html'; return; }
   try {
     const data = slug
