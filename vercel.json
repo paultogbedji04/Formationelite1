@@ -36,6 +36,10 @@
       "continue": true
     },
     {
+      "src": "/((?!api|formation-elite-admin.html|maintenance.html|robots.txt|sitemap.xml).*)",
+      "dest": "/maintenance.html"
+    },
+    {
       "src": "/api/checkout",
       "dest": "/api/checkout.js"
     },
