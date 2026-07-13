@@ -33,11 +33,7 @@
         "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
         "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://xrljfmrsrxyepdsysfan.supabase.co https://www.google-analytics.com; connect-src 'self' https://xrljfmrsrxyepdsysfan.supabase.co https://api.stripe.com https://www.google-analytics.com https://*.paypal.com https://*.paypalobjects.com https://nowpayments.io https://*.nowpayments.io; frame-src https://js.stripe.com https://*.paypal.com; object-src 'none'; base-uri 'self';"
       },
-      "continue": true
-    },
-    {
-      "src": "/((?!api|formation-elite-admin.html|maintenance.html|robots.txt|sitemap.xml).*)",
-      "dest": "/maintenance.html"
+     "continue": true
     },
     {
       "src": "/api/checkout",
