@@ -15,6 +15,17 @@ function isValidAdminToken(token) {
   }
 }
 
+function slugify(text) {
+  return text
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
@@ -51,6 +62,24 @@ module.exports = async (req, res) => {
         body: JSON.stringify(req.body)
       });
       const data = await response.json();
+
+      // Génère le slug automatiquement après insertion (a besoin de l'id généré par Supabase)
+      if (response.ok && Array.isArray(data) && data[0]?.id && data[0]?.titre) {
+        const slug = `${slugify(data[0].titre)}-${data[0].id.slice(0, 8)}`;
+        const patchResponse = await fetch(`${SUPABASE_URL}/rest/v1/formations?id=eq.${data[0].id}`, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_SERVICE_KEY,
+            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({ slug })
+        });
+        const patchedData = await patchResponse.json();
+        return res.status(response.status).json(patchedData);
+      }
+
       return res.status(response.status).json(data);
     }
 
