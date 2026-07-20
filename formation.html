@@ -598,7 +598,7 @@ function renderPage() {
   document.getElementById('mainContent').innerHTML = `
   <div class="detail-grid">
 
-   <!-- LEFT: Contenu -->
+   <!-- oLEFT: Contenu -->
    <div class="content-col">
       <div class="fc-header">
       <span class="badge-cat">${f.categorie}</span>
@@ -618,7 +618,7 @@ function renderPage() {
 
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:24px">
         <span style="color:var(--gold);font-size:13px">★★★★★</span>
-        <span style="font-size:13px;color:#888">5.0 · Accès immédiat</span>
+        <span style="font-size:13px;color:#888">4.9 (avis) · Accès immédiat.</span>
         ${f.ancien_prix ? `<span style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);color:#2ecc71;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">-${calcRemise(f.prix,f.ancien_prix)}%</span>` : ''}
       </div>
       </div>
