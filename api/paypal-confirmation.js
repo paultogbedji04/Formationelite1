@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         email,
-        formation_id: formation_id || null,
+        formation_id: (formation_id && formation_id !== 'null' && formation_id !== 'undefined') ? formation_id : null,
         formation_titre,
         montant: `${montant}€`,
         statut: 'paypal_pending',
