@@ -44,7 +44,26 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'Erreur Supabase', details: data });
     }
 
-    // Email de confirmation au client via Resend
+   // Notification Telegram pour validation manuelle rapide
+    try {
+      const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+      const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+      if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+        const message = `🔔 *Nouvelle commande PayPal à valider*\n\n📚 *${formation_titre}*\n💰 Montant : ${montant}€\n👤 ${nom}\n📧 ${email}\n🔖 Transaction : ${transaction_id}\n\n👉 Va valider dans le panel admin`;
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+      }
+    } catch (telegramErr) {
+      console.error('Telegram notification error:', telegramErr);
+    }
+ // Email de confirmation au client via Resend
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
