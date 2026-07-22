@@ -80,10 +80,6 @@
       "dest": "/api/admin-content.js"
     },
     {
-      "src": "/api/telegram-webhook",
-      "dest": "/api/telegram-webhook.js"
-    },
-    {
       "src": "/sitemap.xml",
       "dest": "/api/sitemap.js"
     },
