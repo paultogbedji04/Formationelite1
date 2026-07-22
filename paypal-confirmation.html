@@ -86,7 +86,7 @@
   <div class="confirm-card">
 
     <!-- HEADER -->
-    <div style="text-align:center;margin-bottom:32px">
+    <div id="pageHeader" style="text-align:center;margin-bottom:32px">
       <div style="font-size:40px;margin-bottom:12px">🅿️</div>
       <h1 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin-bottom:8px">
         Confirmer votre <em style="color:var(--gold-light)">paiement PayPal</em>
@@ -97,7 +97,7 @@
     </div>
 
     <!-- INFO BOX -->
-    <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 18px;margin-bottom:28px;display:flex;gap:12px;align-items:flex-start">
+    <div id="infoBox" style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 18px;margin-bottom:28px;display:flex;gap:12px;align-items:flex-start">
       <span style="font-size:18px;flex-shrink:0">💡</span>
       <p style="font-size:13px;color:#888;line-height:1.6;margin:0">
         L'ID de transaction se trouve dans votre email de confirmation PayPal ou dans <strong style="color:var(--text)">Activité → détails du paiement</strong>.
@@ -295,6 +295,8 @@ async function submitForm() {
     const data = await res.json();
     if (res.ok && data.success) {
       document.getElementById('formState').style.display = 'none';
+      document.getElementById('pageHeader').style.display = 'none';
+      document.getElementById('infoBox').style.display = 'none';
       document.getElementById('successState').style.display = 'block';
     } else {
       showError(data.error || 'Erreur lors de l\'envoi — réessayez');
