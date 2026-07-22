@@ -227,13 +227,20 @@ async function handleTelegramCallback(update, res) {
     const patchRes = await fetch(`https://www.formationelite.vip/api/commandes`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminToken}` },
-      body: JSON.stringify({ id: commandeId, livraison_statut: 'livre', lien_acces: lienAcces })
+      body: JSON.stringify({ id: commandeId, statut: 'payé', livraison_statut: 'livré', lien_acces: lienAcces })
     });
 
     if (!patchRes.ok) {
       await telegramCall('answerCallbackQuery', { callback_query_id: callback.id, text: '❌ Erreur lors de la validation', show_alert: true });
       return res.status(200).json({ ok: true });
     }
+
+    // Envoie l'email de livraison (meme etape que le panel admin)
+    await fetch(`https://www.formationelite.vip/api/paypal-livraison`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: commandeId, email: commande.email, titre: commande.formation_titre, lien_acces: lienAcces })
+    });
 
     await telegramCall('editMessageText', {
       chat_id: callback.message.chat.id,
