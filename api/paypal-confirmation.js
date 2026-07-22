@@ -50,13 +50,21 @@ module.exports = async (req, res) => {
       const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
         const message = `🔔 *Nouvelle commande PayPal à valider*\n\n📚 *${formation_titre}*\n💰 Montant : ${montant}€\n👤 ${nom}\n📧 ${email}\n🔖 Transaction : ${transaction_id}\n\n👉 Va valider dans le panel admin`;
+        const isSingleFormation = formation_id && !formation_id.includes(',');
+        const replyMarkup = isSingleFormation ? {
+          inline_keyboard: [[
+            { text: '✅ Valider et envoyer l\'accès', callback_data: `validate:${data[0]?.id}` }
+          ]]
+        } : undefined;
+
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
             text: message,
-            parse_mode: 'Markdown'
+            parse_mode: 'Markdown',
+            reply_markup: replyMarkup
           })
         });
       }
