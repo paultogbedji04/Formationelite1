@@ -206,28 +206,33 @@ async function handleTelegramCallback(update, res) {
       return res.status(200).json({ ok: true });
     }
 
-    if (!commande.formation_id || commande.formation_id.includes(',')) {
-      await telegramCall('answerCallbackQuery', { callback_query_id: callback.id, text: '⚠️ Commande multi-formations, valide depuis le panel admin', show_alert: true });
+    const formationIds = (commande.formation_id || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (formationIds.length === 0) {
+      await telegramCall('answerCallbackQuery', { callback_query_id: callback.id, text: '❌ Aucune formation associee a cette commande', show_alert: true });
       return res.status(200).json({ ok: true });
     }
 
-    const formRes = await fetch(`${SUPABASE_URL}/rest/v1/formations?id=eq.${commande.formation_id}&select=lien_acces`, {
+    const formRes = await fetch(`${SUPABASE_URL}/rest/v1/formations?id=in.(${formationIds.join(',')})&select=id,titre,lien_acces`, {
       headers: { 'apikey': SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}` }
     });
-    const formData = await formRes.json();
-    const lienAcces = formData?.[0]?.lien_acces;
+    const formList = await formRes.json();
 
-    if (!lienAcces) {
-      await telegramCall('answerCallbackQuery', { callback_query_id: callback.id, text: "⚠️ Aucun lien d'accès configuré, valide manuellement", show_alert: true });
+    const manquantes = Array.isArray(formList) ? formList.filter(f => !f.lien_acces) : [];
+    if (!Array.isArray(formList) || formList.length !== formationIds.length || manquantes.length > 0) {
+      const noms = manquantes.map(f => f.titre).join(', ') || 'une ou plusieurs formations';
+      await telegramCall('answerCallbackQuery', { callback_query_id: callback.id, text: `⚠️ Lien d'acces manquant pour: ${noms} — valide depuis le panel admin`, show_alert: true });
       return res.status(200).json({ ok: true });
     }
+
+    const isMulti = formationIds.length > 1;
+    const lienCombine = formList.map(f => f.lien_acces).join(' | ');
 
     const adminToken = Buffer.from(`${ADMIN_EMAIL}:${Date.now()}:${ADMIN_PASS}`).toString('base64');
 
     const patchRes = await fetch(`https://www.formationelite.vip/api/commandes`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminToken}` },
-      body: JSON.stringify({ id: commandeId, statut: 'payé', livraison_statut: 'livré', lien_acces: lienAcces })
+      body: JSON.stringify({ id: commandeId, statut: 'payé', livraison_statut: 'livré', lien_acces: lienCombine })
     });
 
     if (!patchRes.ok) {
@@ -239,7 +244,11 @@ async function handleTelegramCallback(update, res) {
     await fetch(`https://www.formationelite.vip/api/paypal-livraison`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: commandeId, email: commande.email, titre: commande.formation_titre, lien_acces: lienAcces })
+      body: JSON.stringify(
+        isMulti
+          ? { id: commandeId, email: commande.email, titre: commande.formation_titre, formations: formList.map(f => ({ titre: f.titre, lien_acces: f.lien_acces })) }
+          : { id: commandeId, email: commande.email, titre: commande.formation_titre, lien_acces: lienCombine }
+      )
     });
 
     await telegramCall('editMessageText', {
