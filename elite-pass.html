@@ -570,6 +570,10 @@ async function payerCryptoElitePass() {
 }
 function payerPaypalElitePass() {
   document.querySelector('[style*="position:fixed"]')?.remove();
+  document.getElementById('paypalNoticeOverlayElite').style.display = 'flex';
+}
+function confirmAndGoToPaypalElite() {
+  document.getElementById('paypalNoticeOverlayElite').style.display = 'none';
   window.open('https://www.paypal.me/paultogbedji/249', '_blank');
   setTimeout(() => {
     window.location.href = `paypal-confirmation.html?formation_id=43666279-e0c9-46fb-a2b0-81d14a3b0953&formation_titre=${encodeURIComponent("L'Élite Pass")}&montant=249`;
@@ -652,5 +656,19 @@ function initScrollAnimations() {
 }
 initScrollAnimations();
 </script>
+<div id="paypalNoticeOverlayElite" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;align-items:center;justify-content:center;padding:20px">
+  <div style="width:100%;max-width:440px;background:var(--bg2);border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:28px 26px;text-align:center">
+    <div style="font-size:34px;margin-bottom:10px">⚠️</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);margin-bottom:16px">Une dernière étape après votre paiement</div>
+    <div style="text-align:left;font-size:14px;color:var(--text);line-height:1.9;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:18px">
+      <strong style="color:var(--gold)">1.</strong> Effectuez votre paiement sur PayPal normalement<br>
+      <strong style="color:var(--gold)">2.</strong> Revenez sur cette page et cliquez sur <strong style="color:var(--gold-light)">"Confirmer mon paiement PayPal"</strong><br>
+      <strong style="color:var(--gold)">3.</strong> Vous recevrez vos accès par email dans les plus brefs délais
+    </div>
+    <div style="font-size:12.5px;color:#e74c3c;margin-bottom:20px">Sans cette confirmation, nous ne pouvons pas savoir que vous avez payé — votre commande ne sera pas traitée.</div>
+    <button onclick="confirmAndGoToPaypalElite()" style="width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:8px;padding:14px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:10px">J'ai compris, continuer vers PayPal</button>
+    <button onclick="document.getElementById('paypalNoticeOverlayElite').style.display='none'" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:12px;font-family:inherit;font-size:13px;color:var(--text-muted);cursor:pointer">Annuler</button>
+  </div>
+</div>
 </body>
 </html>
