@@ -511,6 +511,7 @@ loadEliteImage();
 function buyElitePass() {
   const isMob = window.innerWidth <= 600;
   const overlay = document.createElement('div');
+  overlay.id = 'buyElitePassOverlay';
   overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:flex;align-items:${isMob?'flex-end':'center'};justify-content:center;padding:0;backdrop-filter:blur(12px)`;
   overlay.innerHTML = `
     <div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.25);border-radius:${isMob?'16px 16px 0 0':'16px'};padding:${isMob?'24px 20px 36px':'32px 28px'};max-width:460px;width:100%;animation:${isMob?'slideUp':'fadeUp'} .3s ease;max-height:92vh;overflow-y:auto">
@@ -569,7 +570,7 @@ async function payerCryptoElitePass() {
   }
 }
 function payerPaypalElitePass() {
-  document.querySelector('[style*="position:fixed"]')?.remove();
+  document.getElementById('buyElitePassOverlay')?.remove();
   document.getElementById('paypalNoticeOverlayElite').style.display = 'flex';
 }
 function confirmAndGoToPaypalElite() {
