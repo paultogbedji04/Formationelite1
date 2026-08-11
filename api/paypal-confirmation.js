@@ -44,6 +44,22 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'Erreur Supabase', details: data });
     }
 
+    // Marque le panier abandonne correspondant comme converti (si existant)
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/paniers_abandonnes?email=eq.${encodeURIComponent(email)}&statut=neq.converti`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ statut: 'converti' })
+      });
+    } catch (e) {
+      console.error('Erreur marquage panier converti:', e);
+    }
+
    // Notification Telegram pour validation manuelle rapide
     try {
       const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;

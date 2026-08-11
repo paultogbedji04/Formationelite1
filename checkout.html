@@ -90,6 +90,12 @@
         <div class="formation-prix" id="fPrix">—</div>
     </div>
 
+    <div style="padding:0 24px 18px">
+        <label style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px">Votre email <span style="color:#e74c3c">*</span></label>
+        <input type="email" id="emailCheckout" placeholder="jean@email.com" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:12px 16px;color:var(--text);font-family:inherit;font-size:14px;outline:none">
+        <span style="font-size:11px;color:#555;margin-top:6px;display:block">Nécessaire pour vous envoyer votre accès</span>
+    </div>
+
     <div class="options-title">Choisissez votre moyen de paiement</div>
     <div class="error-box" id="errorBox"></div>
     <div class="options">
@@ -164,6 +170,32 @@
     }
     document.title = `Paiement — ${mode === 'panier' ? count+' formations' : titre} — FormationElite`;
 
+    // ── Capture silencieuse panier abandonne ──
+    let cartSaved = false;
+    function getEmailInput() { return document.getElementById('emailCheckout'); }
+    async function saveAbandonedCart() {
+        const emailEl = getEmailInput();
+        const email = emailEl ? emailEl.value.trim() : '';
+        if (!email || !email.includes('@') || cartSaved) return;
+        cartSaved = true;
+        try {
+            await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'save_cart',
+                    email,
+                    formation_titre: mode === 'panier' ? titre.slice(0, 100) : titre,
+                    montant: prix
+                })
+            });
+        } catch (e) {}
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const emailEl = getEmailInput();
+        if (emailEl) emailEl.addEventListener('blur', saveAbandonedCart);
+    });
+
     function showError(msg) {
         const box = document.getElementById('errorBox');
         box.textContent = msg;
@@ -210,7 +242,13 @@
     }
 
     // ── PAYPAL ──
-    function showPaypalNotice() { document.getElementById('paypalNoticeOverlay').style.display = 'flex'; } function confirmAndGoToPaypal() { document.getElementById('paypalNoticeOverlay').style.display = 'none'; payWithPaypal(); } function payWithPaypal() {
+    function showPaypalNotice() {
+        const email = getEmailInput()?.value.trim();
+        if (!email || !email.includes('@')) { showError('Veuillez entrer votre email avant de continuer'); return; }
+        saveAbandonedCart();
+        document.getElementById('paypalNoticeOverlay').style.display = 'flex';
+    }
+    function confirmAndGoToPaypal() { document.getElementById('paypalNoticeOverlay').style.display = 'none'; payWithPaypal(); } function payWithPaypal() {
     const montant = prix.toFixed(2);
     window.open(`https://paypal.me/paultogbedji/${montant}`, '_blank');
     const paramsOut = mode === 'panier'
@@ -223,6 +261,9 @@
 
     // ── CRYPTO (NowPayments) ──
     async function payWithCrypto() {
+        const email = getEmailInput()?.value.trim();
+        if (!email || !email.includes('@')) { showError('Veuillez entrer votre email avant de continuer'); return; }
+        saveAbandonedCart();
         setLoading('btnCrypto', true);
         try {
             const res = await fetch('/api/crypto-checkout', {
