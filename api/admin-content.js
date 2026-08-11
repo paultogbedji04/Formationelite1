@@ -1,7 +1,7 @@
 // api/admin-content.js — Proxy securise generique pour preuves, avis, site_settings
 const SUPABASE_URL = 'https://xrljfmrsrxyepdsysfan.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
-const ALLOWED_TABLES = ['preuves', 'avis', 'site_settings'];
+const ALLOWED_TABLES = ['preuves', 'avis', 'site_settings', 'articles'];
 
 function isValidAdminToken(token) {
   if (!token) return false;
