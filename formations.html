@@ -612,5 +612,6 @@ function fermerPanier(){const d=document.getElementById("panierDrawer");const p=
 function commanderPanier(){const panier=getPanier();if(panier.length===0)return;const total=getTotalPanier();if(panier.length===1){const f=panier[0];fermerPanier();window.location.href="checkout.html?id="+f.id+"&titre="+encodeURIComponent(f.titre)+"&prix="+encodeURIComponent(f.prix)+"&emoji="+encodeURIComponent(f.emoji);}else{const ids=panier.map(f=>f.id).join(",");const titres=panier.map(f=>f.titre).join(" + ");fermerPanier();window.location.href="checkout.html?mode=panier&ids="+encodeURIComponent(ids)+"&titre="+encodeURIComponent(titres.slice(0,80))+"&prix="+encodeURIComponent(total.toFixed(2)+"€")+"&emoji=🛒&count="+panier.length;}}
 document.addEventListener("DOMContentLoaded",function(){injectPanierDrawer();updatePanierBadge();});
 </script>
+<script src="social-proof.js"></script>
 </body>
 </html>
