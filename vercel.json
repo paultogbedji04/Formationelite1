@@ -88,6 +88,10 @@
       "dest": "/api/sitemap.js"
     },
     {
+      "src": "/api/sitemap",
+      "dest": "/api/sitemap.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
