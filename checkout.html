@@ -276,7 +276,8 @@
                     formation_id:    mode === 'panier' ? ids : id,
                     formation_titre: mode === 'panier' ? `${count} formations` : titre,
                     amount:          prix,
-                    currency:        'EUR'
+                    currency:        'EUR',
+                    email:           email
                 })
             });
             const data = await res.json();
