@@ -186,7 +186,8 @@
                     type: 'save_cart',
                     email,
                     formation_titre: mode === 'panier' ? titre.slice(0, 100) : titre,
-                    montant: prix
+                    montant: prix,
+                    query_string: window.location.search
                 })
             });
         } catch (e) {}
@@ -194,6 +195,8 @@
     document.addEventListener('DOMContentLoaded', () => {
         const emailEl = getEmailInput();
         if (emailEl) emailEl.addEventListener('blur', saveAbandonedCart);
+        const prefillEmail = params.get('email');
+        if (prefillEmail && emailEl) emailEl.value = decodeURIComponent(prefillEmail);
     });
 
     function showError(msg) {

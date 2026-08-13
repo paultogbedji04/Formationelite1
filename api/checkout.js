@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   // ── SAUVEGARDE PANIER ABANDONNE (capture email avant paiement) ──
   if (req.body && req.body.type === 'save_cart') {
     try {
-      const { email, formation_titre, montant } = req.body;
+      const { email, formation_titre, montant, query_string } = req.body;
       if (!email || !email.includes('@') || !formation_titre || !montant) {
         return res.status(400).json({ error: 'Champs manquants' });
       }
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
           'Content-Type': 'application/json',
           'Prefer': 'return=minimal'
         },
-        body: JSON.stringify({ email, formation_titre, montant: parseFloat(montant), statut: 'en_attente' })
+        body: JSON.stringify({ email, formation_titre, montant: parseFloat(montant), query_string: query_string || null, statut: 'en_attente' })
       });
       return res.status(200).json({ success: true });
     } catch (err) {
@@ -91,6 +91,15 @@ async function envoyerRelances(res) {
     let sent = 0;
     for (const p of paniers) {
       const montantReduit = (p.montant * 0.9).toFixed(2);
+      let lienDirect = 'https://www.formationelite.vip/formations.html';
+      if (p.query_string) {
+        try {
+          const sp = new URLSearchParams(p.query_string);
+          sp.set('prix', montantReduit + '€');
+          sp.set('email', encodeURIComponent(p.email));
+          lienDirect = `https://www.formationelite.vip/checkout.html?${sp.toString()}`;
+        } catch (e) {}
+      }
       try {
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
@@ -118,9 +127,14 @@ async function envoyerRelances(res) {
         <div style="color:#888;font-size:13px;text-decoration:line-through;">${p.montant}€</div>
         <div style="color:#2ecc71;font-size:28px;font-weight:bold;">${montantReduit}€</div>
       </div>
+      <div style="text-align:center;margin-bottom:14px;">
+        <a href="${lienDirect}" style="background:linear-gradient(135deg,#c9a84c,#f0d080);color:#000;font-weight:bold;font-size:16px;padding:16px 40px;border-radius:8px;text-decoration:none;display:inline-block;">
+          Profiter de la reduction maintenant
+        </a>
+      </div>
       <div style="text-align:center;">
-        <a href="https://t.me/CreativeagencyFr" style="background:linear-gradient(135deg,#c9a84c,#f0d080);color:#000;font-weight:bold;font-size:16px;padding:16px 40px;border-radius:8px;text-decoration:none;display:inline-block;">
-          Contactez-nous pour en profiter
+        <a href="https://t.me/CreativeagencyFr" style="color:#888;font-size:12px;text-decoration:underline;">
+          Une question ? Contactez-nous sur Telegram
         </a>
       </div>
     </div>
