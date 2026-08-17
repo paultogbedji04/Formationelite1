@@ -168,4 +168,4 @@ function sortObject(obj) {
     result[key] = obj[key] && typeof obj[key] === 'object' ? sortObject(obj[key]) : obj[key];
     return result;
   }, {});
-}s
+}
