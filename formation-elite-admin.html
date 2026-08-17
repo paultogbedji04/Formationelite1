@@ -163,6 +163,7 @@
       <div class="nav-item" onclick="showPage('preuves',this)"><span class="nav-icon">📸</span> Preuves</div>
       <div class="nav-item" onclick="showPage('commandes',this)"><span class="nav-icon">🛒</span> Commandes <span class="nav-badge" id="commandesBadge">0</span></div>
 <div class="nav-item" onclick="showPage('paypal',this)"><span class="nav-icon">🅿️</span> PayPal <span class="nav-badge" id="paypalBadge">0</span></div>
+      <div class="nav-item" onclick="showPage('crypto',this)"><span class="nav-icon">₿</span> Crypto en attente <span class="nav-badge" id="cryptoBadge">0</span></div>
       <div class="nav-item" onclick="showPage('avis',this)"><span class="nav-icon">⭐</span> Avis clients</div>      <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Paramètres site</div>
     </nav>
     <div class="sidebar-footer">
@@ -350,6 +351,37 @@
     <div id="paypalEmpty" class="empty-state" style="display:none">
       <div class="empty-icon">🅿️</div>
       <div class="empty-title">Aucune demande PayPal pour l'instant</div>
+    </div>
+  </div>
+</div>
+<!-- CRYPTO EN ATTENTE PAGE -->
+<div class="page" id="page-crypto">
+  <div class="topbar">
+    <div><h1 class="page-title">Paiements <em>Crypto en attente</em></h1><div class="page-sub" id="cryptoCount">0 paiements</div></div>
+    <button class="btn btn-outline" onclick="loadCrypto()">🔄 Actualiser</button>
+  </div>
+  <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:#888">
+    ℹ️ Ces factures crypto ont été créées mais pas encore confirmées automatiquement. Vérifie le statut sur NowPayments avant de livrer manuellement.
+  </div>
+  <div class="table-wrap">
+    <div class="table-header">
+      <div class="table-title">Factures crypto en attente</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Email</th>
+          <th>Formation</th>
+          <th>Montant</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="cryptoTable"></tbody>
+    </table>
+    <div id="cryptoEmpty" class="empty-state" style="display:none">
+      <div class="empty-icon">₿</div>
+      <div class="empty-title">Aucun paiement crypto en attente</div>
     </div>
   </div>
 </div>
@@ -660,6 +692,7 @@ async function doLogin() {
       loadPreuvesAdmin();
       loadCommandes();
       loadPaypal();
+      loadCrypto();
       loadAvisAdmin();
     } else {
       const err = document.getElementById('loginError');
@@ -692,6 +725,7 @@ function doLogout() {
     loadPreuvesAdmin();
     loadCommandes();
     loadPaypal();
+    loadCrypto();
     loadAvisAdmin();
   }
 })();
@@ -1029,9 +1063,48 @@ async function deletePreuve(id) {
 // ── COMMANDES ──
 let commandesData = [];
 
+let cryptoData = [];
+async function loadCrypto() {
+  try {
+    const data = await adminFetch('/api/commandes?statut=eq.crypto_en_attente&order=created_at.desc&select=*');
+    cryptoData = Array.isArray(data) ? data : [];
+    renderCrypto();
+    const badge = document.getElementById('cryptoBadge');
+    if (badge) badge.textContent = cryptoData.length;
+  } catch(e) {
+    console.error('Error loading crypto:', e);
+  }
+}
+function renderCrypto() {
+  const tbody = document.getElementById('cryptoTable');
+  const empty = document.getElementById('cryptoEmpty');
+  document.getElementById('cryptoCount').textContent = cryptoData.length + ' paiement' + (cryptoData.length > 1 ? 's' : '');
+  if (cryptoData.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = cryptoData.map(c => {
+    const date = new Date(c.created_at).toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    return `
+    <tr>
+      <td style="font-size:12px;color:var(--text-muted)">${date}</td>
+      <td style="font-size:13px">${c.email || '—'}</td>
+      <td style="font-weight:500;max-width:180px;font-size:13px">${c.formation_titre || '—'}</td>
+      <td style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light)">${c.montant || '—'}</td>
+      <td>
+        <button class="btn btn-gold btn-sm" onclick="openLivraisonModal('${c.id}','${(c.email||'').replace(/'/g,"\'")}','${(c.formation_titre||'').replace(/'/g,"\'")}')">
+          📦 Livrer
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
 async function loadCommandes() {
   try {
-    const data = await adminFetch('/api/commandes');
+    const data = await adminFetch('/api/commandes?statut=neq.crypto_en_attente');
     commandesData = Array.isArray(data) ? data : [];
     updateCommandesStats();
     renderCommandes();
