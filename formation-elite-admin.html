@@ -1104,7 +1104,7 @@ function renderCrypto() {
 
 async function loadCommandes() {
   try {
-    const data = await adminFetch('/api/commandes?statut=neq.crypto_en_attente');
+    const data = await adminFetch('/api/commandes?statut=neq.crypto_en_attente&order=created_at.desc');
     commandesData = Array.isArray(data) ? data : [];
     updateCommandesStats();
     renderCommandes();
