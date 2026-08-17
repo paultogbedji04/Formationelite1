@@ -61,7 +61,8 @@ module.exports = async (req, res) => {
         success_url: `https://www.formationelite.vip/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
         cancel_url: `https://www.formationelite.vip/checkout.html`,
         is_fixed_rate: false,
-        is_fee_paid_by_user: false
+        is_fee_paid_by_user: false,
+        ipn_callback_url: 'https://www.formationelite.vip/api/webhook-crypto'
       })
     });
 
