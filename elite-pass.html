@@ -522,6 +522,12 @@ function buyElitePass() {
         <div style="font-family:\'Cormorant Garamond\',serif;font-size:38px;color:#e8c97a;font-weight:300">249€</div>
         <div style="font-size:12px;color:#555;margin-top:4px">Paiement unique — accès à vie</div>
       </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#666;display:block;margin-bottom:8px">Votre email <span style="color:#e74c3c">*</span></label>
+        <input type="email" id="elitePassEmail" placeholder="jean@email.com" style="width:100%;background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:12px 16px;color:#f0ece0;font-family:inherit;font-size:14px;outline:none">
+        <span style="font-size:11px;color:#555;margin-top:6px;display:block">Nécessaire pour vous envoyer votre accès</span>
+      </div>
+
       <div style="font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center">Choisissez votre moyen de paiement</div>
 
       <!-- STRIPE désactivé temporairement -->
@@ -548,9 +554,10 @@ function buyElitePass() {
 
 // Paiement crypto Élite Pass via NowPayments
 async function payerCryptoElitePass() {
-  const email = prompt("Entrez votre email pour recevoir votre accès après paiement :");
+  const emailEl = document.getElementById('elitePassEmail');
+  const email = emailEl ? emailEl.value.trim() : '';
   if (!email || !email.includes('@')) {
-    alert('Email invalide — paiement annulé.');
+    alert('Veuillez entrer un email valide avant de continuer.');
     return;
   }
   try {
@@ -575,14 +582,22 @@ async function payerCryptoElitePass() {
   }
 }
 function payerPaypalElitePass() {
+  const emailEl = document.getElementById('elitePassEmail');
+  const email = emailEl ? emailEl.value.trim() : '';
+  if (!email || !email.includes('@')) {
+    alert('Veuillez entrer un email valide avant de continuer.');
+    return;
+  }
   document.getElementById('buyElitePassOverlay')?.remove();
   document.getElementById('paypalNoticeOverlayElite').style.display = 'flex';
 }
 function confirmAndGoToPaypalElite() {
+  const emailEl = document.getElementById('elitePassEmail');
+  const email = emailEl ? emailEl.value.trim() : '';
   document.getElementById('paypalNoticeOverlayElite').style.display = 'none';
   window.open('https://www.paypal.me/paultogbedji/249', '_blank');
   setTimeout(() => {
-    window.location.href = `paypal-confirmation.html?formation_id=43666279-e0c9-46fb-a2b0-81d14a3b0953&formation_titre=${encodeURIComponent("L'Élite Pass")}&montant=249`;
+    window.location.href = `paypal-confirmation.html?formation_id=43666279-e0c9-46fb-a2b0-81d14a3b0953&formation_titre=${encodeURIComponent("L'Élite Pass")}&montant=249&email=${encodeURIComponent(email)}`;
   }, 1500);
 }
 // ── FAQ ──
