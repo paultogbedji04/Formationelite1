@@ -541,7 +541,7 @@ function buyElitePass() {
       </a>
 
       <!-- CRYPTO -->
-      <a href="#" onclick="this.closest('[style*=fixed]').remove();payerCryptoElitePass();return false;" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);margin-bottom:14px">
+      <a href="#" onclick="payerCryptoElitePass();return false;" class="pay-option" style="border:1px solid rgba(41,182,246,0.2);margin-bottom:14px">
         <span style="font-size:26px">₿</span>
         <div><div style="color:#f0ece0;font-weight:600;font-size:14px">Payer en Crypto</div><div style="color:#666;font-size:12px">BTC, ETH, USDT et plus — via NowPayments</div></div>
         <span style="margin-left:auto;color:#29b6f6">→</span>
@@ -561,6 +561,7 @@ async function payerCryptoElitePass() {
     alert('Veuillez entrer un email valide avant de continuer.');
     return;
   }
+  document.getElementById('buyElitePassOverlay')?.remove();
   try {
     const res = await fetch('/api/crypto-checkout', {
       method: 'POST',
