@@ -548,6 +548,11 @@ function buyElitePass() {
 
 // Paiement crypto Élite Pass via NowPayments
 async function payerCryptoElitePass() {
+  const email = prompt("Entrez votre email pour recevoir votre accès après paiement :");
+  if (!email || !email.includes('@')) {
+    alert('Email invalide — paiement annulé.');
+    return;
+  }
   try {
     const res = await fetch('/api/crypto-checkout', {
       method: 'POST',
@@ -556,7 +561,7 @@ async function payerCryptoElitePass() {
         formation_id: 'elite-pass',
         formation_titre: "L'Élite Pass",
         prix: 249,
-        email: null
+        email: email
       })
     });
     const data = await res.json();
