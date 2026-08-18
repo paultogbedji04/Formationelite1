@@ -509,6 +509,7 @@ loadEliteImage();
 
 // ── BUY MODAL ──
 function buyElitePass() {
+  document.getElementById('buyElitePassOverlay')?.remove();
   const isMob = window.innerWidth <= 600;
   const overlay = document.createElement('div');
   overlay.id = 'buyElitePassOverlay';
