@@ -12,41 +12,37 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    // ✅ Vérification signature NowPayments
     const receivedSig = req.headers['x-nowpayments-sig'];
     if (receivedSig && IPN_SECRET) {
       const body = JSON.stringify(sortObject(req.body));
       const expectedSig = crypto.createHmac('sha512', IPN_SECRET).update(body).digest('hex');
       if (receivedSig !== expectedSig) {
-        console.error('❌ Signature NowPayments invalide');
+        console.error('Signature NowPayments invalide');
         return res.status(401).json({ error: 'Invalid signature' });
       }
     }
 
     const payment = req.body;
-    console.log('📦 NowPayments webhook reçu:', JSON.stringify(payment));
+    console.log('NowPayments webhook recu:', JSON.stringify(payment));
 
-    // ✅ On traite uniquement les paiements confirmés
     const validStatuses = ['finished', 'confirmed', 'complete'];
     if (!validStatuses.includes(payment.payment_status)) {
-      console.log(`⏳ Statut ignoré : ${payment.payment_status}`);
+      console.log(`Statut ignore : ${payment.payment_status}`);
       return res.status(200).json({ received: true, status: 'ignored' });
     }
 
-    // Récupérer les metadata
     const formationId = payment.order_id?.split('_')[0];
     const customerEmail = payment.order_description?.match(/email:([^\s|]+)/)?.[1] || null;
     const formationTitre = payment.order_description?.match(/titre:([^|]+)/)?.[1]?.trim() || 'Formation';
     const amountPaid = `${payment.price_amount}${payment.price_currency?.toUpperCase() || '€'}`;
 
-    console.log(`✅ Paiement crypto confirmé : ${formationTitre} - ${amountPaid} - ${customerEmail}`);
+    console.log(`Paiement crypto confirme : ${formationTitre} - ${amountPaid} - ${customerEmail}`);
 
     if (!customerEmail || !formationId) {
-      console.error('❌ Email ou formation_id manquant dans order_description');
+      console.error('Email ou formation_id manquant dans order_description');
       return res.status(200).json({ received: true, error: 'Missing metadata' });
     }
 
-    // ✅ Récupérer lien_acces depuis Supabase
     let lienAcces = null;
     const supaRes = await fetch(
       `${SUPABASE_URL}/rest/v1/formations?id=eq.${formationId}&select=lien_acces,titre`,
@@ -61,30 +57,50 @@ module.exports = async (req, res) => {
     if (supaData && supaData.length > 0) {
       lienAcces = supaData[0].lien_acces;
     }
-    console.log(`🔗 Lien accès : ${lienAcces}`);
+    console.log(`Lien acces : ${lienAcces}`);
 
-    // ✅ Sauvegarder la commande dans Supabase
-    await fetch(`${SUPABASE_URL}/rest/v1/commandes`, {
-      method: 'POST',
+    const sessionKey = `crypto_order_${payment.order_id}`;
+    const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/commandes?stripe_session_id=eq.${sessionKey}`, {
+      method: 'PATCH',
       headers: {
         'apikey': SUPABASE_KEY,
         'Authorization': `Bearer ${SUPABASE_KEY}`,
         'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
+        'Prefer': 'return=representation'
       },
       body: JSON.stringify({
         email: customerEmail,
-        formation_id: formationId,
         formation_titre: formationTitre,
         montant: amountPaid,
-        stripe_session_id: `crypto_${payment.payment_id}`,
         statut: 'payé',
         livraison_statut: lienAcces ? 'livré' : 'en_attente',
         lien_acces: lienAcces || null
       })
     });
+    const updatedRows = await updateRes.json();
 
-    // ✅ Envoyer email avec lien_acces
+    if (!Array.isArray(updatedRows) || updatedRows.length === 0) {
+      await fetch(`${SUPABASE_URL}/rest/v1/commandes`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          email: customerEmail,
+          formation_id: formationId,
+          formation_titre: formationTitre,
+          montant: amountPaid,
+          stripe_session_id: `crypto_${payment.payment_id}`,
+          statut: 'payé',
+          livraison_statut: lienAcces ? 'livré' : 'en_attente',
+          lien_acces: lienAcces || null
+        })
+      });
+    }
+
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -94,37 +110,37 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         from: 'FormationElite <contact@formationelite.vip>',
         to: [customerEmail],
-        subject: `✅ Votre accès — ${formationTitre}`,
+        subject: `Votre acces — ${formationTitre}`,
         html: `
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;background:#0a0a0a;font-family:Arial,sans-serif;">
   <div style="max-width:600px;margin:0 auto;background:#111;border:1px solid #c9a84c;border-radius:12px;overflow:hidden;">
-    
+
     <div style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);padding:40px 30px;text-align:center;border-bottom:2px solid #c9a84c;">
       <h1 style="color:#c9a84c;font-size:28px;margin:0;letter-spacing:2px;">FORMATION<span style="color:#fff">ELITE</span></h1>
       <p style="color:#888;margin:8px 0 0;font-size:13px;">Votre accès exclusif vous attend</p>
     </div>
 
     <div style="padding:40px 30px;">
-      <h2 style="color:#fff;font-size:20px;margin:0 0 16px;">✅ Paiement crypto confirmé !</h2>
+      <h2 style="color:#fff;font-size:20px;margin:0 0 16px;">Paiement crypto confirmé !</h2>
       <p style="color:#ccc;font-size:15px;line-height:1.6;margin:0 0 8px;">
-        Merci pour votre achat en crypto. Votre formation 
+        Merci pour votre achat en crypto. Votre formation
         <strong style="color:#c9a84c;">${formationTitre}</strong> est prête.
       </p>
       <p style="color:#888;font-size:13px;margin:0 0 24px;">
-        Montant payé : <strong style="color:#fff;">${amountPaid}</strong> · 
+        Montant payé : <strong style="color:#fff;">${amountPaid}</strong> ·
         Paiement ID : <span style="color:#555;">${payment.payment_id}</span>
       </p>
 
       ${lienAcces ? `
       <div style="text-align:center;margin:32px 0;">
-        <a href="${lienAcces}" 
+        <a href="${lienAcces}"
            style="background:linear-gradient(135deg,#c9a84c,#f0d080);color:#000;font-weight:bold;
                   font-size:16px;padding:16px 40px;border-radius:8px;text-decoration:none;
                   display:inline-block;letter-spacing:1px;">
-          🎓 ACCÉDER À MA FORMATION
+          ACCÉDER À MA FORMATION
         </a>
       </div>
       <p style="color:#888;font-size:12px;text-align:center;">
@@ -133,7 +149,7 @@ module.exports = async (req, res) => {
       ` : `
       <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:20px;text-align:center;">
         <p style="color:#c9a84c;margin:0;font-size:14px;">
-          ⏳ Votre lien d'accès sera envoyé dans les prochaines minutes.<br>
+          Votre lien d'accès sera envoyé dans les prochaines minutes.<br>
           Contactez-nous : <a href="https://t.me/CreativeagencyFr" style="color:#c9a84c;">@CreativeagencyFr</a>
         </p>
       </div>
@@ -142,10 +158,10 @@ module.exports = async (req, res) => {
 
     <div style="background:#0a0a0a;padding:24px 30px;border-top:1px solid #222;text-align:center;">
       <p style="color:#555;font-size:12px;margin:0;">
-        Support : <a href="https://t.me/CreativeagencyFr" style="color:#c9a84c;">@CreativeagencyFr</a> 
+        Support : <a href="https://t.me/CreativeagencyFr" style="color:#c9a84c;">@CreativeagencyFr</a>
         &nbsp;|&nbsp; Communauté : <a href="https://t.me/formation05" style="color:#c9a84c;">@formation05</a>
       </p>
-      <p style="color:#333;font-size:11px;margin:8px 0 0;">© 2025 FormationElite — Tous droits réservés</p>
+      <p style="color:#333;font-size:11px;margin:8px 0 0;">© 2026 FormationElite — Tous droits réservés</p>
     </div>
   </div>
 </body>
@@ -153,16 +169,15 @@ module.exports = async (req, res) => {
       })
     });
 
-    console.log(`📧 Email crypto envoyé à ${customerEmail}`);
+    console.log(`Email crypto envoye a ${customerEmail}`);
     return res.status(200).json({ received: true });
 
   } catch (err) {
-    console.error('❌ Erreur webhook crypto:', err);
+    console.error('Erreur webhook crypto:', err);
     return res.status(500).json({ error: err.message });
   }
 };
 
-// Trier les clés de l'objet pour la vérification de signature
 function sortObject(obj) {
   return Object.keys(obj).sort().reduce((result, key) => {
     result[key] = obj[key] && typeof obj[key] === 'object' ? sortObject(obj[key]) : obj[key];

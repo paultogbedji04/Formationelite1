@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'Clé NowPayments invalide ou service indisponible' });
     }
 
+    const orderId = `${realFormationId}_${Date.now()}`;
     const orderDescription = `titre:${formation_titre || 'Formation'}|email:${email || 'inconnu'}`;
 
     const response = await fetch('https://api.nowpayments.io/v1/invoice', {
@@ -56,7 +57,7 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         price_amount: amount,
         price_currency: currency.toLowerCase(),
-        order_id: `${realFormationId}_${Date.now()}`,
+        order_id: orderId,
         order_description: orderDescription,
         success_url: `https://www.formationelite.vip/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
         cancel_url: `https://www.formationelite.vip/checkout.html`,
@@ -101,7 +102,8 @@ module.exports = async (req, res) => {
         formation_titre: formation_titre || 'Formation',
         montant: `${amount}€`,
         statut: 'crypto_en_attente',
-        livraison_statut: 'en_attente'
+        livraison_statut: 'en_attente',
+        stripe_session_id: `crypto_order_${orderId}`
       })
     });
 
