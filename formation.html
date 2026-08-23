@@ -476,15 +476,15 @@ async function init() {
       canonicalTag.rel = 'canonical';
       document.head.appendChild(canonicalTag);
     }
-    canonicalTag.href = `https://www.formationelite.vip/formation/${formation.slug}`;
+    canonicalTag.href = `https://www.formaselite.vip/formation/${formation.slug}`;
 
     // Open Graph (pour partage sur réseaux sociaux)
     const ogTags = {
       'og:title': `${formation.titre}${auteurTag} | FormationElite`,
       'og:description': desc,
       'og:type': 'product',
-      'og:url': `https://www.formationelite.vip/formation/${formation.slug}`,
-      'og:image': formation.image_principale || 'https://formationelite.vip/logo.jpg'
+      'og:url': `https://www.formaselite.vip/formation/${formation.slug}`,
+      'og:image': formation.image_principale || 'https://formaselite.vip/logo.jpg'
     };
     Object.entries(ogTags).forEach(([property, content]) => {
       let tag = document.querySelector(`meta[property="${property}"]`);
@@ -513,7 +513,7 @@ function injectSchema(f) {
     "@type": "Product",
     "name": f.titre,
     "description": desc,
-    "image": f.image_principale || "https://www.formationelite.vip/logo.jpg",
+    "image": f.image_principale || "https://www.formaselite.vip/logo.jpg",
     "brand": { "@type": "Brand", "name": f.auteur || "FormationElite" },
     "offers": {
       "@type": "Offer",

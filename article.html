@@ -125,7 +125,7 @@ async function loadArticle() {
     document.title = `${a.titre} — FormationElite.vip`;
     document.getElementById('pageTitle').textContent = `${a.titre} — FormationElite.vip`;
     document.getElementById('pageDesc').setAttribute('content', a.extrait || '');
-    document.getElementById('pageCanonical').setAttribute('href', `https://www.formationelite.vip/blog/${a.slug}`);
+    document.getElementById('pageCanonical').setAttribute('href', `https://www.formaselite.vip/blog/${a.slug}`);
 
     container.innerHTML = `
       <a href="/blog.html" class="back-link">← Retour au blog</a>
@@ -146,10 +146,10 @@ async function loadArticle() {
       "@type": "Article",
       "headline": a.titre,
       "description": a.extrait || '',
-      "image": a.image || "https://www.formationelite.vip/logo.jpg",
+      "image": a.image || "https://www.formaselite.vip/logo.jpg",
       "datePublished": a.created_at,
       "author": { "@type": "Organization", "name": a.auteur || "FormationElite" },
-      "publisher": { "@type": "Organization", "name": "FormationElite", "logo": { "@type": "ImageObject", "url": "https://www.formationelite.vip/logo.jpg" } }
+      "publisher": { "@type": "Organization", "name": "FormationElite", "logo": { "@type": "ImageObject", "url": "https://www.formaselite.vip/logo.jpg" } }
     };
     const script = document.createElement('script');
     script.type = 'application/ld+json';

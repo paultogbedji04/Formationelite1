@@ -101,7 +101,7 @@ module.exports = async (req, res) => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'FormationElite <contact@formationelite.vip>',
+            from: 'FormationElite <contact@formaselite.vip>',
             to: [customerEmail],
             subject: `✅ Votre accès — ${formationTitre}`,
             html: `
@@ -229,7 +229,7 @@ async function handleTelegramCallback(update, res) {
 
     const adminToken = Buffer.from(`${ADMIN_EMAIL}:${Date.now()}:${ADMIN_PASS}`).toString('base64');
 
-    const patchRes = await fetch(`https://www.formationelite.vip/api/commandes`, {
+    const patchRes = await fetch(`https://www.formaselite.vip/api/commandes`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminToken}` },
       body: JSON.stringify({ id: commandeId, statut: 'payé', livraison_statut: 'livré', lien_acces: lienCombine })
@@ -241,7 +241,7 @@ async function handleTelegramCallback(update, res) {
     }
 
     // Envoie l'email de livraison (meme etape que le panel admin)
-    await fetch(`https://www.formationelite.vip/api/paypal-livraison`, {
+    await fetch(`https://www.formaselite.vip/api/paypal-livraison`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(

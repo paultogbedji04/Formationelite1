@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'FormationElite <contact@formationelite.vip>',
+        from: 'FormationElite <contact@formaselite.vip>',
         to: [email],
         subject: `✅ Votre accès — ${titre}`,
         html: `

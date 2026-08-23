@@ -66,8 +66,8 @@ module.exports = async (req, res) => {
         formation_id: formation_id || '',
         formation_titre: formation_titre || ''
       },
-      success_url: `https://www.formationelite.vip/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://www.formationelite.vip/formations.html`,
+      success_url: `https://www.formaselite.vip/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://www.formaselite.vip/formations.html`,
     });
     return res.status(200).json({ url: session.url });
   } catch (error) {
@@ -91,13 +91,13 @@ async function envoyerRelances(res) {
     let sent = 0;
     for (const p of paniers) {
       const montantReduit = (p.montant * 0.9).toFixed(2);
-      let lienDirect = 'https://www.formationelite.vip/formations.html';
+      let lienDirect = 'https://www.formaselite.vip/formations.html';
       if (p.query_string) {
         try {
           const sp = new URLSearchParams(p.query_string);
           sp.set('prix', montantReduit + '€');
           sp.set('email', encodeURIComponent(p.email));
-          lienDirect = `https://www.formationelite.vip/checkout.html?${sp.toString()}`;
+          lienDirect = `https://www.formaselite.vip/checkout.html?${sp.toString()}`;
         } catch (e) {}
       }
       try {
@@ -108,7 +108,7 @@ async function envoyerRelances(res) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'FormationElite <contact@formationelite.vip>',
+            from: 'FormationElite <contact@formaselite.vip>',
             to: [p.email],
             subject: `Il vous reste -10% sur "${p.formation_titre}"`,
             html: `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>

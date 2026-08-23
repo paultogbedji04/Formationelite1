@@ -13,7 +13,7 @@ const STATIC_PAGES = [
 ];
 
 module.exports = async (req, res) => {
-  const url = new URL(req.url, `https://${req.headers.host || 'formationelite.vip'}`);
+  const url = new URL(req.url, `https://${req.headers.host || 'formaselite.vip'}`);
 
   // ── PREUVE SOCIALE (achats recents, anonymises) ──
   if (url.searchParams.get('type') === 'social') {
@@ -48,14 +48,14 @@ module.exports = async (req, res) => {
     const today = new Date().toISOString().split('T')[0];
     const staticUrls = STATIC_PAGES.map(p => `
   <url>
-    <loc>https://formationelite.vip${p.url}</loc>
+    <loc>https://formaselite.vip${p.url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${p.changefreq}</changefreq>
     <priority>${p.priority}</priority>
   </url>`).join('');
     const formationUrls = Array.isArray(formations) ? formations.map(f => `
   <url>
-    <loc>https://www.formationelite.vip/formation/${f.slug}</loc>
+    <loc>https://www.formaselite.vip/formation/${f.slug}</loc>
     <lastmod>${f.created_at ? f.created_at.split('T')[0] : today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
