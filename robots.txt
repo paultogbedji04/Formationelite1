@@ -13,5 +13,5 @@ Disallow: /paypal-confirmation.html
 
 Disallow: /api/
 
-Sitemap: https://www.formationelite.vip/sitemap.xml
+Sitemap: https://www.formaselite.vip/sitemap.xml
 
