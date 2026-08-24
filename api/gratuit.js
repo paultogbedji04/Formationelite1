@@ -1,6 +1,19 @@
 const SUPABASE_URL = 'https://xrljfmrsrxyepdsysfan.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybGpmbXJzcnh5ZXBkc3lzZmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NzY0NTcsImV4cCI6MjA5NTA1MjQ1N30.lmYKrJ_q4F_wWY0eKYR-vrQVgSrbXCNG7XhxPj7J_4E';
 
+async function alerterTelegramDmca(message) {
+  try {
+    const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+    const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+    if (!TOKEN || !CHAT_ID) return;
+    await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
+    });
+  } catch (e) {}
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -8,6 +21,31 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // ── DEMANDE DMCA / RETRAIT DE CONTENU ──
+  if (req.body && req.body.type === 'dmca') {
+    try {
+      const { nom, email, formation_url, description, preuve } = req.body;
+      if (!nom || !email || !formation_url || !description) {
+        return res.status(400).json({ error: 'Champs obligatoires manquants' });
+      }
+      await fetch(`${SUPABASE_URL}/rest/v1/dmca_requests`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ nom, email, formation_url, description, preuve: preuve || null })
+      });
+      await alerterTelegramDmca(`🚨 *Nouvelle demande DMCA*\n\n👤 ${nom}\n📧 ${email}\n🔗 ${formation_url}\n\n📝 ${description.slice(0,300)}`);
+      return res.status(200).json({ success: true });
+    } catch (err) {
+      console.error('Erreur dmca:', err);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+  }
 
   const { nom, email, formation_id, formation_titre, formation_emoji, lien_acces } = req.body || {};
 
