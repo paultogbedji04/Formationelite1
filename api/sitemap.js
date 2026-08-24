@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
     const today = new Date().toISOString().split('T')[0];
     const staticUrls = STATIC_PAGES.map(p => `
   <url>
-    <loc>https://formaselite.vip${p.url}</loc>
+    <loc>https://www.formaselite.vip${p.url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${p.changefreq}</changefreq>
     <priority>${p.priority}</priority>
