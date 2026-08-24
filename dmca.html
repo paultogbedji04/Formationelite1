@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P784Z0RMLV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P784Z0RMLV');
+</script>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<title>Demande de retrait DMCA — FormationElite.vip</title>
+<meta name="robots" content="noindex, follow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#c9a84c;--gold-light:#e8c97a;--bg:#080808;--bg2:#0f0f0f;--bg3:#151515;--border:rgba(201,168,76,0.15);--text:#f0ece0;--text-muted:#6b6556; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold-light);text-decoration:none}
+  .logo span{color:var(--text-muted)}
+
+  .page-wrap{max-width:640px;margin:0 auto;padding:120px 24px 80px}
+  .page-kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;text-align:center}
+  .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,38px);font-weight:300;margin-bottom:16px;text-align:center}
+  .page-intro{color:#888;font-size:14.5px;line-height:1.8;margin-bottom:36px;text-align:center}
+
+  .form-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:32px 28px}
+  .form-group{margin-bottom:18px}
+  .form-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px}
+  .form-label span{color:#e74c3c;margin-left:2px}
+  .form-input,.form-textarea{width:100%;background:var(--bg);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:12px 16px;color:var(--text);font-family:inherit;font-size:14px;outline:none}
+  .form-textarea{resize:vertical;min-height:110px;line-height:1.6}
+  .form-hint{font-size:11px;color:#555;margin-top:6px;display:block}
+
+  .btn-submit{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:6px;padding:15px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;margin-top:8px}
+  .btn-submit:disabled{opacity:.5;cursor:not-allowed}
+
+  .form-error{display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:6px;padding:12px 16px;font-size:13px;color:#e74c3c;margin-bottom:16px}
+  .success-state{display:none;text-align:center;padding:30px 0}
+
+  footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px;text-align:center;margin-top:40px}
+
+  @media(max-width:600px){
+    nav{padding:14px 16px}
+    .page-wrap{padding:100px 16px 50px}
+    .form-card{padding:24px 18px}
+    footer{padding:24px 16px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Formation<span>Elite</span></a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-kicker">Droits d'auteur</div>
+  <h1 class="page-title">Demande de <em style="color:var(--gold-light);font-style:italic">retrait de contenu</em></h1>
+  <p class="page-intro">
+    Si vous êtes titulaire des droits d'une formation présente sur ce site et que vous estimez qu'elle n'est pas autorisée à la revente,
+    remplissez ce formulaire. Nous traitons chaque demande légitime sous <strong style="color:var(--gold-light)">48 heures</strong>.
+  </p>
+
+  <div class="form-card">
+    <div id="formState">
+      <div id="formError" class="form-error"></div>
+
+      <div class="form-group">
+        <label class="form-label">Votre nom / raison sociale <span>*</span></label>
+        <input type="text" class="form-input" id="dNom" placeholder="Jean Dupont / Nom de la marque">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Votre email <span>*</span></label>
+        <input type="email" class="form-input" id="dEmail" placeholder="jean@email.com">
+        <span class="form-hint">Nous vous répondrons à cette adresse</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">URL de la formation concernée <span>*</span></label>
+        <input type="text" class="form-input" id="dUrl" placeholder="https://www.formaselite.vip/formation/...">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description de la demande <span>*</span></label>
+        <textarea class="form-textarea" id="dDescription" placeholder="Expliquez pourquoi ce contenu doit être retiré (titularité des droits, absence d'autorisation, etc.)"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Preuve de titularité <span style="color:#555;font-weight:400">(optionnel)</span></label>
+        <input type="text" class="form-input" id="dPreuve" placeholder="Lien vers un document, site officiel, réseau social...">
+        <span class="form-hint">Un lien vers une preuve accélère le traitement de votre demande</span>
+      </div>
+
+      <button class="btn-submit" onclick="submitDmca()" id="submitBtn">Envoyer la demande</button>
+    </div>
+
+    <div class="success-state" id="successState">
+      <div style="font-size:44px;margin-bottom:14px">✅</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:10px">Demande envoyée</h2>
+      <p style="color:#888;font-size:14px;line-height:1.7">
+        Votre demande a bien été reçue. Nous la traiterons sous 48 heures et vous répondrons par email.
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p style="font-size:12px;color:#555">© 2026 FormationElite.vip — Support : <a href="https://t.me/CreativeagencyFr" style="color:var(--gold);text-decoration:none">@CreativeagencyFr</a></p>
+</footer>
+
+<script>
+function showError(msg) {
+  const el = document.getElementById('formError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 5000);
+}
+
+async function submitDmca() {
+  const nom = document.getElementById('dNom').value.trim();
+  const email = document.getElementById('dEmail').value.trim();
+  const formation_url = document.getElementById('dUrl').value.trim();
+  const description = document.getElementById('dDescription').value.trim();
+  const preuve = document.getElementById('dPreuve').value.trim();
+
+  if (!nom) return showError('Veuillez entrer votre nom');
+  if (!email || !email.includes('@')) return showError('Veuillez entrer un email valide');
+  if (!formation_url) return showError("Veuillez entrer l'URL de la formation concernée");
+  if (!description || description.length < 20) return showError('Veuillez décrire votre demande (20 caractères minimum)');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours...';
+
+  try {
+    const res = await fetch('/api/gratuit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'dmca', nom, email, formation_url, description, preuve: preuve || null })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      document.getElementById('formState').style.display = 'none';
+      document.getElementById('successState').style.display = 'block';
+    } else {
+      showError(data.error || "Erreur lors de l'envoi — réessayez");
+      btn.disabled = false;
+      btn.textContent = 'Envoyer la demande';
+    }
+  } catch (e) {
+    showError('Erreur réseau — vérifiez votre connexion');
+    btn.disabled = false;
+    btn.textContent = 'Envoyer la demande';
+  }
+}
+</script>
+</body>
+</html>
