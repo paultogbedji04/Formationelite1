@@ -517,9 +517,11 @@ function applyFilters() {
     const matchSearch = !currentSearch || f.titre?.toLowerCase().includes(currentSearch) || f.auteur?.toLowerCase().includes(currentSearch) || f.categorie?.toLowerCase().includes(currentSearch);
     return matchCat && matchSearch;
   });
+  const badgePriority = (f) => f.badge === 'Nouveau' ? 0 : f.badge === 'Bestseller' ? 1 : 2;
   if (sort === 'price-asc') filtered.sort((a,b) => (parseFloat(a.prix)||0) - (parseFloat(b.prix)||0));
   else if (sort === 'price-desc') filtered.sort((a,b) => (parseFloat(b.prix)||0) - (parseFloat(a.prix)||0));
   else if (sort === 'alpha') filtered.sort((a,b) => a.titre.localeCompare(b.titre));
+  else filtered.sort((a,b) => badgePriority(a) - badgePriority(b));
   document.getElementById('resultCount').textContent = `${filtered.length} formation${filtered.length>1?'s':''} trouvée${filtered.length>1?'s':''}`;
   renderGrid();
 }
