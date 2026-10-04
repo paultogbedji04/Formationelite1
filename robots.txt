@@ -13,5 +13,5 @@ Disallow: /paypal-confirmation.html
 
 Disallow: /api/
 
-Sitemap: https://www.formsleak.vip/sitemap.xml
+Sitemap: https://www.fplace.vip/sitemap.xml
 

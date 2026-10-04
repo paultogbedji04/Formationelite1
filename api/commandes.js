@@ -93,7 +93,7 @@ async function sendAccessEmail(commande, lienAcces) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'FormationElite <contact@formsleak.vip>',
+        from: 'FormationElite <contact@fplace.vip>',
         to: [commande.email],
         subject: `Votre acces a "${commande.formation_titre}" est pret !`,
         html: `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>

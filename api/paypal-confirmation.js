@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'FormationElite <contact@formsleak.vip>',
+        from: 'FormationElite <contact@fplace.vip>',
         to: [email],
         subject: '⏳ Votre paiement PayPal est en cours de vérification',
         html: `

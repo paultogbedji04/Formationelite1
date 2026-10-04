@@ -59,8 +59,8 @@ module.exports = async (req, res) => {
         price_currency: currency.toLowerCase(),
         order_id: orderId,
         order_description: orderDescription,
-        success_url: `https://www.formsleak.vip/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
-        cancel_url: `https://www.formsleak.vip/checkout.html`,
+        success_url: `https://www.fplace.vip/success.html?method=crypto&titre=${encodeURIComponent(formation_titre || '')}`,
+        cancel_url: `https://www.fplace.vip/checkout.html`,
         is_fixed_rate: false,
         is_fee_paid_by_user: false,
         ipn_callback_url: 'https://www.fplace.vip/api/webhook-crypto'
