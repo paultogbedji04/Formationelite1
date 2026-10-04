@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
         cancel_url: `https://www.formsleak.vip/checkout.html`,
         is_fixed_rate: false,
         is_fee_paid_by_user: false,
-        ipn_callback_url: 'https://www.formsleak.vip/api/webhook-crypto'
+        ipn_callback_url: 'https://www.fplace.vip/api/webhook-crypto'
       })
     });
 
